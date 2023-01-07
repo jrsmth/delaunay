@@ -13,5 +13,5 @@ Delaunay Triangulation Demo
 * It is then bundled with Browserify, so it can be easily consumed by `index.html`
     * See [package.json](./app/package.json)'s `build` script:
         * TypeScript Compiler (`tsc`) is used to transpile `.ts` files into `.js`
-        * Browserify then bundles the `.js` files into an easily-consumed format for `index.html`
+        * [Browserify](https://browserify.org/) then bundles the `.js` files into an easily-consumed format for `index.html`
 * Use of delaunator...
