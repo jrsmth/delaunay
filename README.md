@@ -1,2 +1,2 @@
-# delaunay
-TypeScript library thats computes Delaunay Triangulations
+# Delaunay
+Delaunay Triangulation Demo
