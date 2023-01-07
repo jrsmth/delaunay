@@ -9,4 +9,5 @@ Delaunay Triangulation Demo
 <br>
 
 ## Showcase
-* Browserify bundles JavaScript files into a easily-consumed format for `index.html` after they have been transpiled from TypeScript
+* TypeScript Compiler (`tsc`) is used to transpile `.ts` files into `.js`
+* Browserify then bundles the `.js` files into an easily-consumed format for `index.html`
