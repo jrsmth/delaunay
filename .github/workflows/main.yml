@@ -5,23 +5,18 @@ on:
     branches:
       - 'main'
 
-permissions:
-  contents: write
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v1
 
-      - name: Install and Build 🔧
-        run: |
-          cd ./app
-          npm ci
-#          npm run gh-build
+      - name: Install and build
+        run: npm i && npm run gh-build
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
-          folder: /
+          branch: gh-pages
+          folder: ./
