@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && browserify ./index.js -o ../index.js",
-    "gh-build": "ng build --base-href /"
+    "gh-build": "npm run build --base-href /"
   },
   "keywords": [],
   "author": "JRSmiffy",
