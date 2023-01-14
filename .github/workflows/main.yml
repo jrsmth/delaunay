@@ -10,10 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
-#      - name: Install and build
-#        run: cd ./app && npm i
+      - name: Install and Build
+        run: |
+          npm ci --prefix ./app
+          npm run gh-build --prefix ./app
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.1
