@@ -22,6 +22,6 @@ jobs:
 #          npm run gh-build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v2
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: /
