@@ -5,7 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && browserify ./index.js -o ../index.js"
+    "build": "tsc && browserify ./index.js -o ../index.js",
+    "gh-build": "ng build --base-href /"
   },
   "keywords": [],
   "author": "JRSmiffy",
