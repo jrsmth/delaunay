@@ -1,5 +1,5 @@
 # Delaunay
-Delaunay Triangulation Demo
+Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
 
 <br>
 
