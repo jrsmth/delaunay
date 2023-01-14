@@ -12,8 +12,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-#      - name: Install and build
-#        run: cd ./app && npm i && npm run gh-build
+      - name: Install and build
+        run: cd ./app && npm i
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.1
