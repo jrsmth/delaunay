@@ -8,7 +8,7 @@
     "build": "tsc && browserify ./index.js -o ../index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "JRSmiffy",
   "license": "ISC",
   "dependencies": {
     "@jrsmiffy/delaunator": "^1.0.3",
