@@ -16,7 +16,7 @@ jobs:
         run: |
           cd ./app
           npm ci
-          npm run gh-build
+#          npm run gh-build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
