@@ -15,7 +15,7 @@ jobs:
       - name: Install and Build
         run: |
           npm ci --prefix ./app
-          npm run gh-build --prefix ./app
+          tsc
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.1
