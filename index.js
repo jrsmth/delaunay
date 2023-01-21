@@ -13,7 +13,7 @@ function init() {
     const svgWidth = window.innerWidth;
     const svgHeight = window.innerHeight;
     exports.svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
-    let points = delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, 10);
+    let points = delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, 5);
     console.log(points);
     let triangulation = delaunay_1.Delaunay.triangulate(points);
     console.log(triangulation);
@@ -90,7 +90,7 @@ var Delaunay = /** @class */ (function () {
             solution = this.addVertex(solution, point);
         }
         // #3 - Discard any triangle that contains a coordinate of the super triangle
-        solution = this.discardSuperTriangle(solution, superTriangle);
+        solution = triangle_1.Triangle.discardSuperTriangle(solution, superTriangle);
         return solution;
     };
     Delaunay.render = function () {
@@ -146,40 +146,6 @@ var Delaunay = /** @class */ (function () {
         for (var _i = 0, edgeBuffer_1 = edgeBuffer; _i < edgeBuffer_1.length; _i++) {
             var edge = edgeBuffer_1[_i];
             solution.push(new triangle_1.Triangle(vertex, edge.pointA, edge.pointB));
-        }
-        return solution;
-    };
-    Delaunay.discardSuperTriangle = function (solution, superTriangle) {
-        // for each triangle in the solution, if any point equals a super triangle point then discard that triangle
-        for (var i = 0; i < solution.length; i++) {
-            var triangle = solution[i];
-            var points = [triangle.pointA, triangle.pointB, triangle.pointC];
-            var superPoints = [superTriangle.pointA, superTriangle.pointB, superTriangle.pointC];
-            hit: for (var _i = 0, points_2 = points; _i < points_2.length; _i++) {
-                var point = points_2[_i];
-                for (var _a = 0, superPoints_1 = superPoints; _a < superPoints_1.length; _a++) {
-                    var superPoint = superPoints_1[_a];
-                    if (point.x === superPoint.x || point.y === superPoint.y) {
-                        solution.splice(i);
-                        i -= 1;
-                        continue hit;
-                    }
-                }
-            }
-            // if (
-            //   triangle.pointA === superTriangle.pointA ||
-            //   triangle.pointA === superTriangle.pointB ||
-            //   triangle.pointA === superTriangle.pointC ||
-            //   triangle.pointB === superTriangle.pointA ||
-            //   triangle.pointB === superTriangle.pointB ||
-            //   triangle.pointB === superTriangle.pointC ||
-            //   triangle.pointC === superTriangle.pointA ||
-            //   triangle.pointC === superTriangle.pointB ||
-            //   triangle.pointC === superTriangle.pointC
-            // ) {
-            //   solution.splice(i);
-            //   i -= 1;
-            // }
         }
         return solution;
     };
@@ -370,6 +336,56 @@ var Triangle = /** @class */ (function () {
         var pointB = new point_1.Point(0, 2 * innerHeight);
         var pointC = new point_1.Point(2 * innerWidth, 0);
         return new Triangle(pointA, pointB, pointC);
+    };
+    Triangle.discardSuperTriangle = function (solution, superTriangle) {
+        // for each triangle in the solution, if any point equals a super triangle point then discard that triangle
+        // for (let i = 0; i < solution.length; i++) {
+        //   const triangle = solution[i];
+        //
+        //   const points = [triangle.pointA, triangle.pointB, triangle.pointC];
+        //   const superPoints = [superTriangle.pointA, superTriangle.pointB, superTriangle.pointC];
+        //   hit: for (const point of points) {
+        //     for (const superPoint of superPoints) {
+        //       if (point.x === superPoint.x || point.y === superPoint.y) {
+        //         solution.splice(i);
+        //         i -= 1;
+        //         continue hit;
+        //       }
+        //     }
+        //   }
+        // if (
+        //   triangle.pointA === superTriangle.pointA ||
+        //   triangle.pointA === superTriangle.pointB ||
+        //   triangle.pointA === superTriangle.pointC ||
+        //   triangle.pointB === superTriangle.pointA ||
+        //   triangle.pointB === superTriangle.pointB ||
+        //   triangle.pointB === superTriangle.pointC ||
+        //   triangle.pointC === superTriangle.pointA ||
+        //   triangle.pointC === superTriangle.pointB ||
+        //   triangle.pointC === superTriangle.pointC
+        // ) {
+        //   solution.splice(i);
+        //   i -= 1;
+        // }
+        // }
+        // Remove any tri that contains a coord of the Super T
+        // for each tri, if any point equals a super T point, remove the tri
+        var i = 0;
+        while (i < solution.length - 1) {
+            var points = [solution[i].pointA, solution[i].pointB, solution[i].pointC];
+            for (var _i = 0, points_1 = points; _i < points_1.length; _i++) {
+                var coord = points_1[_i];
+                if ((coord.x === superTriangle.pointA.x && coord.y === superTriangle.pointA.y) ||
+                    (coord.x === superTriangle.pointB.x && coord.y === superTriangle.pointB.y) ||
+                    (coord.x === superTriangle.pointC.x && coord.y === superTriangle.pointC.y)) {
+                    solution.splice(i, 1);
+                    i -= 1;
+                    break;
+                }
+            }
+            i += 1;
+        }
+        return solution;
     };
     return Triangle;
 }());
