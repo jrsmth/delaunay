@@ -50,9 +50,9 @@ function init() {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Delaunay = void 0;
-var point_1 = require("./shape/point");
-var triangle_1 = require("./shape/triangle");
-var edge_1 = require("./shape/edge");
+var point_1 = require("./shapes/point");
+var triangle_1 = require("./shapes/triangle");
+var edge_1 = require("./shapes/edge");
 var Delaunay = /** @class */ (function () {
     function Delaunay() {
     }
@@ -90,7 +90,7 @@ var Delaunay = /** @class */ (function () {
             solution = this.addVertex(solution, point);
         }
         // #3 - Discard any triangle that contains a coordinate of the super triangle
-        solution = this.discardSuperTriangle(solution, superTriangle);
+        // solution = this.discardSuperTriangle(solution, superTriangle);
         return solution;
     };
     Delaunay.render = function () {
@@ -117,15 +117,28 @@ var Delaunay = /** @class */ (function () {
         var edgeBuffer = [];
         // #1 - For each triangle in the solution:
         // If this point lies within said triangle's circumcircle, then discard this triangle but hold onto the edges
-        for (var i = 0; i < solution.length; i++) {
+        // for (let i = 0; i < solution.length; i++) {
+        //   const triangle = solution[i];
+        //   if (vertex.isWithinCircumcircle(triangle)) {
+        //     edgeBuffer.push(new Edge(triangle.pointA, triangle.pointB)); // AB edge
+        //     edgeBuffer.push(new Edge(triangle.pointB, triangle.pointC)); // BC edge
+        //     edgeBuffer.push(new Edge(triangle.pointA, triangle.pointC)); // AC edge
+        //
+        //     solution.splice(i);
+        //     i -= 1;
+        //   }
+        // }
+        var i = 0;
+        while (i < solution.length) {
             var triangle = solution[i];
             if (vertex.isWithinCircumcircle(triangle)) {
                 edgeBuffer.push(new edge_1.Edge(triangle.pointA, triangle.pointB)); // AB edge
                 edgeBuffer.push(new edge_1.Edge(triangle.pointB, triangle.pointC)); // BC edge
                 edgeBuffer.push(new edge_1.Edge(triangle.pointA, triangle.pointC)); // AC edge
-                solution.splice(i);
+                solution.splice(i, 1);
                 i -= 1;
             }
+            i += 1;
         }
         // #2 - Discard duplicate edges in the edge buffer; only retain edges that exist once
         edgeBuffer = edge_1.Edge.removeDuplicateEdges(edgeBuffer);
@@ -159,7 +172,7 @@ var Delaunay = /** @class */ (function () {
 }());
 exports.Delaunay = Delaunay;
 
-},{"./shape/edge":4,"./shape/point":5,"./shape/triangle":6}],3:[function(require,module,exports){
+},{"./shapes/edge":4,"./shapes/point":5,"./shapes/triangle":6}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Circle = void 0;
@@ -214,15 +227,18 @@ var Edge = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Edge.prototype.isEqualTo = function (comparisonEdge) {
+    Edge.areEqual = function (thisEdge, comparisonEdge) {
+        // TODO: consider refactor (too much static?)
         // the edges AB and CD are equal if:
         // (A == C && B == D) || (A == D && B == C)
+        var pointA = thisEdge.pointA;
+        var pointB = thisEdge.pointB;
         var pointC = comparisonEdge.pointA;
         var pointD = comparisonEdge.pointB;
-        var ax = this.pointA.x;
-        var ay = this.pointA.y;
-        var bx = this.pointB.x;
-        var by = this.pointB.y;
+        var ax = pointA.x;
+        var ay = pointA.y;
+        var bx = pointB.x;
+        var by = pointB.y;
         var cx = pointC.x;
         var cy = pointC.y;
         var dx = pointD.x;
@@ -237,7 +253,7 @@ var Edge = /** @class */ (function () {
             // for each edge "ahead" of this one, check for equality: if so, then discard this edge and its duplicate
             while (nextEdgePosition < edgeBuffer.length) {
                 var nextEdge = edgeBuffer[nextEdgePosition];
-                if (thisEdge.isEqualTo(nextEdge)) {
+                if (Edge.areEqual(thisEdge, nextEdge)) {
                     edgeBuffer.splice(thisEdgePosition);
                     edgeBuffer.splice(nextEdgePosition);
                     thisEdgePosition -= 1;

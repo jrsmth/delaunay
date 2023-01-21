@@ -1,6 +1,6 @@
 import { Delaunay } from '@jrsmiffy/delaunator/lib/delaunay';
-import { Point } from '@jrsmiffy/delaunator/lib/shape/point';
-import { Triangle } from '@jrsmiffy/delaunator/lib/shape/triangle';
+import { Point } from '@jrsmiffy/delaunator/lib/shapes/point';
+import { Triangle } from '@jrsmiffy/delaunator/lib/shapes/triangle';
 
 export const svg: any = {
   main: document.getElementById('main'),
