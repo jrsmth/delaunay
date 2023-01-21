@@ -5,7 +5,8 @@ exports.svg = void 0;
 const delaunay_1 = require("@jrsmiffy/delaunator/lib/delaunay");
 exports.svg = {
     main: document.getElementById('main'),
-    points: document.getElementById('points')
+    points: document.getElementById('points'),
+    triangles: document.getElementById('triangles')
 };
 init();
 function init() {
@@ -14,6 +15,27 @@ function init() {
     exports.svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
     let points = delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, 10);
     console.log(points);
+    let triangulation = delaunay_1.Delaunay.triangulate(points);
+    console.log(triangulation);
+    // Note: temporary implementation
+    for (let triangle of triangulation) {
+        let tri = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        tri.setAttribute("fill", "#00000014");
+        tri.setAttribute("stroke", "#56d066");
+        let pointA = exports.svg.main.createSVGPoint();
+        pointA.x = triangle.pointA.x;
+        pointA.y = triangle.pointA.y;
+        tri.points.appendItem(pointA);
+        let pointB = exports.svg.main.createSVGPoint();
+        pointB.x = triangle.pointB.x;
+        pointB.y = triangle.pointB.y;
+        tri.points.appendItem(pointB);
+        let pointC = exports.svg.main.createSVGPoint();
+        pointC.x = triangle.pointC.x;
+        pointC.y = triangle.pointC.y;
+        tri.points.appendItem(pointC);
+        exports.svg.triangles.appendChild(tri);
+    }
     // Note: temporary implementation
     for (let point of points) {
         let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -29,6 +51,8 @@ function init() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Delaunay = void 0;
 var point_1 = require("./shape/point");
+var triangle_1 = require("./shape/triangle");
+var edge_1 = require("./shape/edge");
 var Delaunay = /** @class */ (function () {
     function Delaunay() {
     }
@@ -51,7 +75,29 @@ var Delaunay = /** @class */ (function () {
         }
         return pointSet;
     };
+    Delaunay.triangulate = function (points) {
+        var solution = [];
+        if (points.length < 3)
+            return solution;
+        if (points.length === 3)
+            return [new triangle_1.Triangle(points[0], points[1], points[2])];
+        // #1 - Create a super triangle that encloses all points
+        var superTriangle = triangle_1.Triangle.generateSuperTriangle(points);
+        solution.push(superTriangle);
+        // #2 - Build the solution by adding each vertex incrementally
+        for (var _i = 0, points_1 = points; _i < points_1.length; _i++) {
+            var point = points_1[_i];
+            solution = this.addVertex(solution, point);
+        }
+        // #3 - Discard any triangle that contains a coordinate of the super triangle
+        solution = this.discardSuperTriangle(solution, superTriangle);
+        return solution;
+    };
+    Delaunay.render = function () {
+        // TODO: Implement
+    };
     Delaunay.generateRandomPoint = function (width, height) {
+        // TODO: Extract to points?
         var borderRatio = 0.1;
         var xMax = width * (1 - borderRatio);
         var yMax = height * (1 - borderRatio);
@@ -62,17 +108,161 @@ var Delaunay = /** @class */ (function () {
         return new point_1.Point(xCoord, yCoord);
     };
     Delaunay.randomIntFromInterval = function (min, max) {
+        // TODO: Extract to points?
         // Note: result is inclusive of min/max
         return Math.floor(Math.random() * (max - min + 1) + min);
+    };
+    Delaunay.addVertex = function (solution, vertex) {
+        // TODO: Implement
+        var edgeBuffer = [];
+        // #1 - For each triangle in the solution:
+        // If this point lies within said triangle's circumcircle, then discard this triangle but hold onto the edges
+        for (var i = 0; i < solution.length; i++) {
+            var triangle = solution[i];
+            if (vertex.isWithinCircumcircle(triangle)) {
+                edgeBuffer.push(new edge_1.Edge(triangle.pointA, triangle.pointB)); // AB edge
+                edgeBuffer.push(new edge_1.Edge(triangle.pointB, triangle.pointC)); // BC edge
+                edgeBuffer.push(new edge_1.Edge(triangle.pointA, triangle.pointC)); // AC edge
+                solution.splice(i);
+                i -= 1;
+            }
+        }
+        // #2 - Discard duplicate edges in the edge buffer; only retain edges that exist once
+        edgeBuffer = edge_1.Edge.removeDuplicateEdges(edgeBuffer);
+        // #3 - For all remaining edges (AB), construct a new triangle (PAB) using this point (P)
+        for (var _i = 0, edgeBuffer_1 = edgeBuffer; _i < edgeBuffer_1.length; _i++) {
+            var edge = edgeBuffer_1[_i];
+            solution.push(new triangle_1.Triangle(vertex, edge.pointA, edge.pointB));
+        }
+        return solution;
+    };
+    Delaunay.discardSuperTriangle = function (solution, superTriangle) {
+        // for each triangle in the solution, if any point equals a super triangle point then discard that triangle
+        for (var i = 0; i < solution.length; i++) {
+            var triangle = solution[i];
+            if (triangle.pointA === superTriangle.pointA ||
+                triangle.pointA === superTriangle.pointB ||
+                triangle.pointA === superTriangle.pointC ||
+                triangle.pointB === superTriangle.pointA ||
+                triangle.pointB === superTriangle.pointB ||
+                triangle.pointB === superTriangle.pointC ||
+                triangle.pointC === superTriangle.pointA ||
+                triangle.pointC === superTriangle.pointB ||
+                triangle.pointC === superTriangle.pointC) {
+                solution.splice(i);
+                i -= 1;
+            }
+        }
+        return solution;
     };
     return Delaunay;
 }());
 exports.Delaunay = Delaunay;
 
-},{"./shape/point":3}],3:[function(require,module,exports){
+},{"./shape/edge":4,"./shape/point":5,"./shape/triangle":6}],3:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Circle = void 0;
+var point_1 = require("./point");
+var Circle = /** @class */ (function () {
+    function Circle() {
+    }
+    Circle.prototype.calculateCenter = function (pointA, pointB, pointC) {
+        // https://stackoverflow.com/questions/32861804/how-to-calculate-the-centre-point-of-a-circle-given-three-points
+        var yDeltaOne = pointB.y - pointA.y;
+        var xDeltaOne = pointB.x - pointA.x;
+        var yDeltaTwo = pointC.y - pointB.y;
+        var xDeltaTwo = pointC.x - pointB.x;
+        var gradA = yDeltaOne / xDeltaOne;
+        var gradB = yDeltaTwo / xDeltaTwo;
+        var centerX = (gradA * gradB * (pointA.y - pointC.y) + gradB * (pointA.x + pointB.x) - gradA * (pointB.x + pointC.x)) /
+            (2 * (gradB - gradA));
+        var centerY = (-1 * (centerX - (pointA.x + pointB.x) / 2)) / gradA + (pointA.y + pointB.y) / 2;
+        return new point_1.Point(centerX, centerY);
+    };
+    Circle.prototype.calculateRadius = function (circumferenceTriangle, center) {
+        // (x-a)^2 + (y-b)^2 = r^2
+        var xTakeA = center.x - circumferenceTriangle.pointA.x;
+        var yTakeB = center.y - circumferenceTriangle.pointA.y;
+        var radiusSquared = Math.pow(xTakeA, 2) + Math.pow(yTakeB, 2);
+        return Math.sqrt(radiusSquared);
+    };
+    return Circle;
+}());
+exports.Circle = Circle;
+
+},{"./point":5}],4:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Edge = void 0;
+var Edge = /** @class */ (function () {
+    function Edge(pointA, pointB) {
+        this._pointA = pointA;
+        this._pointB = pointB;
+    }
+    Object.defineProperty(Edge.prototype, "pointA", {
+        get: function () {
+            return this._pointA;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Edge.prototype, "pointB", {
+        get: function () {
+            return this._pointB;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Edge.prototype.isEqualTo = function (comparisonEdge) {
+        // the edges AB and CD are equal if:
+        // (A == C && B == D) || (A == D && B == C)
+        var pointC = comparisonEdge.pointA;
+        var pointD = comparisonEdge.pointB;
+        var ax = this.pointA.x;
+        var ay = this.pointA.y;
+        var bx = this.pointB.x;
+        var by = this.pointB.y;
+        var cx = pointC.x;
+        var cy = pointC.y;
+        var dx = pointD.x;
+        var dy = pointD.y;
+        return (ax === cx && ay === cy && bx === dx && by === dy) || (ax === dx && ay === dy && bx === cx && by === cy);
+    };
+    Edge.removeDuplicateEdges = function (edgeBuffer) {
+        var thisEdgePosition = 0;
+        while (thisEdgePosition < edgeBuffer.length) {
+            var thisEdge = edgeBuffer[thisEdgePosition];
+            var nextEdgePosition = thisEdgePosition + 1;
+            // for each edge "ahead" of this one, check for equality: if so, then discard this edge and its duplicate
+            while (nextEdgePosition < edgeBuffer.length) {
+                var nextEdge = edgeBuffer[nextEdgePosition];
+                if (thisEdge.isEqualTo(nextEdge)) {
+                    edgeBuffer.splice(thisEdgePosition);
+                    edgeBuffer.splice(nextEdgePosition);
+                    thisEdgePosition -= 1;
+                    nextEdgePosition -= 1;
+                    // counters gets decremented to compensate for edge removal
+                    if (thisEdgePosition < 0 || thisEdgePosition > edgeBuffer.length - 1)
+                        break; // Question: valid?
+                    if (nextEdgePosition < 0 || nextEdgePosition > edgeBuffer.length - 1)
+                        break; // Question: valid?
+                }
+                nextEdgePosition += 1;
+            }
+            thisEdgePosition += 1;
+        }
+        return edgeBuffer;
+    };
+    return Edge;
+}());
+exports.Edge = Edge;
+
+},{}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Point = void 0;
+var circle_1 = require("./circle");
 var Point = /** @class */ (function () {
     function Point(xCoord, yCoord) {
         this._xCoord = xCoord;
@@ -92,8 +282,61 @@ var Point = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Point.prototype.isWithinCircumcircle = function (circumferenceTriangle) {
+        var circumcircle = new circle_1.Circle();
+        var center = circumcircle.calculateCenter(circumferenceTriangle.pointA, circumferenceTriangle.pointB, circumferenceTriangle.pointC);
+        var radius = circumcircle.calculateRadius(circumferenceTriangle, center);
+        var dx = center.x - this.x;
+        var dy = center.y - this.y;
+        return Math.pow(dy, 2) + Math.pow(dx, 2) <= Math.pow(radius, 2);
+    };
     return Point;
 }());
 exports.Point = Point;
 
-},{}]},{},[1]);
+},{"./circle":3}],6:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Triangle = void 0;
+var point_1 = require("./point");
+var Triangle = /** @class */ (function () {
+    function Triangle(pointA, pointB, pointC) {
+        this._pointA = pointA;
+        this._pointB = pointB;
+        this._pointC = pointC;
+    }
+    Object.defineProperty(Triangle.prototype, "pointA", {
+        get: function () {
+            return this._pointA;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Triangle.prototype, "pointB", {
+        get: function () {
+            return this._pointB;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Triangle.prototype, "pointC", {
+        get: function () {
+            return this._pointC;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Triangle.generateSuperTriangle = function (points) {
+        var buffer = 1.1;
+        var innerWidth = Math.max.apply(Math, points.map(function (pt) { return pt.x; })) * buffer;
+        var innerHeight = Math.max.apply(Math, points.map(function (pt) { return pt.y; })) * buffer;
+        var pointA = new point_1.Point(-innerWidth, -innerHeight);
+        var pointB = new point_1.Point(0, 2 * innerHeight);
+        var pointC = new point_1.Point(2 * innerWidth, 0);
+        return new Triangle(pointA, pointB, pointC);
+    };
+    return Triangle;
+}());
+exports.Triangle = Triangle;
+
+},{"./point":5}]},{},[1]);
