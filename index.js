@@ -13,7 +13,7 @@ function init() {
     const svgWidth = window.innerWidth;
     const svgHeight = window.innerHeight;
     exports.svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
-    let points = delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, 10);
+    let points = delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, 100);
     console.log(points);
     let triangulation = delaunay_1.Delaunay.triangulate(points);
     console.log(triangulation);
@@ -90,7 +90,7 @@ var Delaunay = /** @class */ (function () {
             solution = this.addVertex(solution, point);
         }
         // #3 - Discard any triangle that contains a coordinate of the super triangle
-        // solution = this.discardSuperTriangle(solution, superTriangle);
+        solution = this.discardSuperTriangle(solution, superTriangle);
         return solution;
     };
     Delaunay.render = function () {
@@ -246,28 +246,33 @@ var Edge = /** @class */ (function () {
         return (ax === cx && ay === cy && bx === dx && by === dy) || (ax === dx && ay === dy && bx === cx && by === cy);
     };
     Edge.removeDuplicateEdges = function (edgeBuffer) {
-        var thisEdgePosition = 0;
-        while (thisEdgePosition < edgeBuffer.length) {
-            var thisEdge = edgeBuffer[thisEdgePosition];
-            var nextEdgePosition = thisEdgePosition + 1;
-            // for each edge "ahead" of this one, check for equality: if so, then discard this edge and its duplicate
-            while (nextEdgePosition < edgeBuffer.length) {
-                var nextEdge = edgeBuffer[nextEdgePosition];
-                if (Edge.areEqual(thisEdge, nextEdge)) {
-                    edgeBuffer.splice(thisEdgePosition);
-                    edgeBuffer.splice(nextEdgePosition);
-                    thisEdgePosition -= 1;
-                    nextEdgePosition -= 1;
-                    // counters gets decremented to compensate for edge removal
-                    if (thisEdgePosition < 0 || thisEdgePosition > edgeBuffer.length - 1)
-                        break; // Question: valid?
-                    if (nextEdgePosition < 0 || nextEdgePosition > edgeBuffer.length - 1)
-                        break; // Question: valid?
+        // TODO: sort naming!
+        var j = 0;
+        while (j < edgeBuffer.length) {
+            // edges stored as eB = [(x1,y1), (x2,y2),    (X1,Y1), (X2,Y2),    ...]
+            var k = j + 1; // next edge
+            var thisEdge = edgeBuffer[j];
+            while (k < edgeBuffer.length) {
+                var tempEdge = edgeBuffer[k];
+                if (Edge.areEqual(thisEdge, tempEdge)) {
+                    edgeBuffer.splice(k, 1);
+                    edgeBuffer.splice(j, 1);
+                    j -= 1;
+                    k -= 1;
+                    if (j < 0 || j > edgeBuffer.length - 1)
+                        break;
+                    if (k < 0 || k > edgeBuffer.length - 1)
+                        break;
                 }
-                nextEdgePosition += 1;
+                k += 1;
             }
-            thisEdgePosition += 1;
-        }
+            j += 1;
+        } // properly explain the logic behind this...
+        // for each edge:
+        // for each edge "ahead" of this edge:
+        // compare this edge and this temp edge:
+        // if they share the same coords, they must be equal and so need to be removed
+        // counter gets decremented to compensate for edge removal
         return edgeBuffer;
     };
     return Edge;

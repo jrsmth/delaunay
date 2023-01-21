@@ -15,7 +15,7 @@ function init() {
   const svgHeight: number = window.innerHeight;
   svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
 
-  let points: Point[] = Delaunay.generatePoints(svgWidth, svgHeight, 10);
+  let points: Point[] = Delaunay.generatePoints(svgWidth, svgHeight, 100);
 
   console.log(points);
 
