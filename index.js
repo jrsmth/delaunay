@@ -13,7 +13,7 @@ function init() {
     const svgWidth = window.innerWidth;
     const svgHeight = window.innerHeight;
     exports.svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
-    let points = delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, 100);
+    let points = delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, 10);
     console.log(points);
     let triangulation = delaunay_1.Delaunay.triangulate(points);
     console.log(triangulation);
@@ -90,7 +90,7 @@ var Delaunay = /** @class */ (function () {
             solution = this.addVertex(solution, point);
         }
         // #3 - Discard any triangle that contains a coordinate of the super triangle
-        solution = this.discardSuperTriangle(solution, superTriangle);
+        // solution = this.discardSuperTriangle(solution, superTriangle);
         return solution;
     };
     Delaunay.render = function () {
