@@ -84,6 +84,7 @@ var Delaunay = /** @class */ (function () {
         // #1 - Create a super triangle that encloses all points
         var superTriangle = triangle_1.Triangle.generateSuperTriangle(points);
         solution.push(superTriangle);
+        console.log(superTriangle);
         // #2 - Build the solution by adding each vertex incrementally
         for (var _i = 0, points_1 = points; _i < points_1.length; _i++) {
             var point = points_1[_i];
