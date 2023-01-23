@@ -9,18 +9,50 @@ exports.svg = {
     triangles: document.getElementById('triangles')
 };
 init();
+let button = document.getElementById('refresh');
+button.addEventListener('click', init);
+function remove() {
+    // remove this point from set
+    // re-calculate the triangulation
+    alert('Remove me');
+}
 function init() {
+    exports.svg.points.innerHTML = '';
+    exports.svg.triangles.innerHTML = '';
+    let points = generatePoints();
+    triangulate(points);
+}
+function generatePoints() {
     const svgWidth = window.innerWidth;
     const svgHeight = window.innerHeight;
     exports.svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
-    let points = delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, 5);
+    let points = delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, 25);
     console.log(points);
+    return points;
+}
+function triangulate(points) {
+    if (!points) {
+        points = generatePoints();
+    }
     let triangulation = delaunay_1.Delaunay.triangulate(points);
     console.log(triangulation);
     // Note: temporary implementation
+    let i = 0;
+    while (i < points.length) {
+        let point = points[i];
+        let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute('cx', `${point.x}`);
+        circle.setAttribute('cy', `${point.y}`);
+        circle.setAttribute('r', '5');
+        circle.setAttribute("fill", "#fff");
+        circle.setAttribute('class', 'point');
+        circle.addEventListener('click', remove);
+        exports.svg.points.appendChild(circle);
+        i++;
+    }
+    // Note: temporary implementation
     for (let triangle of triangulation) {
         let tri = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-        tri.setAttribute("fill", "#00000014");
         tri.setAttribute("stroke", "#56d066");
         let pointA = exports.svg.main.createSVGPoint();
         pointA.x = triangle.pointA.x;
@@ -35,14 +67,6 @@ function init() {
         pointC.y = triangle.pointC.y;
         tri.points.appendItem(pointC);
         exports.svg.triangles.appendChild(tri);
-    }
-    // Note: temporary implementation
-    for (let point of points) {
-        let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        circle.setAttribute('cx', `${point.x}`);
-        circle.setAttribute('cy', `${point.y}`);
-        circle.setAttribute('r', '5');
-        exports.svg.points.appendChild(circle);
     }
 }
 
@@ -372,7 +396,7 @@ var Triangle = /** @class */ (function () {
         // Remove any tri that contains a coord of the Super T
         // for each tri, if any point equals a super T point, remove the tri
         var i = 0;
-        while (i < solution.length - 1) {
+        while (i < solution.length) {
             var points = [solution[i].pointA, solution[i].pointB, solution[i].pointC];
             for (var _i = 0, points_1 = points; _i < points_1.length; _i++) {
                 var coord = points_1[_i];

@@ -1,0 +1,14 @@
+svg {
+  background-color: #000;
+}
+
+.point {
+  opacity: .7;
+  transition: .5s;
+  cursor: pointer;
+}
+
+.point:hover {
+  opacity: 1;
+  fill: #0A32E7;
+}
