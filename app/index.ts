@@ -10,7 +10,7 @@ export const svg: any = {
 
 let points: Point[] = [];
 
-init(); // TODO: spend some time thinking about O(n) and refactor!
+init();
 
 let button = document.getElementById('refresh');
 button!.addEventListener('click', init);
