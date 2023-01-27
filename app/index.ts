@@ -8,24 +8,34 @@ export const svg: any = {
   triangles: document.getElementById('triangles')
 }
 
-init();
+let points: Point[] = [];
+
+init(); // TODO: spend some time thinking about O(n) and refactor!
 
 let button = document.getElementById('refresh');
 button!.addEventListener('click', init);
 
-function remove() {
-  // remove this point from set
+function remove(event: any) {
+  const pointElement: HTMLElement | null = document.getElementById(event.target.id);
 
-  // re-calculate the triangulation
+  if (pointElement) {
+    const uniqueX = pointElement.getAttribute('cx');
 
-  alert('Remove me');
+    if (uniqueX)
+      points = points.filter(pt => pt.x !== parseInt(uniqueX));
+
+    svg.points.innerHTML = '';
+    svg.triangles.innerHTML = '';
+  }
+
+  triangulate(points);
 }
 
 function init() {
   svg.points.innerHTML = '';
   svg.triangles.innerHTML = '';
 
-  let points = generatePoints();
+  points = generatePoints();
 
   triangulate(points);
 }
@@ -37,7 +47,6 @@ function generatePoints() {
 
   let points: Point[] = Delaunay.generatePoints(svgWidth, svgHeight, 25);
 
-  console.log(points);
   return points;
 }
 
@@ -47,8 +56,6 @@ function triangulate(points: Point[]) {
   }
 
   let triangulation: Triangle[] = Delaunay.triangulate(points);
-
-  console.log(triangulation);
 
   // Note: temporary implementation
   let i = 0;
@@ -61,6 +68,7 @@ function triangulate(points: Point[]) {
     circle.setAttribute('r', '5');
     circle.setAttribute("fill", "#fff");
     circle.setAttribute('class', 'point');
+    circle.setAttribute('id', `pt-${i}`)
     circle.addEventListener('click', remove);
 
     svg.points.appendChild(circle);

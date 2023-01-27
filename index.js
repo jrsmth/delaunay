@@ -8,18 +8,25 @@ exports.svg = {
     points: document.getElementById('points'),
     triangles: document.getElementById('triangles')
 };
-init();
+let points = [];
+init(); // TODO: spend some time thinking about O(n) and refactor!
 let button = document.getElementById('refresh');
 button.addEventListener('click', init);
-function remove() {
-    // remove this point from set
-    // re-calculate the triangulation
-    alert('Remove me');
+function remove(event) {
+    const pointElement = document.getElementById(event.target.id);
+    if (pointElement) {
+        const uniqueX = pointElement.getAttribute('cx');
+        if (uniqueX)
+            points = points.filter(pt => pt.x !== parseInt(uniqueX));
+        exports.svg.points.innerHTML = '';
+        exports.svg.triangles.innerHTML = '';
+    }
+    triangulate(points);
 }
 function init() {
     exports.svg.points.innerHTML = '';
     exports.svg.triangles.innerHTML = '';
-    let points = generatePoints();
+    points = generatePoints();
     triangulate(points);
 }
 function generatePoints() {
@@ -27,7 +34,6 @@ function generatePoints() {
     const svgHeight = window.innerHeight;
     exports.svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
     let points = delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, 25);
-    console.log(points);
     return points;
 }
 function triangulate(points) {
@@ -35,7 +41,6 @@ function triangulate(points) {
         points = generatePoints();
     }
     let triangulation = delaunay_1.Delaunay.triangulate(points);
-    console.log(triangulation);
     // Note: temporary implementation
     let i = 0;
     while (i < points.length) {
@@ -46,6 +51,7 @@ function triangulate(points) {
         circle.setAttribute('r', '5');
         circle.setAttribute("fill", "#fff");
         circle.setAttribute('class', 'point');
+        circle.setAttribute('id', `pt-${i}`);
         circle.addEventListener('click', remove);
         exports.svg.points.appendChild(circle);
         i++;
