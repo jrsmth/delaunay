@@ -9,7 +9,7 @@ exports.svg = {
     triangles: document.getElementById('triangles')
 };
 let points = [];
-init(); // TODO: spend some time thinking about O(n) and refactor!
+init();
 let button = document.getElementById('refresh');
 button.addEventListener('click', init);
 function remove(event) {
@@ -52,7 +52,7 @@ function triangulate(points) {
         circle.setAttribute("fill", "#fff");
         circle.setAttribute('class', 'point');
         circle.setAttribute('id', `pt-${i}`);
-        circle.addEventListener('click', remove);
+        circle.addEventListener('dblclick', remove);
         exports.svg.points.appendChild(circle);
         i++;
     }
@@ -107,8 +107,10 @@ var Delaunay = /** @class */ (function () {
     };
     Delaunay.triangulate = function (points) {
         var solution = [];
-        if (points.length < 3)
+        if (points.length < 2)
             return solution;
+        if (points.length === 2)
+            return [new triangle_1.Triangle(points[0], points[0], points[1])];
         if (points.length === 3)
             return [new triangle_1.Triangle(points[0], points[1], points[2])];
         // #1 - Create a super triangle that encloses all points
