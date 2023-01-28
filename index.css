@@ -5,7 +5,7 @@ svg {
 .point {
   opacity: .7;
   transition: .5s;
-  cursor: pointer;
+  cursor: move;
 }
 
 .point:hover {
