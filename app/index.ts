@@ -69,7 +69,7 @@ function triangulate(points: Point[]) {
     circle.setAttribute("fill", "#fff");
     circle.setAttribute('class', 'point');
     circle.setAttribute('id', `pt-${i}`)
-    circle.addEventListener('click', remove);
+    circle.addEventListener('dblclick', remove);
 
     svg.points.appendChild(circle);
     i++;
