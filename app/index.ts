@@ -16,13 +16,17 @@ let currentY = 0;
 let absX = 0;
 let absY = 0;
 let currentMatrix: any;
-let paramHistory = "";
+let paramHistory = '';
 let currentId: string;
 let drag = false;
 
 init();
 
-// Demo Functions
+/**
+ * Demo Functions
+ */
+
+/** Initialise Demo */
 function init() {
   svg.points.innerHTML = '';
   svg.triangles.innerHTML = '';
@@ -35,6 +39,7 @@ function init() {
   triangulate(points);
 }
 
+/** Generate Set Of Points */
 function generatePoints() {
   const svgWidth: number = window.innerWidth;
   const svgHeight: number = window.innerHeight;
@@ -44,6 +49,7 @@ function generatePoints() {
   return Delaunay.generatePoints(svgWidth, svgHeight, 7);
 }
 
+/** Compute Triangulation & Render */
 function triangulate(points: Point[]) {
   if (!points) points = generatePoints();
 
@@ -54,16 +60,17 @@ function triangulate(points: Point[]) {
   renderTriangles(triangulation);
 }
 
+/** Render Points On Screen */
 function renderPoints(points: Point[]) {
   let i = 0;
   while (i < points.length) {
     let point = points[i];
-    let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    let circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 
     circle.setAttribute('cx', `${point.x}`);
     circle.setAttribute('cy', `${point.y}`);
     circle.setAttribute('r', '10');
-    circle.setAttribute("fill", "#fff");
+    circle.setAttribute('fill', '#fff');
     circle.setAttribute('class', 'point');
     circle.setAttribute('id', `pt-${i}`);
 
@@ -74,12 +81,13 @@ function renderPoints(points: Point[]) {
   }
 }
 
+/** Render Triangles On Screen */
 function renderTriangles(triangles: Triangle[]) {
   // Note: temporary implementation
   for (let triangle of triangles) {
-    let tri = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+    let tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
 
-    tri.setAttribute("stroke", "#56d066");
+    tri.setAttribute('stroke', '#56d066');
 
     let pointA = svg.main.createSVGPoint();
     pointA.x = triangle.pointA.x;
@@ -100,7 +108,11 @@ function renderTriangles(triangles: Triangle[]) {
   }
 }
 
-// Interactive Functions - TODO: extract out?
+/**
+ * Interactive Functions
+ */
+
+/** Make A Circle Interactive */
 function makeInteractive(circle: SVGCircleElement) {
   circle.setAttribute('transform', 'matrix(1 0 0 1 0 0)');
 
@@ -124,6 +136,7 @@ function makeInteractive(circle: SVGCircleElement) {
     });
 }
 
+/** Remove An Element From The Screen */
 function removeElement(element: HTMLElement) {
   const uniqueX = element.getAttribute('cx');
 
@@ -136,22 +149,24 @@ function removeElement(element: HTMLElement) {
   triangulate(points);
 }
 
+/** Select An Element To Interact With */
 function selectElement(element: HTMLElement) {
   currentId = element.id;
 
-  let transform = element.getAttribute("transform");
+  let transform = element.getAttribute('transform');
   if (transform) currentMatrix = transform.slice(7, -1).split(' ');
 
   for (let i = 0; i < currentMatrix.length; i++) {
     currentMatrix[i] = parseFloat(currentMatrix[i]);
   }
 
-  element.setAttribute("pointer-events", "none");
+  element.setAttribute('pointer-events', 'none');
 
   svg.main.addEventListener('mousemove', moveElement);
   svg.main.addEventListener('mouseup', deselectElement);
 }
 
+/** Move An Element To A New Position On The Screen */
 function moveElement(event: any) {
   let dx = event.clientX - currentX;
   let dy = event.clientY - currentY;
@@ -159,23 +174,24 @@ function moveElement(event: any) {
   currentMatrix[5] += dy;
 
   if (selectedElement) {
-    absX = parseFloat(selectedElement.getAttribute("x") + "|" + currentMatrix[4]);
-    absY = parseFloat(selectedElement.getAttribute("y") + "|" + currentMatrix[5]);
+    absX = parseFloat(selectedElement.getAttribute('x') + '|' + currentMatrix[4]);
+    absY = parseFloat(selectedElement.getAttribute('y') + '|' + currentMatrix[5]);
 
-    selectedElement.setAttribute("transform", "matrix(" + currentMatrix.join(' ') + ")");
+    selectedElement.setAttribute('transform', 'matrix(' + currentMatrix.join(' ') + ')');
   }
 
   currentX = event.clientX;
   currentY = event.clientY;
 }
 
+/** Deselect The Current Element Being Interacted With */
 function deselectElement() {
   if (selectedElement) {
-    selectedElement.setAttribute("pointer-events", "all")
-    paramHistory += "||" + currentId + "|" + absX + "|" + absY;
+    selectedElement.setAttribute('pointer-events', 'all')
+    paramHistory += '||' + currentId + '|' + absX + '|' + absY;
 
-    svg.main.removeEventListener("mousemove", moveElement);
-    svg.main.removeEventListener("mouseup", deselectElement);
+    svg.main.removeEventListener('mousemove', moveElement);
+    svg.main.removeEventListener('mouseup', deselectElement);
 
     points.push(new Point(currentX, currentY));
 
@@ -185,4 +201,6 @@ function deselectElement() {
   selectedElement = null;
 }
 
-// Artistic Functions
+/**
+ * Artistic Functions
+ */
