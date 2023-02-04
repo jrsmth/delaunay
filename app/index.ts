@@ -1,6 +1,7 @@
 import { Delaunay } from '@jrsmiffy/delaunator/lib/delaunay';
 import { Point } from '@jrsmiffy/delaunator/lib/shapes/point';
 import { Triangle } from '@jrsmiffy/delaunator/lib/shapes/triangle';
+import $ from "jquery";
 
 const svg: any = {
   main: document.getElementById('main'),
@@ -8,9 +9,12 @@ const svg: any = {
   triangles: document.getElementById('triangles')
 }
 
+// Demo fields
 let points: Point[] = [];
 let numPoints = 7;
+let interactive = true;
 
+// Interactive fields
 let selectedElement: HTMLElement | null;
 let currentX = 0;
 let currentY = 0;
@@ -21,17 +25,34 @@ let paramHistory = '';
 let currentId: string;
 let drag = false;
 
-init();
+// Artistic fields
+let colour1: [number, number, number] = [227, 138, 88]; // orange
+let colour2: [number, number, number] = [208, 118, 196]; // purple
 
+// **********************
 // *** Demo Functions ***
+// **********************
+init();
 
 /** Initialise Demo */
 function init() {
   svg.points.innerHTML = '';
   svg.triangles.innerHTML = '';
 
-  let button = document.getElementById('refresh');
-  if (button) button.addEventListener('click', init);
+  let btnRefresh = document.getElementById('refresh');
+  if (btnRefresh) btnRefresh.addEventListener('click', init);
+
+  let btnInteractive = document.getElementById('interactive');
+  if (btnInteractive) btnInteractive.addEventListener('click', () => {
+    interactive = true;
+    init();
+  });
+
+  let btnArtistic = document.getElementById('artistic');
+  if (btnArtistic) btnArtistic.addEventListener('click', () => {
+    interactive = false;
+    init();
+  });
 
   points = generatePoints();
   triangulate(points);
@@ -52,9 +73,10 @@ function triangulate(points: Point[]) {
   if (!points) points = generatePoints();
 
   let triangulation: Triangle[] = Delaunay.triangulate(points);
-
-  renderPoints(points);
   renderTriangles(triangulation);
+
+  if (interactive) renderPoints(points);
+  else fadeIn();
 }
 
 /** Render Points On Screen */
@@ -71,7 +93,8 @@ function renderPoints(points: Point[]) {
     circle.setAttribute('class', 'point');
     circle.setAttribute('id', `pt-${i}`);
 
-    makeInteractive(circle);
+    if (interactive) makeInteractive(circle);
+
     svg.points.appendChild(circle);
 
     i++;
@@ -80,12 +103,9 @@ function renderPoints(points: Point[]) {
 
 /** Render Triangles On Screen */
 function renderTriangles(triangles: Triangle[]) {
-  // Note: temporary implementation
   for (let triangle of triangles) {
     let tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-
-    tri.setAttribute('stroke', '#56d066');
-
+    
     let pointA = svg.main.createSVGPoint();
     pointA.x = triangle.pointA.x;
     pointA.y = triangle.pointA.y;
@@ -101,14 +121,25 @@ function renderTriangles(triangles: Triangle[]) {
     pointC.y = triangle.pointC.y;
     tri.points.appendItem(pointC);
 
+    if (!interactive) {
+      let colour: number[] = generateColour(triangle);
+
+      tri.setAttribute('fill', 'rgb('+colour[0]+', '+colour[1]+', '+colour[2]+')');
+      tri.setAttribute('stroke', 'rgb('+colour[0]+', '+colour[1]+', '+colour[2]+')');
+
+    } else {
+      tri.setAttribute('stroke', '#56d066');
+    }
+
     svg.triangles.appendChild(tri);
   }
 }
 
+// *****************************
 // *** Interactive Functions ***
-
+// *****************************
 /** Make A Circle Interactive */
-function makeInteractive(circle: SVGCircleElement) {
+function makeInteractive(circle: SVGCircleElement): void {
   circle.setAttribute('transform', 'matrix(1 0 0 1 0 0)');
 
   circle.addEventListener(
@@ -132,7 +163,7 @@ function makeInteractive(circle: SVGCircleElement) {
 }
 
 /** Remove An Element From The Screen */
-function removeElement(element: HTMLElement) {
+function removeElement(element: HTMLElement): void {
   const uniqueX = element.getAttribute('cx');
 
   if (uniqueX)
@@ -145,7 +176,7 @@ function removeElement(element: HTMLElement) {
 }
 
 /** Select An Element To Interact With */
-function selectElement(element: HTMLElement) {
+function selectElement(element: HTMLElement): void {
   currentId = element.id;
 
   let transform = element.getAttribute('transform');
@@ -162,7 +193,7 @@ function selectElement(element: HTMLElement) {
 }
 
 /** Move An Element To A New Position On The Screen */
-function moveElement(event: any) {
+function moveElement(event: any): void {
   let dx = event.clientX - currentX;
   let dy = event.clientY - currentY;
   currentMatrix[4] += dx;
@@ -180,7 +211,7 @@ function moveElement(event: any) {
 }
 
 /** Deselect The Current Element Being Interacted With */
-function deselectElement() {
+function deselectElement(): void {
   if (selectedElement) {
     selectedElement.setAttribute('pointer-events', 'all')
     paramHistory += '||' + currentId + '|' + absX + '|' + absY;
@@ -196,4 +227,44 @@ function deselectElement() {
   selectedElement = null;
 }
 
+// **************************
 // *** Artistic Functions ***
+// **************************
+/** Generate Colour For Triangle Based on Location */
+function generateColour(triangle: Triangle): number[] {
+  let xCoords = [triangle.pointA.x, triangle.pointB.x, triangle.pointC.x].sort();
+
+  let stopColour = (xCoords[0] / window.innerWidth) // 0 < x < 1
+  let colour: number[] = [];
+
+  for (let i = 0; i < 3; i++) {
+    let value = ((colour2[i] - colour1[i]) * stopColour) + colour1[i];
+    colour.push(value);
+  }
+
+  let shadeRatio: number;
+  let randomInt = Math.ceil(Math.random() * 50);
+  let stopTint =  Math.pow(Math.abs((xCoords[1] - xCoords[0]) / (xCoords[2] - xCoords[0])), 0.5); // 0 < x < 1
+
+  if (randomInt % 5 === 0) {
+    shadeRatio = 1.3 + stopTint * 0.1; // "lighten"
+  } else if (randomInt % 4 == 0) {
+    shadeRatio = 1.15 + stopTint * 0.05; // "darken"
+  } else {
+    shadeRatio = 1.2 + stopTint * 0.1;
+  }
+
+  for (let i = 0; i < 3; i++) colour[i] *= shadeRatio;
+
+  return colour;
+}
+
+/** Fade-In Each Triangle */
+function fadeIn() {
+  let gapBetweenEach = 10;
+  let speedOfFade = 400;
+
+  $('.tris').each(function(i: number, path: HTMLElement){
+    $(path).delay(gapBetweenEach * i ** 0.75).fadeIn(speedOfFade, () => {});
+  });
+}
