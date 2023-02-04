@@ -1,85 +1,14 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.svg = void 0;
 const delaunay_1 = require("@jrsmiffy/delaunator/lib/delaunay");
 const point_1 = require("@jrsmiffy/delaunator/lib/shapes/point");
-exports.svg = {
+const svg = {
     main: document.getElementById('main'),
     points: document.getElementById('points'),
     triangles: document.getElementById('triangles')
 };
 let points = [];
-// let selectedElement: HTMLElement | null;
-// let offset: any;
-init();
-let button = document.getElementById('refresh');
-button.addEventListener('click', init);
-function removeEvent(event) {
-    console.log(event);
-    const pointElement = document.getElementById(event.target.id);
-    removeElement(pointElement);
-}
-function removeElement(pointElement) {
-    if (pointElement) {
-        const uniqueX = pointElement.getAttribute('cx');
-        if (uniqueX)
-            points = points.filter(pt => pt.x !== parseInt(uniqueX));
-        exports.svg.points.innerHTML = '';
-        exports.svg.triangles.innerHTML = '';
-    }
-    triangulate(points);
-}
-//
-// function startDrag(event: any) {
-//   if (event.target.classList.contains('point')) {
-//     selectedElement = event.target;
-//
-//     offset = getMousePosition(event);
-//     if (selectedElement) {
-//       let x = selectedElement.getAttribute("cx");
-//       let y = selectedElement.getAttribute("cy");
-//
-//       offset.x -= parseFloat(x!);
-//       offset.y -= parseFloat(y!);
-//     }
-//   }
-// }
-//
-// function drag(event: any) {
-//   if (selectedElement) {
-//     event.preventDefault();
-//
-//     let coord = getMousePosition(event);
-//
-//     console.log(offset);
-//
-//     selectedElement.setAttribute("cx", `${coord.x - offset.x}`);
-//     selectedElement.setAttribute("cy", `${coord.y - offset.y}`);
-//   }
-// }
-//
-// function endDrag(event: any) {
-//   // if (selectedElement) {
-//   //   let newX = selectedElement.getAttribute('cx');
-//   //   let newY = selectedElement.getAttribute('cy');
-//   //
-//   //   points.push(new Point(parseInt(newX!), parseInt(newY!)));
-//   //
-//   //   remove(selectedElement);
-//   // }
-//
-//   selectedElement = null;
-// }
-//
-// function getMousePosition(event: any) {
-//   let ctm = svg.main.getScreenCTM();
-//
-//   return {
-//     x: (event.clientX - ctm.e) / ctm.a,
-//     y: (event.clientY - ctm.f) / ctm.d
-//   };
-// }
 let selectedElement;
 let currentX = 0;
 let currentY = 0;
@@ -87,72 +16,33 @@ let absX = 0;
 let absY = 0;
 let currentMatrix;
 let paramHistory = "";
-let currentID;
+let currentId;
 let drag = false;
-function selectElement(selectedElement) {
-    currentID = selectedElement.id;
-    console.log(currentID);
-    console.log(selectedElement.getAttributeNames());
-    if (selectedElement) {
-        currentMatrix = selectedElement.getAttribute("transform").slice(7, -1).split(' ');
-        for (let i = 0; i < currentMatrix.length; i++) {
-            currentMatrix[i] = parseFloat(currentMatrix[i]);
-        }
-        selectedElement.setAttribute("pointer-events", "none");
-    }
-    // svg.main.setAttribute("onmousemove", "moveElement");
-    // svg.main.setAttribute("onmouseup", "deselectElement");
-    exports.svg.main.addEventListener('mousemove', moveElement);
-    exports.svg.main.addEventListener('mouseup', deselectElement);
-}
-function moveElement(evt) {
-    let dx = evt.clientX - currentX;
-    let dy = evt.clientY - currentY;
-    currentMatrix[4] += dx;
-    currentMatrix[5] += dy;
-    absX = parseFloat(selectedElement.getAttribute("x") + "|" + currentMatrix[4]);
-    absY = parseFloat(selectedElement.getAttribute("y") + "|" + currentMatrix[5]);
-    selectedElement.setAttribute("transform", "matrix(" + currentMatrix.join(' ') + ")");
-    currentX = evt.clientX;
-    currentY = evt.clientY;
-}
-function deselectElement(evt) {
-    if (selectedElement) {
-        selectedElement.setAttribute("pointer-events", "all");
-        paramHistory += "||" + currentID + "|" + absX + "|" + absY;
-        exports.svg.main.removeEventListener("mousemove", moveElement);
-        exports.svg.main.removeEventListener("mouseup", deselectElement);
-        // let newX = selectedElement!.getAttribute('cx');
-        // let newY = selectedElement!.getAttribute('cy');
-        //
-        // console.log(points);
-        // console.log(new Point(parseInt(newX!), parseInt(newY!)));
-        // points.push(new Point(parseInt(newX!), parseInt(newY!)));
-        // console.log(points);
-        points.push(new point_1.Point(currentX, currentY));
-        removeElement(selectedElement);
-    }
-    selectedElement = null;
-}
+init();
+// Demo Functions
 function init() {
-    exports.svg.points.innerHTML = '';
-    exports.svg.triangles.innerHTML = '';
+    svg.points.innerHTML = '';
+    svg.triangles.innerHTML = '';
+    let button = document.getElementById('refresh');
+    if (button)
+        button.addEventListener('click', init);
     points = generatePoints();
     triangulate(points);
 }
 function generatePoints() {
     const svgWidth = window.innerWidth;
     const svgHeight = window.innerHeight;
-    exports.svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
-    let points = delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, 25);
-    return points;
+    svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
+    return delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, 7);
 }
 function triangulate(points) {
-    if (!points) {
+    if (!points)
         points = generatePoints();
-    }
+    renderPoints(points);
     let triangulation = delaunay_1.Delaunay.triangulate(points);
-    // Note: temporary implementation
+    renderTriangles(triangulation);
+}
+function renderPoints(points) {
     let i = 0;
     while (i < points.length) {
         let point = points[i];
@@ -163,52 +53,95 @@ function triangulate(points) {
         circle.setAttribute("fill", "#fff");
         circle.setAttribute('class', 'point');
         circle.setAttribute('id', `pt-${i}`);
-        // circle.addEventListener('mousedown', startDrag);
-        // circle.addEventListener('mousemove', drag);
-        // circle.addEventListener('mouseleave', endDrag);
-        // circle.addEventListener('mouseup', endDrag);
-        circle.setAttribute('transform', `matrix(1 0 0 1 0 0)`);
-        // circle.addEventListener('mousedown', selectElement);
-        // circle.addEventListener('dblclick', removeEvent);
-        circle.addEventListener('mousedown', (event) => {
-            drag = false;
-            selectedElement = event.target;
-            currentX = event.clientX;
-            currentY = event.clientY;
-        });
-        circle.addEventListener('mousemove', () => {
-            drag = true;
-            selectElement(selectedElement);
-        });
-        circle.addEventListener(
-        // 'mouseup', () => console.log(
-        //   drag ? 'drag' : 'click'));
-        'mouseup', () => {
-            if (!drag)
-                removeElement(selectedElement);
-        });
-        exports.svg.points.appendChild(circle);
+        makeInteractive(circle);
+        svg.points.appendChild(circle);
         i++;
     }
+}
+function renderTriangles(triangles) {
     // Note: temporary implementation
-    for (let triangle of triangulation) {
+    for (let triangle of triangles) {
         let tri = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
         tri.setAttribute("stroke", "#56d066");
-        let pointA = exports.svg.main.createSVGPoint();
+        let pointA = svg.main.createSVGPoint();
         pointA.x = triangle.pointA.x;
         pointA.y = triangle.pointA.y;
         tri.points.appendItem(pointA);
-        let pointB = exports.svg.main.createSVGPoint();
+        let pointB = svg.main.createSVGPoint();
         pointB.x = triangle.pointB.x;
         pointB.y = triangle.pointB.y;
         tri.points.appendItem(pointB);
-        let pointC = exports.svg.main.createSVGPoint();
+        let pointC = svg.main.createSVGPoint();
         pointC.x = triangle.pointC.x;
         pointC.y = triangle.pointC.y;
         tri.points.appendItem(pointC);
-        exports.svg.triangles.appendChild(tri);
+        svg.triangles.appendChild(tri);
     }
 }
+// Interactive Functions - TODO: extract out?
+function makeInteractive(circle) {
+    circle.setAttribute('transform', 'matrix(1 0 0 1 0 0)');
+    circle.addEventListener('mousedown', (event) => {
+        drag = false;
+        selectedElement = event.target;
+        currentX = event.clientX;
+        currentY = event.clientY;
+    });
+    circle.addEventListener('mousemove', () => {
+        drag = true;
+        if (selectedElement)
+            selectElement(selectedElement);
+    });
+    circle.addEventListener('mouseup', () => {
+        if (!drag && selectedElement)
+            removeElement(selectedElement);
+    });
+}
+function removeElement(element) {
+    const uniqueX = element.getAttribute('cx');
+    if (uniqueX)
+        points = points.filter(pt => pt.x !== parseInt(uniqueX));
+    svg.points.innerHTML = '';
+    svg.triangles.innerHTML = '';
+    triangulate(points);
+}
+function selectElement(element) {
+    currentId = element.id;
+    let transform = element.getAttribute("transform");
+    if (transform)
+        currentMatrix = transform.slice(7, -1).split(' ');
+    for (let i = 0; i < currentMatrix.length; i++) {
+        currentMatrix[i] = parseFloat(currentMatrix[i]);
+    }
+    element.setAttribute("pointer-events", "none");
+    svg.main.addEventListener('mousemove', moveElement);
+    svg.main.addEventListener('mouseup', deselectElement);
+}
+function moveElement(event) {
+    let dx = event.clientX - currentX;
+    let dy = event.clientY - currentY;
+    currentMatrix[4] += dx;
+    currentMatrix[5] += dy;
+    if (selectedElement) {
+        absX = parseFloat(selectedElement.getAttribute("x") + "|" + currentMatrix[4]);
+        absY = parseFloat(selectedElement.getAttribute("y") + "|" + currentMatrix[5]);
+        selectedElement.setAttribute("transform", "matrix(" + currentMatrix.join(' ') + ")");
+    }
+    currentX = event.clientX;
+    currentY = event.clientY;
+}
+function deselectElement() {
+    if (selectedElement) {
+        selectedElement.setAttribute("pointer-events", "all");
+        paramHistory += "||" + currentId + "|" + absX + "|" + absY;
+        svg.main.removeEventListener("mousemove", moveElement);
+        svg.main.removeEventListener("mouseup", deselectElement);
+        points.push(new point_1.Point(currentX, currentY));
+        removeElement(selectedElement);
+    }
+    selectedElement = null;
+}
+// Artistic Functions
 
 },{"@jrsmiffy/delaunator/lib/delaunay":2,"@jrsmiffy/delaunator/lib/shapes/point":5}],2:[function(require,module,exports){
 "use strict";
