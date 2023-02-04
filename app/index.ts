@@ -9,6 +9,7 @@ const svg: any = {
 }
 
 let points: Point[] = [];
+let numPoints = 7;
 
 let selectedElement: HTMLElement | null;
 let currentX = 0;
@@ -22,9 +23,7 @@ let drag = false;
 
 init();
 
-/**
- * Demo Functions
- */
+// *** Demo Functions ***
 
 /** Initialise Demo */
 function init() {
@@ -35,7 +34,6 @@ function init() {
   if (button) button.addEventListener('click', init);
 
   points = generatePoints();
-
   triangulate(points);
 }
 
@@ -46,17 +44,16 @@ function generatePoints() {
 
   svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
 
-  return Delaunay.generatePoints(svgWidth, svgHeight, 7);
+  return Delaunay.generatePoints(svgWidth, svgHeight, numPoints);
 }
 
 /** Compute Triangulation & Render */
 function triangulate(points: Point[]) {
   if (!points) points = generatePoints();
 
-  renderPoints(points);
-
   let triangulation: Triangle[] = Delaunay.triangulate(points);
 
+  renderPoints(points);
   renderTriangles(triangulation);
 }
 
@@ -108,9 +105,7 @@ function renderTriangles(triangles: Triangle[]) {
   }
 }
 
-/**
- * Interactive Functions
- */
+// *** Interactive Functions ***
 
 /** Make A Circle Interactive */
 function makeInteractive(circle: SVGCircleElement) {
@@ -201,6 +196,4 @@ function deselectElement() {
   selectedElement = null;
 }
 
-/**
- * Artistic Functions
- */
+// *** Artistic Functions ***
