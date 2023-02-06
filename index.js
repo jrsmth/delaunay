@@ -9,12 +9,13 @@ const point_1 = require("@jrsmiffy/delaunator/lib/shapes/point");
 const jquery_1 = __importDefault(require("jquery"));
 const svg = {
     main: document.getElementById('main'),
+    background: document.getElementById('artistic-background'),
     points: document.getElementById('points'),
     triangles: document.getElementById('triangles')
 };
 // Demo fields
 let points = [];
-let numPoints = 7;
+let numPoints = 25;
 let interactive = true;
 // Interactive fields
 let selectedElement;
@@ -44,12 +45,16 @@ function init() {
     if (btnInteractive)
         btnInteractive.addEventListener('click', () => {
             interactive = true;
+            svg.main.setAttribute('class', 'interactive');
+            svg.background.setAttribute('class', 'hide');
             init();
         });
     let btnArtistic = document.getElementById('artistic');
     if (btnArtistic)
         btnArtistic.addEventListener('click', () => {
             interactive = false;
+            svg.main.setAttribute('class', 'artistic');
+            svg.background.setAttribute('class', 'show');
             init();
         });
     points = generatePoints();
@@ -67,7 +72,8 @@ function triangulate(points) {
     if (!points)
         points = generatePoints();
     let triangulation = delaunay_1.Delaunay.triangulate(points);
-    renderTriangles(triangulation);
+    renderTriangles(triangulation.sort((a, b) => a.pointA.x - b.pointA.x));
+    // TODO: In the library (inc tests): order triangles and their points by x-value
     if (interactive)
         renderPoints(points);
     else
@@ -95,6 +101,7 @@ function renderPoints(points) {
 function renderTriangles(triangles) {
     for (let triangle of triangles) {
         let tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        tri.setAttribute('class', 'triangle');
         let pointA = svg.main.createSVGPoint();
         pointA.x = triangle.pointA.x;
         pointA.y = triangle.pointA.y;
@@ -111,6 +118,7 @@ function renderTriangles(triangles) {
             let colour = generateColour(triangle);
             tri.setAttribute('fill', 'rgb(' + colour[0] + ', ' + colour[1] + ', ' + colour[2] + ')');
             tri.setAttribute('stroke', 'rgb(' + colour[0] + ', ' + colour[1] + ', ' + colour[2] + ')');
+            tri.style.display = "none";
         }
         else {
             tri.setAttribute('stroke', '#56d066');
@@ -220,7 +228,7 @@ function generateColour(triangle) {
 function fadeIn() {
     let gapBetweenEach = 10;
     let speedOfFade = 400;
-    (0, jquery_1.default)('.tris').each(function (i, path) {
+    (0, jquery_1.default)('.triangle').each(function (i, path) {
         (0, jquery_1.default)(path).delay(gapBetweenEach * i ** 0.75).fadeIn(speedOfFade, () => { });
     });
 }

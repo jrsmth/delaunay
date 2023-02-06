@@ -5,13 +5,14 @@ import $ from "jquery";
 
 const svg: any = {
   main: document.getElementById('main'),
+  background: document.getElementById('artistic-background'),
   points: document.getElementById('points'),
   triangles: document.getElementById('triangles')
 }
 
 // Demo fields
 let points: Point[] = [];
-let numPoints = 7;
+let numPoints = 25;
 let interactive = true;
 
 // Interactive fields
@@ -45,12 +46,16 @@ function init() {
   let btnInteractive = document.getElementById('interactive');
   if (btnInteractive) btnInteractive.addEventListener('click', () => {
     interactive = true;
+    svg.main.setAttribute('class', 'interactive');
+    svg.background.setAttribute('class', 'hide');
     init();
   });
 
   let btnArtistic = document.getElementById('artistic');
   if (btnArtistic) btnArtistic.addEventListener('click', () => {
     interactive = false;
+    svg.main.setAttribute('class', 'artistic');
+    svg.background.setAttribute('class', 'show');
     init();
   });
 
@@ -73,7 +78,8 @@ function triangulate(points: Point[]) {
   if (!points) points = generatePoints();
 
   let triangulation: Triangle[] = Delaunay.triangulate(points);
-  renderTriangles(triangulation);
+  renderTriangles(triangulation.sort((a, b) => a.pointA.x - b.pointA.x));
+  // TODO: In the library (inc tests): order triangles and their points by x-value
 
   if (interactive) renderPoints(points);
   else fadeIn();
@@ -105,7 +111,8 @@ function renderPoints(points: Point[]) {
 function renderTriangles(triangles: Triangle[]) {
   for (let triangle of triangles) {
     let tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-    
+    tri.setAttribute('class', 'triangle');
+
     let pointA = svg.main.createSVGPoint();
     pointA.x = triangle.pointA.x;
     pointA.y = triangle.pointA.y;
@@ -127,6 +134,7 @@ function renderTriangles(triangles: Triangle[]) {
       tri.setAttribute('fill', 'rgb('+colour[0]+', '+colour[1]+', '+colour[2]+')');
       tri.setAttribute('stroke', 'rgb('+colour[0]+', '+colour[1]+', '+colour[2]+')');
 
+      tri.style.display = "none";
     } else {
       tri.setAttribute('stroke', '#56d066');
     }
@@ -264,7 +272,7 @@ function fadeIn() {
   let gapBetweenEach = 10;
   let speedOfFade = 400;
 
-  $('.tris').each(function(i: number, path: HTMLElement){
+  $('.triangle').each(function(i: number, path: HTMLElement){
     $(path).delay(gapBetweenEach * i ** 0.75).fadeIn(speedOfFade, () => {});
   });
 }

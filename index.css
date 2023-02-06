@@ -1,5 +1,24 @@
-svg {
+svg.interactive {
   background-color: #000;
+}
+
+svg.artistic {
+  background-color: #fff;
+}
+
+#artistic-background.hide {
+  display: none;
+}
+
+#artistic-background.show {
+  display: block;
+}
+
+#buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 15%;
+  min-width: 250px;
 }
 
 .point {
@@ -11,11 +30,4 @@ svg {
 .point:hover {
   opacity: 1;
   fill: #0A32E7;
-}
-
-#buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 15%;
-  min-width: 250px;
 }
