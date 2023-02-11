@@ -3,18 +3,24 @@
     <title>DT(P) Demo</title>
     <link rel="stylesheet" type="text/css" href="./index.css" />
   </head>
-  <div id="buttons">
+  <div id="buttons"> <!-- TODO: rename -->
     <button id="refresh">Refresh</button>
     <div id="modes">
-      <button id="interactive">Interactive</button>
-      <button id="artistic">Artistic</button>
+      <button id="interactive">Interactive</button> <!-- TODO: add tooltip for interactive instructions -->
+      <button id="artistic">Artistic</button> <!-- TODO: add tooltip for artistic instructions -->
+    </div>
+    <div id="colour-selection">
+      <label for="colour1">Select Colour One:</label>
+      <input type="color" id="colour1" value='#E38A58'>
+      <label for="colour2">Select Colour Two:</label>
+      <input type="color" id="colour2" value='#D076C4'>
     </div>
   </div>
   <svg id="main" class="interactive" preserveAspectRatio="xMidYMid slice">
     <defs id="artistic-gradients">
       <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0" color-interpolation="sRGB">
-        <stop id="stop2a" offset="0%" stop-color="rgb(227,138,88)"></stop><!-- TODO: extract / dynamic colours -->
-        <stop id="stop2b" offset="100%" stop-color="rgb(208,118,196)"></stop><!-- TODO: extract / dynamic colours -->
+        <stop id="stop1" offset="0%"></stop>
+        <stop id="stop2" offset="100%"></stop>
       </linearGradient>
     </defs>
     <rect id="artistic-background" class="hide" x="0" y="0" width="100%" height="100%" stroke="none" fill="url(#grad1)"></rect>

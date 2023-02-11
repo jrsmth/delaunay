@@ -11,8 +11,12 @@ const svg = {
     main: document.getElementById('main'),
     background: document.getElementById('artistic-background'),
     points: document.getElementById('points'),
-    triangles: document.getElementById('triangles')
+    triangles: document.getElementById('triangles'),
+    stop1: document.getElementById('stop1'),
+    stop2: document.getElementById('stop2')
 };
+const orange = [227, 138, 88];
+const purple = [208, 118, 196];
 // Demo fields
 let points = [];
 let numPoints = 25;
@@ -28,8 +32,8 @@ let paramHistory = '';
 let currentId;
 let drag = false;
 // Artistic fields
-let colour1 = [227, 138, 88]; // orange
-let colour2 = [208, 118, 196]; // purple
+let colour1;
+let colour2;
 // **********************
 // *** Demo Functions ***
 // **********************
@@ -57,6 +61,11 @@ function init() {
             svg.background.setAttribute('class', 'show');
             init();
         });
+    if (!interactive) {
+        colour1 = orange;
+        colour2 = purple;
+        initArtistic();
+    }
     points = generatePoints();
     triangulate(points);
 }
@@ -116,8 +125,8 @@ function renderTriangles(triangles) {
         tri.points.appendItem(pointC);
         if (!interactive) {
             let colour = generateColour(triangle);
-            tri.setAttribute('fill', 'rgb(' + colour[0] + ', ' + colour[1] + ', ' + colour[2] + ')');
-            tri.setAttribute('stroke', 'rgb(' + colour[0] + ', ' + colour[1] + ', ' + colour[2] + ')');
+            tri.setAttribute('fill', `rgb(${colour[0]}, ${colour[1]}, ${colour[2]})`);
+            tri.setAttribute('stroke', `rgb(${colour[0]}, ${colour[1]}, ${colour[2]})`);
             tri.style.display = "none";
         }
         else {
@@ -199,6 +208,21 @@ function deselectElement() {
 // **************************
 // *** Artistic Functions ***
 // **************************
+/** Initialise Artistic Functionality */
+function initArtistic() {
+    let colourOne = document.getElementById('colour1');
+    if (colourOne) {
+        colourOne.addEventListener('change', updateColours);
+        colourOne.value = convertToHex(colour1[0], colour1[1], colour1[2]);
+    }
+    let colourTwo = document.getElementById('colour2');
+    if (colourTwo) {
+        colourTwo.addEventListener('change', updateColours);
+        colourTwo.value = convertToHex(colour2[0], colour2[1], colour2[2]);
+    }
+    svg.stop1.setAttribute('stop-color', `rgb(${colour1[0]}, ${colour1[1]}, ${colour1[2]})`);
+    svg.stop2.setAttribute('stop-color', `rgb(${colour2[0]}, ${colour2[1]}, ${colour2[2]})`);
+}
 /** Generate Colour For Triangle Based on Location */
 function generateColour(triangle) {
     let xCoords = [triangle.pointA.x, triangle.pointB.x, triangle.pointC.x].sort();
@@ -231,6 +255,26 @@ function fadeIn() {
     (0, jquery_1.default)('.triangle').each(function (i, path) {
         (0, jquery_1.default)(path).delay(gapBetweenEach * i ** 0.75).fadeIn(speedOfFade, () => { });
     });
+}
+/** Update Colour Scheme */
+function updateColours(event) {
+    let hexValue = event.target.value.split('#')[1];
+    let red = parseInt(hexValue.substring(0, 2), 16);
+    let blue = parseInt(hexValue.substring(2, 4), 16);
+    let green = parseInt(hexValue.substring(4, 6), 16);
+    if (event.target.id === 'colour1')
+        colour1 = [red, green, blue];
+    if (event.target.id === 'colour2')
+        colour2 = [red, green, blue];
+    initArtistic();
+    triangulate(points);
+}
+/** Convert RGB Value to Hex */
+function convertToHex(red, green, blue) {
+    let hex = function (rgb) {
+        return rgb.toString(16);
+    };
+    return `#${hex(red)}${hex(green)}${hex(blue)}`;
 }
 
 },{"@jrsmiffy/delaunator/lib/delaunay":2,"@jrsmiffy/delaunator/lib/shapes/point":5,"jquery":7}],2:[function(require,module,exports){
