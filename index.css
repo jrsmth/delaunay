@@ -122,3 +122,28 @@ svg.artistic {
   width: 0;
   background-color: #303030;
 }
+
+/* TODO: replace with https://codepen.io/alexdevio/pen/zXPwOx ??? */
+button.material {
+  text-transform: uppercase;
+  color: #fff;
+  padding: 0.5rem 0;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-weight: 600;
+  width: 125px;
+}
+
+button.material.red {
+  background-color: crimson;
+}
+
+button.material.blue {
+  background-color: darkcyan;
+}
+
+button.material.green {
+  background-color: forestgreen;
+}
