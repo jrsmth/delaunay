@@ -1,5 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Creepster&family=Roboto:wght@700&display=swap"); /* TODO: Keep? */
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #1A1A1A;
+  font-family: "Roboto", sans-serif;
+}
+
 svg.interactive {
   background-color: #000;
 }
@@ -21,6 +30,7 @@ svg.artistic {
   justify-content: space-between;
   width: 50%;
   min-width: 600px;
+  background-color: #f4f4f4;
 }
 
 .point {
@@ -32,16 +42,6 @@ svg.artistic {
 .point:hover {
   opacity: 1;
   fill: #0A32E7;
-}
-
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  background-color: #f4f4f4;
-  font-family: "Roboto", sans-serif;
 }
 
 #number-selection {
@@ -121,4 +121,135 @@ body {
   height: .25rem;
   width: 0;
   background-color: #303030;
+}
+
+
+
+
+/* TODO: extract? */
+.col-sm-2 {
+  padding: 10px;
+  border-radius: 4px;
+  width: 52px;
+  margin-bottom: 10px;
+}
+
+/* Slices */
+.sp.sp-slices {
+  border-radius: 50%;
+  border-top: 1rem #ffffffBF solid;
+  border-left: 1rem #ffffff40 solid;
+  border-bottom: 1rem #ffffff40 solid;
+  border-right: 1rem #ffffff40 solid;
+  -webkit-animation: spSlices 1s infinite linear;
+  animation: spSlices 1s infinite linear;
+}
+@-webkit-keyframes spSlices {
+  0% {
+    border-top: 1rem #ffffffBF solid;
+    border-right: 1rem #ffffff40 solid;
+    border-bottom: 1rem #ffffff40 solid;
+    border-left: 1rem #ffffff40 solid;
+  }
+  25% {
+    border-top: 1rem #ffffff40 solid;
+    border-right: 1rem #ffffffBF solid;
+    border-bottom: 1rem #ffffff40 solid;
+    border-left: 1rem #ffffff40 solid;
+  }
+  50% {
+    border-top: 1rem #ffffff40 solid;
+    border-right: 1rem #ffffff40 solid;
+    border-bottom: 1rem #ffffffBF solid;
+    border-left: 1rem #ffffff40 solid;
+  }
+  75% {
+    border-top: 1rem #ffffff40 solid;
+    border-right: 1rem #ffffff40 solid;
+    border-bottom: 1rem #ffffff40 solid;
+    border-left: 1rem #ffffffBF solid;
+  }
+  100% {
+    border-top: 1rem #ffffffBF solid;
+    border-right: 1rem #ffffff40 solid;
+    border-bottom: 1rem #ffffff40 solid;
+    border-left: 1rem #ffffff40 solid;
+  }
+}
+@keyframes spSlices {
+  0% {
+    border-top: 1rem #ffffffBF solid;
+    border-right: 1rem #ffffff40 solid;
+    border-bottom: 1rem #ffffff40 solid;
+    border-left: 1rem #ffffff40 solid;
+  }
+  25% {
+    border-top: 1rem #ffffff40 solid;
+    border-right: 1rem #ffffffBF solid;
+    border-bottom: 1rem #ffffff40 solid;
+    border-left: 1rem #ffffff40 solid;
+  }
+  50% {
+    border-top: 1rem #ffffff40 solid;
+    border-right: 1rem #ffffff40 solid;
+    border-bottom: 1rem #ffffffBF solid;
+    border-left: 1rem #ffffff40 solid;
+  }
+  75% {
+    border-top: 1rem #ffffff40 solid;
+    border-right: 1rem #ffffff40 solid;
+    border-bottom: 1rem #ffffff40 solid;
+    border-left: 1rem #ffffffBF solid;
+  }
+  100% {
+    border-top: 1rem #ffffffBF solid;
+    border-right: 1rem #ffffff40 solid;
+    border-bottom: 1rem #ffffff40 solid;
+    border-left: 1rem #ffffff40 solid;
+  }
+}
+
+/* Spinner Sphere */
+.sp-sphere {
+  border-radius: 50%;
+  border-left: 0 #fff solid;
+  border-right: 0 #fff solid;
+  -webkit-animation: spSphere 1s infinite linear;
+  animation: spSphere 1s infinite linear;
+}
+@-webkit-keyframes spSphere {
+  0% {
+    border-left: 0 #fff solid;
+    border-right: 0 #fff solid;
+  }
+  33% {
+    border-left: 2rem #fff solid;
+    border-right: 0 #fff solid;
+  }
+  34% {
+    border-left: 0 #fff solid;
+    border-right: 2rem #fff solid;
+  }
+  66% {
+    border-left: 0 #fff solid;
+    border-right: 0 #fff solid;
+  }
+}
+@keyframes spSphere {
+  0% {
+    border-left: 0 #fff solid;
+    border-right: 0 #fff solid;
+  }
+  33% {
+    border-left: 2rem #fff solid;
+    border-right: 0 #fff solid;
+  }
+  34% {
+    border-left: 0 #fff solid;
+    border-right: 2rem #fff solid;
+  }
+  66% {
+    border-left: 0 #fff solid;
+    border-right: 0 #fff solid;
+  }
 }
