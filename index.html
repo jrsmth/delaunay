@@ -3,16 +3,25 @@
     <title>DT(P) Demo</title>
     <link rel="stylesheet" type="text/css" href="./index.css" />
   </head>
-  <div id="buttons"> <!-- TODO: rename -->
+  <div id="controls">
     <button id="refresh">Refresh</button>
     <div id="modes">
       <button id="interactive">Interactive</button> <!-- TODO: add tooltip for interactive instructions -->
       <button id="artistic">Artistic</button> <!-- TODO: add tooltip for artistic instructions -->
     </div>
-    <div id="colour-selection">
-      <label for="colour1">Select Colour One:</label>
+    <div id="number-selection" class="control-interactive">
+      <div id="range-slider">
+        <div id="slider-thumb"></div>
+        <div id="slider-line">
+          <div id="slider-line-fill"></div>
+        </div>
+        <input id="slider-input" type="range" value="" min="0" max="99"/>
+      </div>
+    </div>
+    <div id="colour-selection" class="control-artistic hide">
+      <label for="colour1">Colour One</label>
       <input type="color" id="colour1" value='#E38A58'>
-      <label for="colour2">Select Colour Two:</label>
+      <label for="colour2">Colour Two</label>
       <input type="color" id="colour2" value='#D076C4'>
     </div>
   </div>

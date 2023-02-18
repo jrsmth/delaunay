@@ -1,13 +1,11 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const delaunay_1 = require("@jrsmiffy/delaunator/lib/delaunay");
-const point_1 = require("@jrsmiffy/delaunator/lib/shapes/point");
-const jquery_1 = __importDefault(require("jquery"));
-const svg = {
+exports.slider = exports.svg = exports.INIT_NUM_POINTS = exports.PURPLE = exports.ORANGE = void 0;
+exports.ORANGE = [227, 138, 88];
+exports.PURPLE = [208, 118, 196];
+exports.INIT_NUM_POINTS = 12;
+exports.svg = {
     main: document.getElementById('main'),
     background: document.getElementById('artistic-background'),
     points: document.getElementById('points'),
@@ -15,11 +13,25 @@ const svg = {
     stop1: document.getElementById('stop1'),
     stop2: document.getElementById('stop2')
 };
-const orange = [227, 138, 88];
-const purple = [208, 118, 196];
+exports.slider = {
+    input: document.getElementById('slider-input'),
+    thumb: document.getElementById('slider-thumb'),
+    line: document.getElementById('slider-line-fill')
+};
+
+},{}],2:[function(require,module,exports){
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const delaunay_1 = require("@jrsmiffy/delaunator/lib/delaunay");
+const point_1 = require("@jrsmiffy/delaunator/lib/shapes/point");
+const constants_1 = require("./constants");
+const jquery_1 = __importDefault(require("jquery"));
 // Demo fields
 let points = [];
-let numPoints = 25;
+let numPoints = constants_1.INIT_NUM_POINTS;
 let interactive = true;
 // Interactive fields
 let selectedElement;
@@ -40,8 +52,18 @@ let colour2;
 init();
 /** Initialise Demo */
 function init() {
-    svg.points.innerHTML = '';
-    svg.triangles.innerHTML = '';
+    constants_1.svg.points.innerHTML = '';
+    constants_1.svg.triangles.innerHTML = '';
+    initControls();
+    if (interactive)
+        initInteractive();
+    if (!interactive)
+        initArtistic();
+    points = generatePoints();
+    triangulate(points);
+}
+/** Initialise Refresh & Set Mode Controls */
+function initControls() {
     let btnRefresh = document.getElementById('refresh');
     if (btnRefresh)
         btnRefresh.addEventListener('click', init);
@@ -49,31 +71,28 @@ function init() {
     if (btnInteractive)
         btnInteractive.addEventListener('click', () => {
             interactive = true;
-            svg.main.setAttribute('class', 'interactive');
-            svg.background.setAttribute('class', 'hide');
+            constants_1.svg.main.setAttribute('class', 'interactive');
+            constants_1.svg.background.setAttribute('class', 'hide');
+            (0, jquery_1.default)('.control-interactive').removeClass('hide');
+            (0, jquery_1.default)('.control-artistic').addClass('hide');
             init();
         });
     let btnArtistic = document.getElementById('artistic');
     if (btnArtistic)
         btnArtistic.addEventListener('click', () => {
             interactive = false;
-            svg.main.setAttribute('class', 'artistic');
-            svg.background.setAttribute('class', 'show');
+            constants_1.svg.main.setAttribute('class', 'artistic');
+            constants_1.svg.background.setAttribute('class', 'show');
+            (0, jquery_1.default)('.control-interactive').addClass('hide');
+            (0, jquery_1.default)('.control-artistic').removeClass('hide');
             init();
         });
-    if (!interactive) {
-        colour1 = orange;
-        colour2 = purple;
-        initArtistic();
-    }
-    points = generatePoints();
-    triangulate(points);
 }
 /** Generate Set Of Points */
 function generatePoints() {
     const svgWidth = window.innerWidth;
     const svgHeight = window.innerHeight;
-    svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
+    constants_1.svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
     return delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, numPoints);
 }
 /** Compute Triangulation & Render */
@@ -102,7 +121,7 @@ function renderPoints(points) {
         circle.setAttribute('id', `pt-${i}`);
         if (interactive)
             makeInteractive(circle);
-        svg.points.appendChild(circle);
+        constants_1.svg.points.appendChild(circle);
         i++;
     }
 }
@@ -111,15 +130,15 @@ function renderTriangles(triangles) {
     for (let triangle of triangles) {
         let tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
         tri.setAttribute('class', 'triangle');
-        let pointA = svg.main.createSVGPoint();
+        let pointA = constants_1.svg.main.createSVGPoint();
         pointA.x = triangle.pointA.x;
         pointA.y = triangle.pointA.y;
         tri.points.appendItem(pointA);
-        let pointB = svg.main.createSVGPoint();
+        let pointB = constants_1.svg.main.createSVGPoint();
         pointB.x = triangle.pointB.x;
         pointB.y = triangle.pointB.y;
         tri.points.appendItem(pointB);
-        let pointC = svg.main.createSVGPoint();
+        let pointC = constants_1.svg.main.createSVGPoint();
         pointC.x = triangle.pointC.x;
         pointC.y = triangle.pointC.y;
         tri.points.appendItem(pointC);
@@ -132,12 +151,34 @@ function renderTriangles(triangles) {
         else {
             tri.setAttribute('stroke', '#56d066');
         }
-        svg.triangles.appendChild(tri);
+        constants_1.svg.triangles.appendChild(tri);
     }
 }
 // *****************************
 // *** Interactive Functions ***
 // *****************************
+/** Initialise Interactive Functionality */
+function initInteractive() {
+    constants_1.slider.input.value = constants_1.INIT_NUM_POINTS;
+    updatePointsSlider();
+    window.addEventListener("resize", updatePointsSlider);
+    constants_1.slider.input.addEventListener('input', updatePointsSlider);
+    constants_1.slider.input.addEventListener('mouseup', () => {
+        numPoints = constants_1.slider.input.value;
+        constants_1.svg.points.innerHTML = '';
+        constants_1.svg.triangles.innerHTML = '';
+        points = generatePoints();
+        triangulate(points);
+    }); // Question: duplicate logic, opportunity to refactor?
+}
+/** Update Number Of Points Slider Value */
+function updatePointsSlider() {
+    constants_1.slider.thumb.innerHTML = constants_1.slider.input.value;
+    const position = (parseInt(constants_1.slider.input.value) / parseInt(constants_1.slider.input.max));
+    const space = constants_1.slider.input.offsetWidth - constants_1.slider.thumb.offsetWidth;
+    constants_1.slider.thumb.style.left = (position * space) + 'px';
+    constants_1.slider.line.style.width = constants_1.slider.input.value + '%';
+}
 /** Make A Circle Interactive */
 function makeInteractive(circle) {
     circle.setAttribute('transform', 'matrix(1 0 0 1 0 0)');
@@ -162,8 +203,8 @@ function removeElement(element) {
     const uniqueX = element.getAttribute('cx');
     if (uniqueX)
         points = points.filter(pt => pt.x !== parseInt(uniqueX));
-    svg.points.innerHTML = '';
-    svg.triangles.innerHTML = '';
+    constants_1.svg.points.innerHTML = '';
+    constants_1.svg.triangles.innerHTML = '';
     triangulate(points);
 }
 /** Select An Element To Interact With */
@@ -176,8 +217,8 @@ function selectElement(element) {
         currentMatrix[i] = parseFloat(currentMatrix[i]);
     }
     element.setAttribute('pointer-events', 'none');
-    svg.main.addEventListener('mousemove', moveElement);
-    svg.main.addEventListener('mouseup', deselectElement);
+    constants_1.svg.main.addEventListener('mousemove', moveElement);
+    constants_1.svg.main.addEventListener('mouseup', deselectElement);
 }
 /** Move An Element To A New Position On The Screen */
 function moveElement(event) {
@@ -198,8 +239,8 @@ function deselectElement() {
     if (selectedElement) {
         selectedElement.setAttribute('pointer-events', 'all');
         paramHistory += '||' + currentId + '|' + absX + '|' + absY;
-        svg.main.removeEventListener('mousemove', moveElement);
-        svg.main.removeEventListener('mouseup', deselectElement);
+        constants_1.svg.main.removeEventListener('mousemove', moveElement);
+        constants_1.svg.main.removeEventListener('mouseup', deselectElement);
         points.push(new point_1.Point(currentX, currentY));
         removeElement(selectedElement);
     }
@@ -210,6 +251,9 @@ function deselectElement() {
 // **************************
 /** Initialise Artistic Functionality */
 function initArtistic() {
+    numPoints = 24;
+    colour1 = constants_1.ORANGE;
+    colour2 = constants_1.PURPLE;
     let colourOne = document.getElementById('colour1');
     if (colourOne) {
         colourOne.addEventListener('change', updateColours);
@@ -220,8 +264,8 @@ function initArtistic() {
         colourTwo.addEventListener('change', updateColours);
         colourTwo.value = convertToHex(colour2[0], colour2[1], colour2[2]);
     }
-    svg.stop1.setAttribute('stop-color', `rgb(${colour1[0]}, ${colour1[1]}, ${colour1[2]})`);
-    svg.stop2.setAttribute('stop-color', `rgb(${colour2[0]}, ${colour2[1]}, ${colour2[2]})`);
+    constants_1.svg.stop1.setAttribute('stop-color', `rgb(${colour1[0]}, ${colour1[1]}, ${colour1[2]})`);
+    constants_1.svg.stop2.setAttribute('stop-color', `rgb(${colour2[0]}, ${colour2[1]}, ${colour2[2]})`);
 }
 /** Generate Colour For Triangle Based on Location */
 function generateColour(triangle) {
@@ -269,6 +313,7 @@ function updateColours(event) {
     initArtistic();
     triangulate(points);
 }
+// FixMe: is there a bug in the colour update?
 /** Convert RGB Value to Hex */
 function convertToHex(red, green, blue) {
     let hex = function (rgb) {
@@ -277,7 +322,7 @@ function convertToHex(red, green, blue) {
     return `#${hex(red)}${hex(green)}${hex(blue)}`;
 }
 
-},{"@jrsmiffy/delaunator/lib/delaunay":2,"@jrsmiffy/delaunator/lib/shapes/point":5,"jquery":7}],2:[function(require,module,exports){
+},{"./constants":1,"@jrsmiffy/delaunator/lib/delaunay":3,"@jrsmiffy/delaunator/lib/shapes/point":6,"jquery":8}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Delaunay = void 0;
@@ -387,7 +432,7 @@ var Delaunay = /** @class */ (function () {
 }());
 exports.Delaunay = Delaunay;
 
-},{"./shapes/edge":4,"./shapes/point":5,"./shapes/triangle":6}],3:[function(require,module,exports){
+},{"./shapes/edge":5,"./shapes/point":6,"./shapes/triangle":7}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Circle = void 0;
@@ -419,7 +464,7 @@ var Circle = /** @class */ (function () {
 }());
 exports.Circle = Circle;
 
-},{"./point":5}],4:[function(require,module,exports){
+},{"./point":6}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Edge = void 0;
@@ -494,7 +539,7 @@ var Edge = /** @class */ (function () {
 }());
 exports.Edge = Edge;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Point = void 0;
@@ -530,7 +575,7 @@ var Point = /** @class */ (function () {
 }());
 exports.Point = Point;
 
-},{"./circle":3}],6:[function(require,module,exports){
+},{"./circle":4}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Triangle = void 0;
@@ -625,7 +670,7 @@ var Triangle = /** @class */ (function () {
 }());
 exports.Triangle = Triangle;
 
-},{"./point":5}],7:[function(require,module,exports){
+},{"./point":6}],8:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v3.6.3
  * https://jquery.com/
@@ -11620,4 +11665,4 @@ if ( typeof noGlobal === "undefined" ) {
 return jQuery;
 } );
 
-},{}]},{},[1]);
+},{}]},{},[2]);

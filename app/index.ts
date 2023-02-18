@@ -1,23 +1,12 @@
 import { Delaunay } from '@jrsmiffy/delaunator/lib/delaunay';
 import { Point } from '@jrsmiffy/delaunator/lib/shapes/point';
 import { Triangle } from '@jrsmiffy/delaunator/lib/shapes/triangle';
+import { ORANGE, PURPLE, svg, slider, INIT_NUM_POINTS } from './constants';
 import $ from "jquery";
-
-const svg: any = {
-  main: document.getElementById('main'),
-  background: document.getElementById('artistic-background'),
-  points: document.getElementById('points'),
-  triangles: document.getElementById('triangles'),
-  stop1: document.getElementById('stop1'),
-  stop2: document.getElementById('stop2')
-}
-
-const orange: [number, number, number] = [227, 138, 88];
-const purple: [number, number, number] = [208, 118, 196];
 
 // Demo fields
 let points: Point[] = [];
-let numPoints = 25;
+let numPoints: number = INIT_NUM_POINTS;
 let interactive = true;
 
 // Interactive fields
@@ -41,10 +30,20 @@ let colour2: [number, number, number];
 init();
 
 /** Initialise Demo */
-function init() {
+function init(): void {
   svg.points.innerHTML = '';
   svg.triangles.innerHTML = '';
 
+  initControls();
+  if (interactive) initInteractive();
+  if (!interactive) initArtistic();
+
+  points = generatePoints();
+  triangulate(points);
+}
+
+/** Initialise Refresh & Set Mode Controls */
+function initControls(): void {
   let btnRefresh = document.getElementById('refresh');
   if (btnRefresh) btnRefresh.addEventListener('click', init);
 
@@ -53,6 +52,10 @@ function init() {
     interactive = true;
     svg.main.setAttribute('class', 'interactive');
     svg.background.setAttribute('class', 'hide');
+
+    $('.control-interactive').removeClass('hide');
+    $('.control-artistic').addClass('hide');
+
     init();
   });
 
@@ -61,20 +64,16 @@ function init() {
     interactive = false;
     svg.main.setAttribute('class', 'artistic');
     svg.background.setAttribute('class', 'show');
+
+    $('.control-interactive').addClass('hide');
+    $('.control-artistic').removeClass('hide');
+
     init();
   });
-
-  if (!interactive) {
-    colour1 = orange; colour2 = purple;
-    initArtistic();
-  }
-
-  points = generatePoints();
-  triangulate(points);
 }
 
 /** Generate Set Of Points */
-function generatePoints() {
+function generatePoints(): Point[] {
   const svgWidth: number = window.innerWidth;
   const svgHeight: number = window.innerHeight;
 
@@ -84,7 +83,7 @@ function generatePoints() {
 }
 
 /** Compute Triangulation & Render */
-function triangulate(points: Point[]) {
+function triangulate(points: Point[]): void {
   if (!points) points = generatePoints();
 
   let triangulation: Triangle[] = Delaunay.triangulate(points);
@@ -96,7 +95,7 @@ function triangulate(points: Point[]) {
 }
 
 /** Render Points On Screen */
-function renderPoints(points: Point[]) {
+function renderPoints(points: Point[]): void {
   let i = 0;
   while (i < points.length) {
     let point = points[i];
@@ -110,7 +109,6 @@ function renderPoints(points: Point[]) {
     circle.setAttribute('id', `pt-${i}`);
 
     if (interactive) makeInteractive(circle);
-
     svg.points.appendChild(circle);
 
     i++;
@@ -118,7 +116,7 @@ function renderPoints(points: Point[]) {
 }
 
 /** Render Triangles On Screen */
-function renderTriangles(triangles: Triangle[]) {
+function renderTriangles(triangles: Triangle[]): void {
   for (let triangle of triangles) {
     let tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
     tri.setAttribute('class', 'triangle');
@@ -156,6 +154,35 @@ function renderTriangles(triangles: Triangle[]) {
 // *****************************
 // *** Interactive Functions ***
 // *****************************
+/** Initialise Interactive Functionality */
+function initInteractive(): void {
+  slider.input.value = INIT_NUM_POINTS;
+
+  updatePointsSlider();
+  window.addEventListener("resize", updatePointsSlider);
+
+  slider.input.addEventListener('input', updatePointsSlider);
+  slider.input.addEventListener('mouseup', () => {
+    numPoints = slider.input.value;
+    svg.points.innerHTML = '';
+    svg.triangles.innerHTML = '';
+
+    points = generatePoints();
+    triangulate(points);
+  }); // Question: duplicate logic, opportunity to refactor?
+}
+
+/** Update Number Of Points Slider Value */
+function updatePointsSlider() {
+  slider.thumb.innerHTML = slider.input.value;
+
+  const position = (parseInt(slider.input.value) / parseInt(slider.input.max));
+  const space = slider.input.offsetWidth - slider.thumb.offsetWidth;
+
+  slider.thumb.style.left = (position * space) + 'px';
+  slider.line.style.width = slider.input.value + '%';
+}
+
 /** Make A Circle Interactive */
 function makeInteractive(circle: SVGCircleElement): void {
   circle.setAttribute('transform', 'matrix(1 0 0 1 0 0)');
@@ -249,7 +276,11 @@ function deselectElement(): void {
 // *** Artistic Functions ***
 // **************************
 /** Initialise Artistic Functionality */
-function initArtistic() {
+function initArtistic(): void {
+  numPoints = 24;
+  colour1 = ORANGE;
+  colour2 = PURPLE;
+
   let colourOne = document.getElementById('colour1') as HTMLInputElement;
   if (colourOne) {
     colourOne.addEventListener('change', updateColours);
@@ -296,7 +327,7 @@ function generateColour(triangle: Triangle): number[] {
 }
 
 /** Fade-In Each Triangle */
-function fadeIn() {
+function fadeIn(): void {
   let gapBetweenEach = 10;
   let speedOfFade = 400;
 
@@ -306,7 +337,7 @@ function fadeIn() {
 }
 
 /** Update Colour Scheme */
-function updateColours(event: any) {
+function updateColours(event: any): void {
   let hexValue = event.target.value.split('#')[1];
 
   let red = parseInt(hexValue.substring(0,2), 16);
@@ -319,6 +350,7 @@ function updateColours(event: any) {
   initArtistic();
   triangulate(points);
 }
+// FixMe: is there a bug in the colour update?
 
 /** Convert RGB Value to Hex */
 function convertToHex(red: number, green: number, blue: number): string {
