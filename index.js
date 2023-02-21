@@ -67,11 +67,15 @@ function init() {
 function initControls() {
     let btnRefresh = document.getElementById('refresh');
     if (btnRefresh)
-        btnRefresh.addEventListener('click', init);
+        btnRefresh.addEventListener('click', () => {
+            numPoints = constants_1.INIT_NUM_POINTS;
+            init();
+        });
     let btnInteractive = document.getElementById('interactive');
     if (btnInteractive)
         btnInteractive.addEventListener('click', () => {
             interactive = true;
+            numPoints = constants_1.INIT_NUM_POINTS;
             constants_1.body.setAttribute('class', 'interactive');
             constants_1.svg.main.setAttribute('class', 'interactive');
             constants_1.svg.background.setAttribute('class', 'hide');
@@ -223,6 +227,7 @@ function selectElement(element) {
     element.setAttribute('pointer-events', 'none');
     constants_1.svg.main.addEventListener('mousemove', moveElement);
     constants_1.svg.main.addEventListener('mouseup', deselectElement);
+    // removing .point class improves interaction smoothness
     element.setAttribute('class', '');
 }
 /** Move An Element To A New Position On The Screen */
@@ -256,7 +261,7 @@ function deselectElement() {
 // **************************
 /** Initialise Artistic Functionality */
 function initArtistic() {
-    numPoints = 24;
+    numPoints = 36;
     colour1 = constants_1.ORANGE;
     colour2 = constants_1.PURPLE;
     let colourOne = document.getElementById('colour1');

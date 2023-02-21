@@ -45,11 +45,16 @@ function init(): void {
 /** Initialise Refresh & Set Mode Controls */
 function initControls(): void {
   let btnRefresh = document.getElementById('refresh');
-  if (btnRefresh) btnRefresh.addEventListener('click', init);
+  if (btnRefresh) btnRefresh.addEventListener('click', () => {
+    numPoints = INIT_NUM_POINTS;
+    init();
+  });
 
   let btnInteractive = document.getElementById('interactive');
   if (btnInteractive) btnInteractive.addEventListener('click', () => {
     interactive = true;
+    numPoints = INIT_NUM_POINTS;
+
     body.setAttribute('class', 'interactive');
     svg.main.setAttribute('class', 'interactive');
     svg.background.setAttribute('class', 'hide');
@@ -283,7 +288,7 @@ function deselectElement(): void {
 // **************************
 /** Initialise Artistic Functionality */
 function initArtistic(): void {
-  numPoints = 24;
+  numPoints = 36;
   colour1 = ORANGE;
   colour2 = PURPLE;
 
