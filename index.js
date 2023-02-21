@@ -1,10 +1,11 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.slider = exports.svg = exports.INIT_NUM_POINTS = exports.PURPLE = exports.ORANGE = void 0;
+exports.slider = exports.svg = exports.body = exports.INIT_NUM_POINTS = exports.PURPLE = exports.ORANGE = void 0;
 exports.ORANGE = [227, 138, 88];
 exports.PURPLE = [208, 118, 196];
 exports.INIT_NUM_POINTS = 12;
+exports.body = document.getElementsByTagName('body')[0];
 exports.svg = {
     main: document.getElementById('main'),
     background: document.getElementById('artistic-background'),
@@ -71,6 +72,7 @@ function initControls() {
     if (btnInteractive)
         btnInteractive.addEventListener('click', () => {
             interactive = true;
+            constants_1.body.setAttribute('class', 'interactive');
             constants_1.svg.main.setAttribute('class', 'interactive');
             constants_1.svg.background.setAttribute('class', 'hide');
             (0, jquery_1.default)('.control-interactive').removeClass('hide');
@@ -81,6 +83,7 @@ function initControls() {
     if (btnArtistic)
         btnArtistic.addEventListener('click', () => {
             interactive = false;
+            constants_1.body.setAttribute('class', 'artistic');
             constants_1.svg.main.setAttribute('class', 'artistic');
             constants_1.svg.background.setAttribute('class', 'show');
             (0, jquery_1.default)('.control-interactive').addClass('hide');
@@ -116,7 +119,7 @@ function renderPoints(points) {
         circle.setAttribute('cx', `${point.x}`);
         circle.setAttribute('cy', `${point.y}`);
         circle.setAttribute('r', '10');
-        circle.setAttribute('fill', '#fff');
+        circle.setAttribute('fill', '#FF8B00');
         circle.setAttribute('class', 'point');
         circle.setAttribute('id', `pt-${i}`);
         if (interactive)
@@ -149,6 +152,7 @@ function renderTriangles(triangles) {
             tri.style.display = "none";
         }
         else {
+            tri.setAttribute('fill', 'transparent');
             tri.setAttribute('stroke', '#56d066');
         }
         constants_1.svg.triangles.appendChild(tri);
@@ -219,6 +223,7 @@ function selectElement(element) {
     element.setAttribute('pointer-events', 'none');
     constants_1.svg.main.addEventListener('mousemove', moveElement);
     constants_1.svg.main.addEventListener('mouseup', deselectElement);
+    element.setAttribute('class', '');
 }
 /** Move An Element To A New Position On The Screen */
 function moveElement(event) {

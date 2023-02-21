@@ -1,7 +1,7 @@
 import { Delaunay } from '@jrsmiffy/delaunator/lib/delaunay';
 import { Point } from '@jrsmiffy/delaunator/lib/shapes/point';
 import { Triangle } from '@jrsmiffy/delaunator/lib/shapes/triangle';
-import { ORANGE, PURPLE, svg, slider, INIT_NUM_POINTS } from './constants';
+import { ORANGE, PURPLE, body, svg, slider, INIT_NUM_POINTS } from './constants';
 import $ from "jquery";
 
 // Demo fields
@@ -50,6 +50,7 @@ function initControls(): void {
   let btnInteractive = document.getElementById('interactive');
   if (btnInteractive) btnInteractive.addEventListener('click', () => {
     interactive = true;
+    body.setAttribute('class', 'interactive');
     svg.main.setAttribute('class', 'interactive');
     svg.background.setAttribute('class', 'hide');
 
@@ -62,6 +63,7 @@ function initControls(): void {
   let btnArtistic = document.getElementById('artistic');
   if (btnArtistic) btnArtistic.addEventListener('click', () => {
     interactive = false;
+    body.setAttribute('class', 'artistic');
     svg.main.setAttribute('class', 'artistic');
     svg.background.setAttribute('class', 'show');
 
@@ -104,7 +106,7 @@ function renderPoints(points: Point[]): void {
     circle.setAttribute('cx', `${point.x}`);
     circle.setAttribute('cy', `${point.y}`);
     circle.setAttribute('r', '10');
-    circle.setAttribute('fill', '#fff');
+    circle.setAttribute('fill', '#FF8B00');
     circle.setAttribute('class', 'point');
     circle.setAttribute('id', `pt-${i}`);
 
@@ -144,6 +146,7 @@ function renderTriangles(triangles: Triangle[]): void {
 
       tri.style.display = "none";
     } else {
+      tri.setAttribute('fill', 'transparent');
       tri.setAttribute('stroke', '#56d066');
     }
 
@@ -235,6 +238,9 @@ function selectElement(element: HTMLElement): void {
 
   svg.main.addEventListener('mousemove', moveElement);
   svg.main.addEventListener('mouseup', deselectElement);
+
+  // removing .point class improves interaction smoothness
+  element.setAttribute('class', '');
 }
 
 /** Move An Element To A New Position On The Screen */

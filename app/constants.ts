@@ -2,6 +2,8 @@ export const ORANGE: [number, number, number] = [227, 138, 88];
 export const PURPLE: [number, number, number] = [208, 118, 196];
 export const INIT_NUM_POINTS: number = 12;
 
+export const body: HTMLElement = document.getElementsByTagName('body')[0];
+
 export const svg: any = {
   main: document.getElementById('main'),
   background: document.getElementById('artistic-background'),
