@@ -3,8 +3,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.svg = exports.slider = exports.controls = exports.body = exports.INIT_NUM_POINTS = exports.PURPLE = exports.ORANGE = exports.GREEN = void 0;
 exports.GREEN = [80, 250, 123];
-exports.ORANGE = [255, 184, 108];
-exports.PURPLE = [189, 147, 249];
+exports.ORANGE = [227, 138, 88];
+exports.PURPLE = [208, 118, 196];
 exports.INIT_NUM_POINTS = 7;
 exports.body = document.getElementsByTagName('body')[0];
 exports.controls = {
@@ -123,7 +123,7 @@ function renderPoints(points) {
         circle.setAttribute('cx', `${point.x}`);
         circle.setAttribute('cy', `${point.y}`);
         circle.setAttribute('r', '10');
-        circle.setAttribute('fill', `rgb(${constants_1.ORANGE[0]}, ${constants_1.ORANGE[1]}, ${constants_1.ORANGE[2]})`);
+        circle.setAttribute('fill', `#ffb86c`);
         circle.setAttribute('class', 'point');
         circle.setAttribute('id', `pt-${i}`);
         if (interactive)

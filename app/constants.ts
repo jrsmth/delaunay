@@ -1,6 +1,6 @@
 export const GREEN: [number, number, number] = [80, 250, 123];
-export const ORANGE: [number, number, number] = [255, 184, 108];
-export const PURPLE: [number, number, number] = [189, 147, 249];
+export const ORANGE: [number, number, number] = [227, 138, 88];
+export const PURPLE: [number, number, number] = [208, 118, 196];
 export const INIT_NUM_POINTS: number = 7;
 
 export const body: HTMLElement = document.getElementsByTagName('body')[0];

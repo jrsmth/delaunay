@@ -7,10 +7,10 @@ body {
   margin: 0;
 }
 body.artistic {
-  background-color: #FAFBFC;
+  background-color: #fAfBfC;
 }
 body.interactive {
-  background-color: #1F2029;
+  background-color: #1f2029;
 }
 
 .hide {
@@ -30,10 +30,10 @@ body.interactive {
 }
 
 .point {
-  opacity: 0.9;
+  opacity: 0.7;
   transition: 0.5s;
   cursor: move;
-  fill: #fff;
+  fill: #fAfBfC;
 }
 .point:hover {
   opacity: 1;
@@ -68,19 +68,19 @@ body.interactive {
 #slider-thumb {
   width: 2.25rem;
   height: 2.25rem;
-  border: 3px solid #eee;
+  border: 3px solid #f1f2f4;
   border-radius: 50%;
   position: absolute;
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #1F2029;
+  background-color: #1f2029;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 700;
   font-size: 1rem;
-  color: #FAFBFC;
+  color: #fAfBfC;
   z-index: 2;
   user-select: none;
 }
@@ -100,11 +100,9 @@ body.interactive {
   position: absolute;
   height: 0.25rem;
   width: 0;
-  background-color: #FAFBFC;
+  background-color: #fAfBfC;
 }
 
-/* TODO: replace with https://codepen.io/alexdevio/pen/zXPwOx ??? */
-/* Question: Combined with this? https://codepen.io/popc0rn/pen/ApxjzV */
 button.flat {
   border: 0;
   cursor: pointer;
@@ -115,24 +113,21 @@ button.flat {
   transition: 0.5s;
 }
 button.flat.dark {
-  color: #C5C7D3;
-  background: #282A36;
+  color: #c5c7d3;
+  background: #282a36;
 }
 button.flat.dark:hover {
-  background: #44475A;
+  background: #44475a;
 }
 button.flat.light {
-  color: #6272A4;
-  background: #F4F5F7;
+  color: #44546f;
+  background: #f7f8f9;
 }
 button.flat.light:hover {
-  background: #EBECF0;
+  background: #f1f2f4;
 }
 button.flat#refresh {
   transition: 0s;
-}
-button.flat#refresh span {
-  font-size: 2rem;
 }
 
 /*# sourceMappingURL=index.css.map */

@@ -109,7 +109,7 @@ function renderPoints(points: Point[]): void {
     circle.setAttribute('cx', `${point.x}`);
     circle.setAttribute('cy', `${point.y}`);
     circle.setAttribute('r', '10');
-    circle.setAttribute('fill', `rgb(${ORANGE[0]}, ${ORANGE[1]}, ${ORANGE[2]})`);
+    circle.setAttribute('fill', `#ffb86c`);
     circle.setAttribute('class', 'point');
     circle.setAttribute('id', `pt-${i}`);
 

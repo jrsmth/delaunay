@@ -1,14 +1,16 @@
 
 // Colours
-$dark-primary: #1F2029;
-$dark-secondary: #282A36;
-$dark-tertiary: #44475A;
-$dark-text: #C5C7D3;
+$dark-primary: #1f2029;
+$dark-secondary: #282a36;
+$dark-tertiary: #44475a;
+$dark-text: #c5c7d3;
 
-$light-primary: #FAFBFC;
-$light-secondary: #F4F5F7;
-$light-tertiary: #EBECF0;
-$light-text: #6272A4;
+$light-primary: #fAfBfC;
+$light-secondary: #f7f8f9;
+$light-tertiary: #f1f2f4;
+$light-text: #44546f;
+
+$darcula-orange: #ffb86c;
 
 // Styles
 * {
@@ -46,14 +48,14 @@ body {
 
 // SVG Point
 .point {
-  opacity: .9;
+  opacity: .7;
   transition: .5s;
   cursor: move;
-  fill: #fff;
+  fill: $light-primary;
 
   &:hover {
     opacity: 1;
-    fill: #ffb86c;
+    fill: $darcula-orange;
   }
 }
 
@@ -86,7 +88,7 @@ body {
 #slider-thumb {
   width: 2.25rem;
   height: 2.25rem;
-  border: 3px solid #eee;
+  border: 3px solid $light-tertiary;
   border-radius: 50%;
   position: absolute;
   left: 0;
@@ -122,18 +124,6 @@ body {
 }
 
 // Buttons
-
-
-
-
-
-
-
-
-
-
-/* TODO: replace with https://codepen.io/alexdevio/pen/zXPwOx ??? */
-/* Question: Combined with this? https://codepen.io/popc0rn/pen/ApxjzV */
 button.flat {
   border: 0;
   cursor: pointer;
@@ -163,10 +153,5 @@ button.flat {
 
   &#refresh {
     transition: 0s;
-
-    span {
-      font-size: 2rem;
-      // fixme: rotation
-    }
   }
 }
