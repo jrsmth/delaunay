@@ -1,11 +1,12 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.svg = exports.slider = exports.controls = exports.body = exports.INIT_NUM_POINTS = exports.PURPLE = exports.ORANGE = exports.GREEN = void 0;
+exports.svg = exports.slider = exports.controls = exports.body = exports.MENU_HEIGHT_PX = exports.INIT_NUM_POINTS = exports.PURPLE = exports.ORANGE = exports.GREEN = void 0;
 exports.GREEN = [80, 250, 123];
 exports.ORANGE = [227, 138, 88];
 exports.PURPLE = [208, 118, 196];
 exports.INIT_NUM_POINTS = 7;
+exports.MENU_HEIGHT_PX = 80;
 exports.body = document.getElementsByTagName('body')[0];
 exports.controls = {
     refresh: document.getElementById('refresh'),
@@ -98,7 +99,7 @@ function initControls() {
 /** Generate Set Of Points */
 function generatePoints() {
     const svgWidth = window.innerWidth;
-    const svgHeight = window.innerHeight;
+    const svgHeight = window.innerHeight - constants_1.MENU_HEIGHT_PX;
     constants_1.svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
     return delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, numPoints);
 }

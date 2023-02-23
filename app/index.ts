@@ -1,7 +1,7 @@
 import { Delaunay } from '@jrsmiffy/delaunator/lib/delaunay';
 import { Point } from '@jrsmiffy/delaunator/lib/shapes/point';
 import { Triangle } from '@jrsmiffy/delaunator/lib/shapes/triangle';
-import { GREEN, ORANGE, PURPLE, body, controls, slider, svg, INIT_NUM_POINTS } from './constants';
+import { GREEN, ORANGE, PURPLE, body, controls, slider, svg, INIT_NUM_POINTS, MENU_HEIGHT_PX } from './constants';
 import $ from "jquery";
 
 // Demo fields
@@ -80,7 +80,7 @@ function initControls(): void {
 /** Generate Set Of Points */
 function generatePoints(): Point[] {
   const svgWidth: number = window.innerWidth;
-  const svgHeight: number = window.innerHeight;
+  const svgHeight: number = window.innerHeight - MENU_HEIGHT_PX;
 
   svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
 

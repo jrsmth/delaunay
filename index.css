@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  overflow-y: hidden;
 }
 
 body {
@@ -23,9 +24,7 @@ body.interactive {
 
 #controls {
   display: flex;
-  justify-content: space-between;
-  width: 50%;
-  min-width: 600px;
+  gap: 2rem;
   padding: 1rem;
 }
 
@@ -40,6 +39,15 @@ body.interactive {
   fill: #ffb86c;
 }
 
+#colour-selection {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+#colour-selection #colour1 {
+  margin-right: 1rem;
+}
+
 #number-selection {
   display: flex;
   align-items: center;
@@ -49,6 +57,7 @@ body.interactive {
 #range-slider {
   position: relative;
   width: 400px;
+  overflow-y: unset;
 }
 
 #slider-input {
@@ -111,6 +120,7 @@ button.flat {
   text-transform: uppercase;
   letter-spacing: 2px;
   transition: 0.5s;
+  width: 10rem;
 }
 button.flat.dark {
   color: #c5c7d3;
@@ -128,6 +138,7 @@ button.flat.light:hover {
 }
 button.flat#refresh {
   transition: 0s;
+  width: unset;
 }
 
 /*# sourceMappingURL=index.css.map */
