@@ -1,8 +1,21 @@
-export const ORANGE: [number, number, number] = [227, 138, 88];
-export const PURPLE: [number, number, number] = [208, 118, 196];
-export const INIT_NUM_POINTS: number = 12;
+export const GREEN: [number, number, number] = [80, 250, 123];
+export const ORANGE: [number, number, number] = [255, 184, 108];
+export const PURPLE: [number, number, number] = [189, 147, 249];
+export const INIT_NUM_POINTS: number = 7;
 
 export const body: HTMLElement = document.getElementsByTagName('body')[0];
+
+export const controls: any = {
+  refresh: document.getElementById('refresh') as HTMLButtonElement,
+  interactive: document.getElementById('interactive') as HTMLButtonElement,
+  artistic: document.getElementById('artistic') as HTMLButtonElement,
+}
+
+export const slider: any = {
+  input: document.getElementById('slider-input') as HTMLInputElement,
+  thumb: document.getElementById('slider-thumb'),
+  line: document.getElementById('slider-line-fill')
+}
 
 export const svg: any = {
   main: document.getElementById('main'),
@@ -11,10 +24,4 @@ export const svg: any = {
   triangles: document.getElementById('triangles'),
   stop1: document.getElementById('stop1'),
   stop2: document.getElementById('stop2')
-}
-
-export const slider: any = {
-  input: document.getElementById('slider-input') as HTMLInputElement,
-  thumb: document.getElementById('slider-thumb'),
-  line: document.getElementById('slider-line-fill')
 }

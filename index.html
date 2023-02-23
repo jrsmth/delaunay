@@ -5,10 +5,12 @@
   </head>
   <body class="interactive">
     <div id="controls">
-      <button id="refresh" class="material green">Refresh</button>
+      <button id="refresh" class="flat"><span>&#10227;</span></button>
       <div id="modes">
-        <button id="interactive" class="material blue">Interactive</button> <!-- TODO: add tooltip for interactive instructions -->
-        <button id="artistic" class="material red">Artistic</button> <!-- TODO: add tooltip for artistic instructions -->
+        <button id="interactive" class="flat light">Interactive</button>
+        <button id="artistic" class="flat dark">Artistic</button>
+        <!-- TODO: hide button that is not in use... -->
+        <!-- TODO: prevent y-overflow -->
       </div>
       <div id="number-selection" class="control-interactive">
         <div id="range-slider">
@@ -24,6 +26,7 @@
         <input type="color" id="colour1" value='#E38A58'>
         <label for="colour2">Colour Two</label>
         <input type="color" id="colour2" value='#D076C4'>
+        <!-- TODO: extract colours -->
       </div>
     </div>
     <svg id="main" preserveAspectRatio="xMidYMid slice">

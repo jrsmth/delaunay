@@ -1,7 +1,7 @@
 import { Delaunay } from '@jrsmiffy/delaunator/lib/delaunay';
 import { Point } from '@jrsmiffy/delaunator/lib/shapes/point';
 import { Triangle } from '@jrsmiffy/delaunator/lib/shapes/triangle';
-import { ORANGE, PURPLE, body, svg, slider, INIT_NUM_POINTS } from './constants';
+import { GREEN, ORANGE, PURPLE, body, controls, slider, svg, INIT_NUM_POINTS } from './constants';
 import $ from "jquery";
 
 // Demo fields
@@ -44,14 +44,12 @@ function init(): void {
 
 /** Initialise Refresh & Set Mode Controls */
 function initControls(): void {
-  let btnRefresh = document.getElementById('refresh');
-  if (btnRefresh) btnRefresh.addEventListener('click', () => {
+  controls.refresh.addEventListener('click', () => {
     numPoints = INIT_NUM_POINTS;
     init();
   });
 
-  let btnInteractive = document.getElementById('interactive');
-  if (btnInteractive) btnInteractive.addEventListener('click', () => {
+  controls.interactive.addEventListener('click', () => {
     interactive = true;
     numPoints = INIT_NUM_POINTS;
 
@@ -65,8 +63,7 @@ function initControls(): void {
     init();
   });
 
-  let btnArtistic = document.getElementById('artistic');
-  if (btnArtistic) btnArtistic.addEventListener('click', () => {
+  controls.artistic.addEventListener('click', () => {
     interactive = false;
     body.setAttribute('class', 'artistic');
     svg.main.setAttribute('class', 'artistic');
@@ -77,6 +74,7 @@ function initControls(): void {
 
     init();
   });
+
 }
 
 /** Generate Set Of Points */
@@ -111,7 +109,7 @@ function renderPoints(points: Point[]): void {
     circle.setAttribute('cx', `${point.x}`);
     circle.setAttribute('cy', `${point.y}`);
     circle.setAttribute('r', '10');
-    circle.setAttribute('fill', '#FF8B00');
+    circle.setAttribute('fill', `rgb(${ORANGE[0]}, ${ORANGE[1]}, ${ORANGE[2]})`);
     circle.setAttribute('class', 'point');
     circle.setAttribute('id', `pt-${i}`);
 
@@ -145,14 +143,15 @@ function renderTriangles(triangles: Triangle[]): void {
 
     if (!interactive) {
       let colour: number[] = generateColour(triangle);
-
       tri.setAttribute('fill', `rgb(${colour[0]}, ${colour[1]}, ${colour[2]})`);
       tri.setAttribute('stroke', `rgb(${colour[0]}, ${colour[1]}, ${colour[2]})`);
 
       tri.style.display = "none";
+
     } else {
       tri.setAttribute('fill', 'transparent');
-      tri.setAttribute('stroke', '#56d066');
+      tri.setAttribute('stroke', `rgb(${GREEN[0]}, ${GREEN[1]}, ${GREEN[2]})`);
+
     }
 
     svg.triangles.appendChild(tri);
@@ -165,6 +164,11 @@ function renderTriangles(triangles: Triangle[]): void {
 /** Initialise Interactive Functionality */
 function initInteractive(): void {
   slider.input.value = INIT_NUM_POINTS;
+
+  controls.refresh.setAttribute('class', 'flat dark');
+  controls.interactive.setAttribute('class', 'flat light hide');
+  controls.artistic.setAttribute('class', 'flat dark show');
+  // TODO: refactor?
 
   updatePointsSlider();
   window.addEventListener("resize", updatePointsSlider);
@@ -291,6 +295,11 @@ function initArtistic(): void {
   numPoints = 36;
   colour1 = ORANGE;
   colour2 = PURPLE;
+
+  controls.refresh.setAttribute('class', 'flat light');
+  controls.interactive.setAttribute('class', 'flat light show');
+  controls.artistic.setAttribute('class', 'flat dark hide');
+  // TODO: refactor?
 
   let colourOne = document.getElementById('colour1') as HTMLInputElement;
   if (colourOne) {

@@ -1,17 +1,16 @@
-@import url("https://fonts.googleapis.com/css2?family=Creepster&family=Roboto:wght@500&display=swap");
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   margin: 0;
 }
 body.artistic {
-  background-color: #f4f4f4;
+  background-color: #FAFBFC;
 }
 body.interactive {
-  background-color: #121212;
+  background-color: #1F2029;
 }
 
 .hide {
@@ -31,14 +30,14 @@ body.interactive {
 }
 
 .point {
-  opacity: 0.7;
+  opacity: 0.9;
   transition: 0.5s;
   cursor: move;
   fill: #fff;
 }
 .point:hover {
   opacity: 1;
-  fill: #FF8B00;
+  fill: #ffb86c;
 }
 
 #number-selection {
@@ -75,13 +74,13 @@ body.interactive {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #121212;
+  background-color: #1F2029;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 700;
   font-size: 1rem;
-  color: #f4f4f4;
+  color: #FAFBFC;
   z-index: 2;
   user-select: none;
 }
@@ -101,33 +100,39 @@ body.interactive {
   position: absolute;
   height: 0.25rem;
   width: 0;
-  background-color: #f4f4f4;
+  background-color: #FAFBFC;
 }
 
 /* TODO: replace with https://codepen.io/alexdevio/pen/zXPwOx ??? */
 /* Question: Combined with this? https://codepen.io/popc0rn/pen/ApxjzV */
-button.material {
-  text-transform: uppercase;
-  color: #fff;
-  padding: 0.5rem 0;
-  letter-spacing: 1px;
-  border: none;
-  border-radius: 0.25rem;
+button.flat {
+  border: 0;
   cursor: pointer;
-  font-weight: 600;
-  width: 125px;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: 0.5s;
 }
-
-button.material.red {
-  background-color: crimson;
+button.flat.dark {
+  color: #C5C7D3;
+  background: #282A36;
 }
-
-button.material.blue {
-  background-color: darkcyan;
+button.flat.dark:hover {
+  background: #44475A;
 }
-
-button.material.green {
-  background-color: forestgreen;
+button.flat.light {
+  color: #6272A4;
+  background: #F4F5F7;
+}
+button.flat.light:hover {
+  background: #EBECF0;
+}
+button.flat#refresh {
+  transition: 0s;
+}
+button.flat#refresh span {
+  font-size: 2rem;
 }
 
 /*# sourceMappingURL=index.css.map */

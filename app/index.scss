@@ -1,15 +1,22 @@
-@import url("https://fonts.googleapis.com/css2?family=Creepster&family=Roboto:wght@500&display=swap");
 
 // Colours
-$dark-primary: #121212;
-$light-primary: #f4f4f4;
+$dark-primary: #1F2029;
+$dark-secondary: #282A36;
+$dark-tertiary: #44475A;
+$dark-text: #C5C7D3;
 
+$light-primary: #FAFBFC;
+$light-secondary: #F4F5F7;
+$light-tertiary: #EBECF0;
+$light-text: #6272A4;
+
+// Styles
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   margin: 0;
 
   &.artistic {
@@ -39,14 +46,14 @@ body {
 
 // SVG Point
 .point {
-  opacity: .7;
+  opacity: .9;
   transition: .5s;
   cursor: move;
   fill: #fff;
 
   &:hover {
     opacity: 1;
-    fill: #FF8B00;
+    fill: #ffb86c;
   }
 }
 
@@ -127,26 +134,39 @@ body {
 
 /* TODO: replace with https://codepen.io/alexdevio/pen/zXPwOx ??? */
 /* Question: Combined with this? https://codepen.io/popc0rn/pen/ApxjzV */
-button.material {
-  text-transform: uppercase;
-  color: #fff;
-  padding: 0.5rem 0;
-  letter-spacing: 1px;
-  border: none;
-  border-radius: 0.25rem;
+button.flat {
+  border: 0;
   cursor: pointer;
-  font-weight: 600;
-  width: 125px;
-}
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: .5s;
 
-button.material.red {
-  background-color: crimson;
-}
+  &.dark {
+    color: $dark-text;
+    background: $dark-secondary;
 
-button.material.blue {
-  background-color: darkcyan;
-}
+    &:hover {
+      background: $dark-tertiary;
+    }
+  }
 
-button.material.green {
-  background-color: forestgreen;
+  &.light {
+    color: $light-text;
+    background: $light-secondary;
+
+    &:hover {
+      background: $light-tertiary;
+    }
+  }
+
+  &#refresh {
+    transition: 0s;
+
+    span {
+      font-size: 2rem;
+      // fixme: rotation
+    }
+  }
 }

@@ -1,11 +1,22 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.slider = exports.svg = exports.body = exports.INIT_NUM_POINTS = exports.PURPLE = exports.ORANGE = void 0;
-exports.ORANGE = [227, 138, 88];
-exports.PURPLE = [208, 118, 196];
-exports.INIT_NUM_POINTS = 12;
+exports.svg = exports.slider = exports.controls = exports.body = exports.INIT_NUM_POINTS = exports.PURPLE = exports.ORANGE = exports.GREEN = void 0;
+exports.GREEN = [80, 250, 123];
+exports.ORANGE = [255, 184, 108];
+exports.PURPLE = [189, 147, 249];
+exports.INIT_NUM_POINTS = 7;
 exports.body = document.getElementsByTagName('body')[0];
+exports.controls = {
+    refresh: document.getElementById('refresh'),
+    interactive: document.getElementById('interactive'),
+    artistic: document.getElementById('artistic'),
+};
+exports.slider = {
+    input: document.getElementById('slider-input'),
+    thumb: document.getElementById('slider-thumb'),
+    line: document.getElementById('slider-line-fill')
+};
 exports.svg = {
     main: document.getElementById('main'),
     background: document.getElementById('artistic-background'),
@@ -13,11 +24,6 @@ exports.svg = {
     triangles: document.getElementById('triangles'),
     stop1: document.getElementById('stop1'),
     stop2: document.getElementById('stop2')
-};
-exports.slider = {
-    input: document.getElementById('slider-input'),
-    thumb: document.getElementById('slider-thumb'),
-    line: document.getElementById('slider-line-fill')
 };
 
 },{}],2:[function(require,module,exports){
@@ -65,35 +71,29 @@ function init() {
 }
 /** Initialise Refresh & Set Mode Controls */
 function initControls() {
-    let btnRefresh = document.getElementById('refresh');
-    if (btnRefresh)
-        btnRefresh.addEventListener('click', () => {
-            numPoints = constants_1.INIT_NUM_POINTS;
-            init();
-        });
-    let btnInteractive = document.getElementById('interactive');
-    if (btnInteractive)
-        btnInteractive.addEventListener('click', () => {
-            interactive = true;
-            numPoints = constants_1.INIT_NUM_POINTS;
-            constants_1.body.setAttribute('class', 'interactive');
-            constants_1.svg.main.setAttribute('class', 'interactive');
-            constants_1.svg.background.setAttribute('class', 'hide');
-            (0, jquery_1.default)('.control-interactive').removeClass('hide');
-            (0, jquery_1.default)('.control-artistic').addClass('hide');
-            init();
-        });
-    let btnArtistic = document.getElementById('artistic');
-    if (btnArtistic)
-        btnArtistic.addEventListener('click', () => {
-            interactive = false;
-            constants_1.body.setAttribute('class', 'artistic');
-            constants_1.svg.main.setAttribute('class', 'artistic');
-            constants_1.svg.background.setAttribute('class', 'show');
-            (0, jquery_1.default)('.control-interactive').addClass('hide');
-            (0, jquery_1.default)('.control-artistic').removeClass('hide');
-            init();
-        });
+    constants_1.controls.refresh.addEventListener('click', () => {
+        numPoints = constants_1.INIT_NUM_POINTS;
+        init();
+    });
+    constants_1.controls.interactive.addEventListener('click', () => {
+        interactive = true;
+        numPoints = constants_1.INIT_NUM_POINTS;
+        constants_1.body.setAttribute('class', 'interactive');
+        constants_1.svg.main.setAttribute('class', 'interactive');
+        constants_1.svg.background.setAttribute('class', 'hide');
+        (0, jquery_1.default)('.control-interactive').removeClass('hide');
+        (0, jquery_1.default)('.control-artistic').addClass('hide');
+        init();
+    });
+    constants_1.controls.artistic.addEventListener('click', () => {
+        interactive = false;
+        constants_1.body.setAttribute('class', 'artistic');
+        constants_1.svg.main.setAttribute('class', 'artistic');
+        constants_1.svg.background.setAttribute('class', 'show');
+        (0, jquery_1.default)('.control-interactive').addClass('hide');
+        (0, jquery_1.default)('.control-artistic').removeClass('hide');
+        init();
+    });
 }
 /** Generate Set Of Points */
 function generatePoints() {
@@ -123,7 +123,7 @@ function renderPoints(points) {
         circle.setAttribute('cx', `${point.x}`);
         circle.setAttribute('cy', `${point.y}`);
         circle.setAttribute('r', '10');
-        circle.setAttribute('fill', '#FF8B00');
+        circle.setAttribute('fill', `rgb(${constants_1.ORANGE[0]}, ${constants_1.ORANGE[1]}, ${constants_1.ORANGE[2]})`);
         circle.setAttribute('class', 'point');
         circle.setAttribute('id', `pt-${i}`);
         if (interactive)
@@ -157,7 +157,7 @@ function renderTriangles(triangles) {
         }
         else {
             tri.setAttribute('fill', 'transparent');
-            tri.setAttribute('stroke', '#56d066');
+            tri.setAttribute('stroke', `rgb(${constants_1.GREEN[0]}, ${constants_1.GREEN[1]}, ${constants_1.GREEN[2]})`);
         }
         constants_1.svg.triangles.appendChild(tri);
     }
@@ -168,6 +168,10 @@ function renderTriangles(triangles) {
 /** Initialise Interactive Functionality */
 function initInteractive() {
     constants_1.slider.input.value = constants_1.INIT_NUM_POINTS;
+    constants_1.controls.refresh.setAttribute('class', 'flat dark');
+    constants_1.controls.interactive.setAttribute('class', 'flat light hide');
+    constants_1.controls.artistic.setAttribute('class', 'flat dark show');
+    // TODO: refactor?
     updatePointsSlider();
     window.addEventListener("resize", updatePointsSlider);
     constants_1.slider.input.addEventListener('input', updatePointsSlider);
@@ -264,6 +268,10 @@ function initArtistic() {
     numPoints = 36;
     colour1 = constants_1.ORANGE;
     colour2 = constants_1.PURPLE;
+    constants_1.controls.refresh.setAttribute('class', 'flat light');
+    constants_1.controls.interactive.setAttribute('class', 'flat light show');
+    constants_1.controls.artistic.setAttribute('class', 'flat dark hide');
+    // TODO: refactor?
     let colourOne = document.getElementById('colour1');
     if (colourOne) {
         colourOne.addEventListener('change', updateColours);
