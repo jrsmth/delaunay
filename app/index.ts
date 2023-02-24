@@ -299,22 +299,8 @@ function initArtistic(): void {
   controls.refresh.setAttribute('class', 'flat light');
   controls.interactive.setAttribute('class', 'flat light show');
   controls.artistic.setAttribute('class', 'flat dark hide');
-  // TODO: refactor?
 
-  let colourOne = document.getElementById('colour1') as HTMLInputElement;
-  if (colourOne) {
-    colourOne.addEventListener('change', updateColours);
-    colourOne.value = convertToHex(colour1[0], colour1[1], colour1[2]);
-  }
-
-  let colourTwo = document.getElementById('colour2') as HTMLInputElement;
-  if (colourTwo) {
-    colourTwo.addEventListener('change', updateColours);
-    colourTwo.value = convertToHex(colour2[0], colour2[1], colour2[2]);
-  }
-
-  svg.stop1.setAttribute('stop-color', `rgb(${colour1[0]}, ${colour1[1]}, ${colour1[2]})`);
-  svg.stop2.setAttribute('stop-color', `rgb(${colour2[0]}, ${colour2[1]}, ${colour2[2]})`);
+  updateColouredComponents();
 }
 
 /** Generate Colour For Triangle Based on Location */
@@ -367,12 +353,29 @@ function updateColours(event: any): void {
   if (event.target.id === 'colour1') colour1 = [red, green, blue];
   if (event.target.id === 'colour2') colour2 = [red, green, blue];
 
-  initArtistic();
+  updateColouredComponents();
   triangulate(points);
 }
-// FixMe: is there a bug in the colour update?
 
-/** Convert RGB Value to Hex */
+/** Update The Colour-Dependent Components */
+function updateColouredComponents(): void {
+  let colourOne = document.getElementById('colour1') as HTMLInputElement;
+  if (colourOne) {
+    colourOne.addEventListener('change', updateColours);
+    colourOne.value = convertToHex(colour1[0], colour1[1], colour1[2]);
+  }
+
+  let colourTwo = document.getElementById('colour2') as HTMLInputElement;
+  if (colourTwo) {
+    colourTwo.addEventListener('change', updateColours);
+    colourTwo.value = convertToHex(colour2[0], colour2[1], colour2[2]);
+  }
+
+  svg.stop1.setAttribute('stop-color', `rgb(${colour1[0]}, ${colour1[1]}, ${colour1[2]})`);
+  svg.stop2.setAttribute('stop-color', `rgb(${colour2[0]}, ${colour2[1]}, ${colour2[2]})`);
+}
+
+/** Convert RGB Value To Hex */
 function convertToHex(red: number, green: number, blue: number): string {
   let hex = function (rgb: number) {
     return rgb.toString(16);

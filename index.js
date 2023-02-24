@@ -272,19 +272,7 @@ function initArtistic() {
     constants_1.controls.refresh.setAttribute('class', 'flat light');
     constants_1.controls.interactive.setAttribute('class', 'flat light show');
     constants_1.controls.artistic.setAttribute('class', 'flat dark hide');
-    // TODO: refactor?
-    let colourOne = document.getElementById('colour1');
-    if (colourOne) {
-        colourOne.addEventListener('change', updateColours);
-        colourOne.value = convertToHex(colour1[0], colour1[1], colour1[2]);
-    }
-    let colourTwo = document.getElementById('colour2');
-    if (colourTwo) {
-        colourTwo.addEventListener('change', updateColours);
-        colourTwo.value = convertToHex(colour2[0], colour2[1], colour2[2]);
-    }
-    constants_1.svg.stop1.setAttribute('stop-color', `rgb(${colour1[0]}, ${colour1[1]}, ${colour1[2]})`);
-    constants_1.svg.stop2.setAttribute('stop-color', `rgb(${colour2[0]}, ${colour2[1]}, ${colour2[2]})`);
+    updateColouredComponents();
 }
 /** Generate Colour For Triangle Based on Location */
 function generateColour(triangle) {
@@ -321,6 +309,8 @@ function fadeIn() {
 }
 /** Update Colour Scheme */
 function updateColours(event) {
+    console.log(event.target.id);
+    console.log(event.target.value);
     let hexValue = event.target.value.split('#')[1];
     let red = parseInt(hexValue.substring(0, 2), 16);
     let blue = parseInt(hexValue.substring(2, 4), 16);
@@ -329,11 +319,26 @@ function updateColours(event) {
         colour1 = [red, green, blue];
     if (event.target.id === 'colour2')
         colour2 = [red, green, blue];
-    initArtistic();
+    updateColouredComponents();
     triangulate(points);
 }
 // FixMe: is there a bug in the colour update?
-/** Convert RGB Value to Hex */
+/** Update The Colour-Dependent Components */
+function updateColouredComponents() {
+    let colourOne = document.getElementById('colour1');
+    if (colourOne) {
+        colourOne.addEventListener('change', updateColours);
+        colourOne.value = convertToHex(colour1[0], colour1[1], colour1[2]);
+    }
+    let colourTwo = document.getElementById('colour2');
+    if (colourTwo) {
+        colourTwo.addEventListener('change', updateColours);
+        colourTwo.value = convertToHex(colour2[0], colour2[1], colour2[2]);
+    }
+    constants_1.svg.stop1.setAttribute('stop-color', `rgb(${colour1[0]}, ${colour1[1]}, ${colour1[2]})`);
+    constants_1.svg.stop2.setAttribute('stop-color', `rgb(${colour2[0]}, ${colour2[1]}, ${colour2[2]})`);
+}
+/** Convert RGB Value To Hex */
 function convertToHex(red, green, blue) {
     let hex = function (rgb) {
         return rgb.toString(16);
