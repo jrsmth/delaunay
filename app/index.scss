@@ -4,12 +4,12 @@ $dark-secondary: #282a36;
 $dark-tertiary: #44475a;
 $dark-text: #c5c7d3;
 
-$light-primary: #fAfBfC;
+$light-primary: #fafbfc;
 $light-secondary: #f7f8f9;
 $light-tertiary: #f1f2f4;
 $light-text: #44546f;
 
-$darcula-orange: #ffb86c;
+$dracula-orange: #ffb86c;
 
 * {
   box-sizing: border-box;
@@ -51,13 +51,13 @@ body {
 
   &:hover {
     opacity: 1;
-    fill: $darcula-orange;
+    fill: $dracula-orange;
   }
 }
 
 #colour-selection {
   display: flex;
-  gap: 0.5rem;
+  gap: .5rem;
   align-items: center;
 
   #colour1 {
@@ -136,7 +136,6 @@ button.flat {
   border-radius: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  transition: .5s;
   width: 10rem;
 
   &.dark {
@@ -158,7 +157,6 @@ button.flat {
   }
 
   &#refresh {
-    transition: 0s;
     width: unset;
   }
 }
