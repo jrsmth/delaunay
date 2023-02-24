@@ -168,7 +168,6 @@ function initInteractive(): void {
   controls.refresh.setAttribute('class', 'flat dark');
   controls.interactive.setAttribute('class', 'flat light hide');
   controls.artistic.setAttribute('class', 'flat dark show');
-  // TODO: refactor?
 
   updatePointsSlider();
   window.addEventListener("resize", updatePointsSlider);
@@ -181,7 +180,7 @@ function initInteractive(): void {
 
     points = generatePoints();
     triangulate(points);
-  }); // Question: duplicate logic, opportunity to refactor?
+  });
 }
 
 /** Update Number Of Points Slider Value */
