@@ -1,6 +1,6 @@
 # Delaunay
 
-Delaunay Triangulation [Demo](jrsmiffy.github.io/delaunay/)
+Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
 
 [@jrsmiffy/delaunator](https://github.com/JRSmiffy/delaunator)
 
