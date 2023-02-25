@@ -12,7 +12,7 @@
   "author": "JRSmiffy",
   "license": "ISC",
   "dependencies": {
-    "@jrsmiffy/delaunator": "^1.2.0",
+    "@jrsmiffy/delaunator": "^1.4.0",
     "browserify": "^17.0.0",
     "jquery": "^3.6.3",
     "typescript": "^4.9.4"

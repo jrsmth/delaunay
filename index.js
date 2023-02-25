@@ -136,7 +136,7 @@ function renderPoints(points) {
 function renderTriangles(triangles) {
     if (!interactive) {
         triangles = triangles.sort((a, b) => a.pointA.x - b.pointA.x);
-        // Sort only required to fade in triangle from left to right
+        // Sort only required to fade in triangles from left to right
     }
     for (let triangle of triangles) {
         let tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
@@ -369,7 +369,7 @@ var Delaunay = /** @class */ (function () {
                     xList.push(candidate.x);
                     yList.push(candidate.y);
                     newPointRequired = false;
-                } // else console.debug(`Duplicate candidate found! (x: ${candidate.x}, y: ${candidate.y})`);
+                }
             }
         }
         return pointSet;
@@ -385,7 +385,6 @@ var Delaunay = /** @class */ (function () {
         // #1 - Create a super triangle that encloses all points
         var superTriangle = triangle_1.Triangle.generateSuperTriangle(points);
         solution.push(superTriangle);
-        console.log(superTriangle);
         // #2 - Build the solution by adding each vertex incrementally
         for (var _i = 0, points_1 = points; _i < points_1.length; _i++) {
             var point = points_1[_i];
@@ -395,11 +394,7 @@ var Delaunay = /** @class */ (function () {
         solution = triangle_1.Triangle.discardSuperTriangle(solution, superTriangle);
         return solution;
     };
-    Delaunay.render = function () {
-        // TODO: Implement
-    };
     Delaunay.generateRandomPoint = function (width, height) {
-        // TODO: Extract to points?
         var borderRatio = 0.1;
         var xMax = width * (1 - borderRatio);
         var yMax = height * (1 - borderRatio);
@@ -410,26 +405,10 @@ var Delaunay = /** @class */ (function () {
         return new point_1.Point(xCoord, yCoord);
     };
     Delaunay.randomIntFromInterval = function (min, max) {
-        // TODO: Extract to points?
-        // Note: result is inclusive of min/max
-        return Math.floor(Math.random() * (max - min + 1) + min);
+        return Math.floor(Math.random() * (max - min + 1) + min); // Includes min/max
     };
     Delaunay.addVertex = function (solution, vertex) {
-        // TODO: Implement
         var edgeBuffer = [];
-        // #1 - For each triangle in the solution:
-        // If this point lies within said triangle's circumcircle, then discard this triangle but hold onto the edges
-        // for (let i = 0; i < solution.length; i++) {
-        //   const triangle = solution[i];
-        //   if (vertex.isWithinCircumcircle(triangle)) {
-        //     edgeBuffer.push(new Edge(triangle.pointA, triangle.pointB)); // AB edge
-        //     edgeBuffer.push(new Edge(triangle.pointB, triangle.pointC)); // BC edge
-        //     edgeBuffer.push(new Edge(triangle.pointA, triangle.pointC)); // AC edge
-        //
-        //     solution.splice(i);
-        //     i -= 1;
-        //   }
-        // }
         var i = 0;
         while (i < solution.length) {
             var triangle = solution[i];
@@ -510,12 +489,12 @@ var Edge = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Edge.areEqual = function (thisEdge, comparisonEdge) {
+    Edge.prototype.isEqualTo = function (comparisonEdge) {
         // TODO: consider refactor (too much static?)
-        // the edges AB and CD are equal if:
+        // The edges AB and CD are equal if:
         // (A == C && B == D) || (A == D && B == C)
-        var pointA = thisEdge.pointA;
-        var pointB = thisEdge.pointB;
+        var pointA = this.pointA;
+        var pointB = this.pointB;
         var pointC = comparisonEdge.pointA;
         var pointD = comparisonEdge.pointB;
         var ax = pointA.x;
@@ -532,12 +511,12 @@ var Edge = /** @class */ (function () {
         // TODO: sort naming!
         var j = 0;
         while (j < edgeBuffer.length) {
-            // edges stored as eB = [(x1,y1), (x2,y2),    (X1,Y1), (X2,Y2),    ...]
+            // Edges stored as eB = [(x1,y1), (x2,y2),    (X1,Y1), (X2,Y2),    ...]
             var k = j + 1; // next edge
             var thisEdge = edgeBuffer[j];
             while (k < edgeBuffer.length) {
                 var tempEdge = edgeBuffer[k];
-                if (Edge.areEqual(thisEdge, tempEdge)) {
+                if (thisEdge.isEqualTo(tempEdge)) {
                     edgeBuffer.splice(k, 1);
                     edgeBuffer.splice(j, 1);
                     j -= 1;
@@ -640,38 +619,7 @@ var Triangle = /** @class */ (function () {
         return new Triangle(pointA, pointB, pointC);
     };
     Triangle.discardSuperTriangle = function (solution, superTriangle) {
-        // for each triangle in the solution, if any point equals a super triangle point then discard that triangle
-        // for (let i = 0; i < solution.length; i++) {
-        //   const triangle = solution[i];
-        //
-        //   const points = [triangle.pointA, triangle.pointB, triangle.pointC];
-        //   const superPoints = [superTriangle.pointA, superTriangle.pointB, superTriangle.pointC];
-        //   hit: for (const point of points) {
-        //     for (const superPoint of superPoints) {
-        //       if (point.x === superPoint.x || point.y === superPoint.y) {
-        //         solution.splice(i);
-        //         i -= 1;
-        //         continue hit;
-        //       }
-        //     }
-        //   }
-        // if (
-        //   triangle.pointA === superTriangle.pointA ||
-        //   triangle.pointA === superTriangle.pointB ||
-        //   triangle.pointA === superTriangle.pointC ||
-        //   triangle.pointB === superTriangle.pointA ||
-        //   triangle.pointB === superTriangle.pointB ||
-        //   triangle.pointB === superTriangle.pointC ||
-        //   triangle.pointC === superTriangle.pointA ||
-        //   triangle.pointC === superTriangle.pointB ||
-        //   triangle.pointC === superTriangle.pointC
-        // ) {
-        //   solution.splice(i);
-        //   i -= 1;
-        // }
-        // }
-        // Remove any tri that contains a coord of the Super T
-        // for each tri, if any point equals a super T point, remove the tri
+        // For each triangle in the solution, if any point equals a super triangle point then discard that triangle
         var i = 0;
         while (i < solution.length) {
             var points = [solution[i].pointA, solution[i].pointB, solution[i].pointC];
