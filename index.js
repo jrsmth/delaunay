@@ -108,8 +108,7 @@ function triangulate(points) {
     if (!points)
         points = generatePoints();
     let triangulation = delaunay_1.Delaunay.triangulate(points);
-    renderTriangles(triangulation.sort((a, b) => a.pointA.x - b.pointA.x));
-    // TODO: In the library (inc tests): order triangles and their points by x-value
+    renderTriangles(triangulation);
     if (interactive)
         renderPoints(points);
     else
@@ -172,7 +171,6 @@ function initInteractive() {
     constants_1.controls.refresh.setAttribute('class', 'flat dark');
     constants_1.controls.interactive.setAttribute('class', 'flat light hide');
     constants_1.controls.artistic.setAttribute('class', 'flat dark show');
-    // TODO: refactor?
     updatePointsSlider();
     window.addEventListener("resize", updatePointsSlider);
     constants_1.slider.input.addEventListener('input', updatePointsSlider);
@@ -182,7 +180,7 @@ function initInteractive() {
         constants_1.svg.triangles.innerHTML = '';
         points = generatePoints();
         triangulate(points);
-    }); // Question: duplicate logic, opportunity to refactor?
+    });
 }
 /** Update Number Of Points Slider Value */
 function updatePointsSlider() {
@@ -309,8 +307,6 @@ function fadeIn() {
 }
 /** Update Colour Scheme */
 function updateColours(event) {
-    console.log(event.target.id);
-    console.log(event.target.value);
     let hexValue = event.target.value.split('#')[1];
     let red = parseInt(hexValue.substring(0, 2), 16);
     let blue = parseInt(hexValue.substring(2, 4), 16);
@@ -322,7 +318,6 @@ function updateColours(event) {
     updateColouredComponents();
     triangulate(points);
 }
-// FixMe: is there a bug in the colour update?
 /** Update The Colour-Dependent Components */
 function updateColouredComponents() {
     let colourOne = document.getElementById('colour1');

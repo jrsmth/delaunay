@@ -92,8 +92,7 @@ function triangulate(points: Point[]): void {
   if (!points) points = generatePoints();
 
   let triangulation: Triangle[] = Delaunay.triangulate(points);
-  renderTriangles(triangulation.sort((a, b) => a.pointA.x - b.pointA.x));
-  // TODO: In the library (inc tests): order triangles and their points by x-value
+  renderTriangles(triangulation);
 
   if (interactive) renderPoints(points);
   else fadeIn();
