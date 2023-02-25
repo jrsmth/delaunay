@@ -7,8 +7,7 @@ Delaunay Triangulation [Demo](jrsmiffy.github.io/delaunay/)
 ![Example Screenshot](https://user-images.githubusercontent.com/34093915/221354864-f71c18da-7269-4e21-b7a3-c9a56e1affaf.png)
 
 ## Explanation
-- 🧮  For a set of points `P`:
-    - The Delaunay Triangulation `DT(P)`, is such that no point in `P` lies inside the circumcircle of any triangle in `DT(P)`
+- 🧮  For a set of points `P`, `DT(P)` is such that no point in `P` lies inside the circumcircle of any triangle
 - ℹ️  [More info](https://en.wikipedia.org/wiki/Delaunay_triangulation)
 
 ## Notes
