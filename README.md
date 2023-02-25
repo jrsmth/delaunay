@@ -12,4 +12,4 @@ Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
 
 ## Notes
 - 📦  `npm run build --prefix ./app`
-- 🚀  `commit to /main branch -> served by GitHub Pages`
+- 🚀  `/main branch is served by GitHub Pages`
