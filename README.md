@@ -1,20 +1,19 @@
-# Delaunay
-Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
+# Delaunay Triangulation Demo
 
 <br>
 
-## Overview
-* Explanation and presentation
+## Interactive Mode
+![Screenshot 2023-02-25 at 11 38 37](https://user-images.githubusercontent.com/34093915/221354864-f71c18da-7269-4e21-b7a3-c9a56e1affaf.png)
 
 <br>
 
-## Showcase
-* In this project, a vanilla TypeScript `app` is transpiled into JavaScript
-* It is then bundled with [Browserify](https://browserify.org/), so it can be easily consumed by `index.html`
-    * See [package.json](./app/package.json)'s `build` script:
-        * TypeScript Compiler (`tsc`) is used to transpile `.ts` files into `.js`
-        * `browserify` then bundles the `.js` files into an easily-consumed format for `index.html`
-* Use of delaunator...
+## Artistic Mode
+![Screenshot 2023-02-25 at 11 38 49](https://user-images.githubusercontent.com/34093915/221354866-717944a3-f540-47c5-8d56-62f6db33f882.png)
+
+<br>
+
+## Explanation
+* Delaunay is...
 
 <br>
 
@@ -25,3 +24,10 @@ Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
 
 * Release?
 * Deploy? automatically through default GH pages action
+
+* In this project, a vanilla TypeScript `app` is transpiled into JavaScript
+* It is then bundled with [Browserify](https://browserify.org/), so it can be easily consumed by `index.html`
+    * See [package.json](./app/package.json)'s `build` script:
+        * TypeScript Compiler (`tsc`) is used to transpile `.ts` files into `.js`
+        * `browserify` then bundles the `.js` files into an easily-consumed format for `index.html`
+* Use of delaunator...
