@@ -2,13 +2,7 @@
 
 <br>
 
-## Interactive Mode
 ![Screenshot 2023-02-25 at 11 38 37](https://user-images.githubusercontent.com/34093915/221354864-f71c18da-7269-4e21-b7a3-c9a56e1affaf.png)
-
-<br>
-
-## Artistic Mode
-![Screenshot 2023-02-25 at 11 38 49](https://user-images.githubusercontent.com/34093915/221354866-717944a3-f540-47c5-8d56-62f6db33f882.png)
 
 <br>
 
