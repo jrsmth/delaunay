@@ -92,7 +92,7 @@ function triangulate(points: Point[]): void {
   if (!points) points = generatePoints();
 
   let triangulation: Triangle[] = Delaunay.triangulate(points);
-  renderTriangles(triangulation.sort((a, b) => a.pointA.x - b.pointA.x));
+  renderTriangles(triangulation);
 
   if (interactive) renderPoints(points);
   else fadeIn();
@@ -121,6 +121,11 @@ function renderPoints(points: Point[]): void {
 
 /** Render Triangles On Screen */
 function renderTriangles(triangles: Triangle[]): void {
+  if (!interactive) {
+    triangles = triangles.sort((a, b) => a.pointA.x - b.pointA.x);
+    // Sort only required to fade in triangles from left to right
+  }
+
   for (let triangle of triangles) {
     let tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
     tri.setAttribute('class', 'triangle');
