@@ -443,7 +443,6 @@ var Circle = /** @class */ (function () {
     function Circle() {
     }
     Circle.prototype.calculateCenter = function (pointA, pointB, pointC) {
-        // https://stackoverflow.com/questions/32861804/how-to-calculate-the-centre-point-of-a-circle-given-three-points
         var yDeltaOne = pointB.y - pointA.y;
         var xDeltaOne = pointB.x - pointA.x;
         var yDeltaTwo = pointC.y - pointB.y;
@@ -490,7 +489,6 @@ var Edge = /** @class */ (function () {
         configurable: true
     });
     Edge.prototype.isEqualTo = function (comparisonEdge) {
-        // TODO: consider refactor (too much static?)
         // The edges AB and CD are equal if:
         // (A == C && B == D) || (A == D && B == C)
         var pointA = this.pointA;
@@ -508,33 +506,28 @@ var Edge = /** @class */ (function () {
         return (ax === cx && ay === cy && bx === dx && by === dy) || (ax === dx && ay === dy && bx === cx && by === cy);
     };
     Edge.removeDuplicateEdges = function (edgeBuffer) {
-        // TODO: sort naming!
-        var j = 0;
-        while (j < edgeBuffer.length) {
-            // Edges stored as eB = [(x1,y1), (x2,y2),    (X1,Y1), (X2,Y2),    ...]
-            var k = j + 1; // next edge
-            var thisEdge = edgeBuffer[j];
-            while (k < edgeBuffer.length) {
-                var tempEdge = edgeBuffer[k];
+        var thisEdgePosition = 0;
+        while (thisEdgePosition < edgeBuffer.length) {
+            var thisEdge = edgeBuffer[thisEdgePosition];
+            var nextEdgePosition = thisEdgePosition + 1;
+            // for each edge "ahead" of this one, check for equality: if so, then discard this edge and its duplicate
+            while (nextEdgePosition < edgeBuffer.length) {
+                var tempEdge = edgeBuffer[nextEdgePosition];
                 if (thisEdge.isEqualTo(tempEdge)) {
-                    edgeBuffer.splice(k, 1);
-                    edgeBuffer.splice(j, 1);
-                    j -= 1;
-                    k -= 1;
-                    if (j < 0 || j > edgeBuffer.length - 1)
+                    edgeBuffer.splice(nextEdgePosition, 1);
+                    edgeBuffer.splice(thisEdgePosition, 1);
+                    thisEdgePosition -= 1;
+                    nextEdgePosition -= 1;
+                    // counters get decremented to compensate for edge removal
+                    if (thisEdgePosition < 0 || thisEdgePosition > edgeBuffer.length - 1)
                         break;
-                    if (k < 0 || k > edgeBuffer.length - 1)
+                    if (nextEdgePosition < 0 || nextEdgePosition > edgeBuffer.length - 1)
                         break;
                 }
-                k += 1;
+                nextEdgePosition += 1;
             }
-            j += 1;
-        } // properly explain the logic behind this...
-        // for each edge:
-        // for each edge "ahead" of this edge:
-        // compare this edge and this temp edge:
-        // if they share the same coords, they must be equal and so need to be removed
-        // counter gets decremented to compensate for edge removal
+            thisEdgePosition += 1;
+        }
         return edgeBuffer;
     };
     return Edge;
@@ -619,7 +612,7 @@ var Triangle = /** @class */ (function () {
         return new Triangle(pointA, pointB, pointC);
     };
     Triangle.discardSuperTriangle = function (solution, superTriangle) {
-        // For each triangle in the solution, if any point equals a super triangle point then discard that triangle
+        // for each triangle in the solution, if any point equals a super triangle point then discard that triangle
         var i = 0;
         while (i < solution.length) {
             var points = [solution[i].pointA, solution[i].pointB, solution[i].pointC];
