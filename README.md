@@ -1,4 +1,4 @@
-# Delaunay Triangulation Demo
+# Delaunay
 
 <br>
 
