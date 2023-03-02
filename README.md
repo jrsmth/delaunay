@@ -1,5 +1,7 @@
 # Delaunay
 
+[![pages-build-deployment](https://github.com/JRSmiffy/delaunay/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/JRSmiffy/delaunay/actions/workflows/pages/pages-build-deployment)
+
 Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
 
 [@jrsmiffy/delaunator](https://github.com/JRSmiffy/delaunator)
