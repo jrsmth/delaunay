@@ -350,8 +350,8 @@ function updateColours(event: any): void {
   let hexValue = event.target.value.split('#')[1];
 
   let red = parseInt(hexValue.substring(0,2), 16);
-  let blue = parseInt(hexValue.substring(2,4), 16);
-  let green = parseInt(hexValue.substring(4,6), 16);
+  let green = parseInt(hexValue.substring(2,4), 16);
+  let blue = parseInt(hexValue.substring(4,6), 16);
 
   if (event.target.id === 'colour1') colour1 = [red, green, blue];
   if (event.target.id === 'colour2') colour2 = [red, green, blue];
@@ -381,7 +381,7 @@ function updateColouredComponents(): void {
 /** Convert RGB Value To Hex */
 function convertToHex(red: number, green: number, blue: number): string {
   let hex = function (rgb: number) {
-    return rgb.toString(16);
+    return rgb ? rgb.toString(16) : "00";
   };
 
   return `#${hex(red)}${hex(green)}${hex(blue)}`;
