@@ -218,7 +218,11 @@ function makeInteractive(circle: SVGCircleElement): void {
 
   circle.addEventListener(
     'mouseup', () => {
-      if (!drag && selectedElement) removeElement(selectedElement);
+      if (!drag && selectedElement) {
+        removeElement(selectedElement);
+        slider.input.value -= 1;
+        updatePointsSlider();
+      }
     });
 }
 
