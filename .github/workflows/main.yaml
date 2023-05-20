@@ -20,7 +20,8 @@ jobs:
         run: |
           npm ci
           npm run build
-          find /
+          cd ..
+          find .
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
