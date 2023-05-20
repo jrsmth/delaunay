@@ -1,5 +1,7 @@
 [![pages-build-deployment](https://github.com/JRSmiffy/delaunay/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/JRSmiffy/delaunay/actions/workflows/pages/pages-build-deployment)
 
+[//]: # (TODO :: Update badge^^)
+
 # Delaunay
 Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
 
@@ -13,4 +15,4 @@ Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
 
 ## Notes
 - 📦  `npm run build --prefix ./app`
-- 🚀  `main branch is served by GitHub Pages`
+- 🚀  `main` branch is served by [GitHub Pages](./.github/workflows/main.yaml)
