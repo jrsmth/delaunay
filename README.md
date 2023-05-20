@@ -15,4 +15,4 @@ Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
 
 ## Notes
 - 📦  `npm run build --prefix ./app`
-- 🚀  `main` branch is served by [GitHub Pages](./.github/workflows/main.yaml)
+- 🚀  `main branch is served by GitHub Pages`
