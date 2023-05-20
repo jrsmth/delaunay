@@ -16,9 +16,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install and Build 🔧
+        working-directory: ./app
         run: |
           npm ci
-          npm run build --prefix ./app
+          npm run build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
