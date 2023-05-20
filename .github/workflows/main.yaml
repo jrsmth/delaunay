@@ -23,7 +23,7 @@ jobs:
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
-#        with:
-#          folder: build # The folder the action should deploy. // remove?
+        with:
+          folder: .
 
 # Courtesy of https://github.com/marketplace/actions/deploy-to-github-pages
