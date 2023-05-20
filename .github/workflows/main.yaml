@@ -20,7 +20,7 @@ jobs:
         run: |
           npm ci
           npm run build
-          rm ../.gitignore
+          cp .gitignore ../.gitignore
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
