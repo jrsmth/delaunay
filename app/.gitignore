@@ -108,8 +108,3 @@ dist
 
 # CSS Source Mapping (post-processing)
 *.css.map
-
-# Note :: This file is deleted as part of 'Build and Deploy' gh action
-# Note :: This allows index.css and index.html to be commited to the 'gh-pages' branch w/o committing them to 'main'
-./index.js
-./index.css
