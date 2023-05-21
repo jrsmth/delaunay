@@ -220,8 +220,9 @@ function makeInteractive(circle: SVGCircleElement): void {
     'mouseup', () => {
       if (!drag && selectedElement) {
         removeElement(selectedElement);
-        slider.input.value -= 1;
+        slider.input.value = points.length;
         updatePointsSlider();
+        selectedElement = null;
       }
     });
 }
