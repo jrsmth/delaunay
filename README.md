@@ -1,4 +1,4 @@
-[![pages-build-deployment](https://github.com/JRSmiffy/delaunay/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/JRSmiffy/delaunay/actions/workflows/pages/pages-build-deployment)
+[![Build and Deploy](https://github.com/JRSmiffy/delaunay/actions/workflows/main.yaml/badge.svg)](https://github.com/JRSmiffy/delaunay/actions/workflows/main.yaml)
 
 # Delaunay
 Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
