@@ -28,6 +28,7 @@ jobs:
         uses: phips28/gh-action-bump-version@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGEJSON_DIR: './app'
         with:
           major-wording: '[major]'
           minor-wording: '[minor]'
