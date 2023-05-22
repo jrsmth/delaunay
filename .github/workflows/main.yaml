@@ -33,7 +33,6 @@ jobs:
           major-wording: '[major]'
           minor-wording: '[minor]'
           patch-wording: '[patch]'
-          # Providing patch-wording will override commits?? defaulting to a patch bump... extend readme...?
 
 # Courtesy of:
 # https://github.com/marketplace/actions/deploy-to-github-pages
