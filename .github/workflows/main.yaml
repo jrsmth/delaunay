@@ -1,11 +1,11 @@
-name: Build and Deploy
+name: build-deploy-tag
 on:
   push:
-    branches: [ main ]
+    branches: [ main, feature/demo/DEL-40 ]
 permissions:
   contents: write
 jobs:
-  build-and-deploy:
+  build-deploy-tag:
     concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
@@ -24,4 +24,16 @@ jobs:
         with:
           folder: .
 
-# Courtesy of https://github.com/marketplace/actions/deploy-to-github-pages
+      - name: Bump and Tag 🏷️
+        uses: phips28/gh-action-bump-version@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          major-wording: '[major]'
+          minor-wording: '[minor]'
+          patch-wording: '[patch]'
+          # Providing patch-wording will override commits?? defaulting to a patch bump... extend readme...?
+
+# Courtesy of:
+# https://github.com/marketplace/actions/deploy-to-github-pages
+# https://github.com/marketplace/actions/automated-version-bump
