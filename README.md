@@ -14,4 +14,4 @@ Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
 ## Notes
 - 📦  `npm run build --prefix ./app`
 - 🚀  `main branch is served by GitHub Pages`
-- 🏷️  `bump version with commit message "[major / minor / patch]"`
+- 🏷️  `[major/minor/patch] commit message bumps version`
