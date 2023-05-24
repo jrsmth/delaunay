@@ -28,6 +28,7 @@ jobs:
       - name: Add -SNAPSHOT (X) # TODO
         working-directory: ./app
         run: |
+          npm version
           npm version $(cat package.json | jq -r '.version')-SNAPSHOT
 
       - name: Commit -SNAPSHOT (X) # TODO
@@ -55,3 +56,9 @@ jobs:
 
 
 # TODO: rm css and js again! .gitignore copy in the wrong place (need twice?)
+
+
+# Question :: Why about writing your own MAKE script that can be called locally (for MAJOR/MINOR) and from GH (for PATCH)
+# Steps :: drop snapshot, tag, bump version, append snapshot, commit
+# Could turn this into your own github action (npm-package-bump)? Muntjac it... Probs worth a couple of weeks of Spring...
+# Example: https://github.com/relativityboy/npm-auto-snapshot
