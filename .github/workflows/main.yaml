@@ -5,7 +5,7 @@ on:
 permissions:
   contents: write
 jobs:
-  build-deploy-tag:
+  build-tag-deploy:
     concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
@@ -42,3 +42,15 @@ jobs:
 # https://github.com/marketplace/actions/deploy-to-github-pages
 # https://github.com/marketplace/actions/automated-version-bump
 # ... TODO
+
+
+# these are the config words...
+#config words: {
+#  majorWords: [ 'BREAKING CHANGE', 'major' ],
+#  minorWords: [ 'feat', 'minor' ],
+#  patchWords: null,
+#  preReleaseWords: [ 'pre-alpha', 'pre-beta', 'pre-rc' ]
+#}
+
+
+# TODO: rm css and js again! .gitignore copy in the wrong place (need twice?)
