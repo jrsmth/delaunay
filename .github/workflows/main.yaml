@@ -1,7 +1,7 @@
 name: build-deploy-tag
 on:
   push:
-    branches: [ main ]
+    branches: [ main, feature/demo/DEL-40 ]
 permissions:
   contents: write
 jobs:
