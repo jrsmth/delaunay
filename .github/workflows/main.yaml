@@ -28,8 +28,8 @@ jobs:
       - name: Bump and Tag 🏷️
         working-directory: ./app
         run: |
-          npm version patch -m "[release] delaunay-$(cat package.json | jq -r '.version')"
-          git push --tags --dry-run
+          npm version patch
+          git tag "v$(cat package.json | jq -r '.version')" -m "[release] delaunay-$(cat package.json | jq -r '.version')"
 
       - name: Commit Tag (X)
         uses: stefanzweifel/git-auto-commit-action@v4
