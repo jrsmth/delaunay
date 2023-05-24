@@ -1,4 +1,4 @@
-name: build-deploy-tag
+name: build-tag-deploy
 on:
   push:
     branches: [ main, feature/demo/DEL-40 ]
@@ -19,17 +19,26 @@ jobs:
           npm run build
           cp .gitignore ../.gitignore
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: .
-
       - name: Bump and Tag 🏷️
         uses: phips28/gh-action-bump-version@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PACKAGEJSON_DIR: './app'
 
+      - name: Add -SNAPSHOT (X) # TODO
+        working-directory: ./app
+        run: |
+          npm version $(cat package.json | jq -r '.version')-SNAPSHOT
+
+      - name: Commit -SNAPSHOT (X) # TODO
+        uses: stefanzweifel/git-auto-commit-action@v4
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: .
+
 # Courtesy of:
 # https://github.com/marketplace/actions/deploy-to-github-pages
 # https://github.com/marketplace/actions/automated-version-bump
+# ... TODO
