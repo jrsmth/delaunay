@@ -19,23 +19,14 @@ jobs:
           npm run build
           cp .gitignore ../.gitignore
 
-#      - name: Bump and Tag 🏷️ # replace with a simple npm version and commit msg "[release] delaunay-$(cat package.json | jq -r '.version')"
-#        uses: phips28/gh-action-bump-version@master
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          PACKAGEJSON_DIR: './app'
-
       - name: Bump and Tag 🏷️
         working-directory: ./app
         run: |
           npm version patch
           git config user.email "jamesrichardsmith97@gmail.com"
           git config user.name "JRSmiffy"
-          git tag "v$(cat package.json | jq -r '.version')" -m "[release] delaunay-$(cat package.json | jq -r '.version')"
-          git push origin "v$(cat package.json | jq -r '.version')"
-
-      - name: Commit Tag (X)
-        uses: stefanzweifel/git-auto-commit-action@v4
+          git tag "$(cat package.json | jq -r '.version')" -m "[release] delaunay-$(cat package.json | jq -r '.version')"
+          git push origin "$(cat package.json | jq -r '.version')"
 
       - name: Add -SNAPSHOT 📷
         working-directory: ./app
@@ -53,14 +44,6 @@ jobs:
 
 # Courtesy of:
 # https://github.com/marketplace/actions/deploy-to-github-pages
-# https://github.com/marketplace/actions/automated-version-bump
 # https://github.com/marketplace/actions/git-auto-commit
-
-# Note :: Use of the following commit-words will cause bumps according to their level
-# majorWords: [ 'BREAKING CHANGE', 'major' ],
-# minorWords: [ 'feat', 'minor' ],
-# patchWords: null,
-# preReleaseWords: [ 'pre-alpha', 'pre-beta', 'pre-rc' ]
-
 
 # TODO: rm css and js again! .gitignore copy in the wrong place (need twice?)
