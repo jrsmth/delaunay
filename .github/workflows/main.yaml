@@ -51,6 +51,7 @@ jobs:
 #  patchWords: null,
 #  preReleaseWords: [ 'pre-alpha', 'pre-beta', 'pre-rc' ]
 #}
+# Perhaps these are the default and you can overwrite them with an obscure option...?
 
 
 # TODO: rm css and js again! .gitignore copy in the wrong place (need twice?)
