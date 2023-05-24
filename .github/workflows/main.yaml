@@ -29,10 +29,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PACKAGEJSON_DIR: './app'
-        with:
-          major-wording: '[major]'
-          minor-wording: '[minor]'
-          patch-wording: '[patch]'
 
 # Courtesy of:
 # https://github.com/marketplace/actions/deploy-to-github-pages
