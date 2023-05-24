@@ -30,13 +30,16 @@ jobs:
         run: |
           npm version patch -m "[release] delaunay-$(cat package.json | jq -r '.version')"
 
+      - name: Commit Tag (X)
+        uses: stefanzweifel/git-auto-commit-action@v4
+
       - name: Add -SNAPSHOT 📷
         working-directory: ./app
         run: |
           npm version patch --git-tag-version false
           npm version $(cat package.json | jq -r '.version')-SNAPSHOT
 
-      - name: Commit -SNAPSHOT (X) 💾
+      - name: Commit -SNAPSHOT 💾
         uses: stefanzweifel/git-auto-commit-action@v4
 
       - name: Deploy 🚀
