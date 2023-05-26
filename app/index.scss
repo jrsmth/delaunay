@@ -1,0 +1,162 @@
+
+$dark-primary: #1f2029;
+$dark-secondary: #282a36;
+$dark-tertiary: #44475a;
+$dark-text: #c5c7d3;
+
+$light-primary: #fafbfc;
+$light-secondary: #f7f8f9;
+$light-tertiary: #f1f2f4;
+$light-text: #44546f;
+
+$dracula-orange: #ffb86c;
+
+* {
+  box-sizing: border-box;
+  overflow-y: hidden;
+}
+
+body {
+  font-family: Roboto, sans-serif;
+  margin: 0;
+
+  &.artistic {
+    background-color: $light-primary;
+  }
+
+  &.interactive {
+    background-color: $dark-primary;
+  }
+}
+
+.hide {
+  display: none !important;
+}
+
+.show {
+  display: block;
+}
+
+#controls {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.point {
+  opacity: .7;
+  transition: .5s;
+  cursor: move;
+  fill: $light-primary;
+
+  &:hover {
+    opacity: 1;
+    fill: $dracula-orange;
+  }
+}
+
+#colour-selection {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+
+  #colour1 {
+    margin-right: 1rem;
+  }
+}
+
+#number-selection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#range-slider {
+  position: relative;
+  width: 400px;
+  overflow-y: unset;
+}
+
+#slider-input {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  transform: translateY(-50%);
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+#slider-thumb {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 3px solid $light-tertiary;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: $dark-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: $light-primary;
+  z-index: 2;
+  user-select: none;
+}
+
+#slider-line {
+  height: .25rem;
+  width: 100%;
+  background-color: #888;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+#slider-line-fill {
+  position: absolute;
+  height: .25rem;
+  width: 0;
+  background-color: $light-primary;
+}
+
+button.flat {
+  border: 0;
+  cursor: pointer;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  width: 10rem;
+
+  &.dark {
+    color: $dark-text;
+    background: $dark-secondary;
+
+    &:hover {
+      background: $dark-tertiary;
+    }
+  }
+
+  &.light {
+    color: $light-text;
+    background: $light-secondary;
+
+    &:hover {
+      background: $light-tertiary;
+    }
+  }
+
+  &#refresh {
+    width: unset;
+  }
+}

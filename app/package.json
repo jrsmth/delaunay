@@ -1,0 +1,24 @@
+{
+  "name": "app",
+  "version": "1.1.8-SNAPSHOT",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && browserify ./index.js -o ../index.js && sass ./index.scss ../index.css",
+    "gh-build": "npm run build --base-href /"
+  },
+  "keywords": [],
+  "author": "JRSmiffy",
+  "license": "ISC",
+  "dependencies": {
+    "@jrsmiffy/delaunator": "^1.4.3",
+    "browserify": "^17.0.0",
+    "jquery": "^3.6.3",
+    "sass": "^1.62.1",
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.16"
+  }
+}
