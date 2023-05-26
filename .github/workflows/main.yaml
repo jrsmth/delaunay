@@ -27,6 +27,11 @@ jobs:
           git config user.name "JRSmiffy"
           git tag "$(cat package.json | jq -r '.version')" -m "[release] delaunay-$(cat package.json | jq -r '.version')"
           git push origin "$(cat package.json | jq -r '.version')"
+      # set env var for version and reuse...
+      # set git config higher up?
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
 
       - name: Add -SNAPSHOT 📷
         working-directory: ./app
