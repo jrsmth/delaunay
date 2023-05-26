@@ -1,11 +1,11 @@
-name: Build and Deploy
+name: build-tag-deploy
 on:
   push:
     branches: [ main ]
 permissions:
   contents: write
 jobs:
-  build-and-deploy:
+  build-tag-deploy:
     concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
@@ -17,11 +17,44 @@ jobs:
         run: |
           npm ci
           npm run build
-          cp .gitignore ../.gitignore
+
+      - name: Set-up User 🐵
+        uses: fregante/setup-git-user@v2
+
+      - name: Bump and Tag 🏷️
+        working-directory: ./app
+        run: |
+          npm version patch
+          git tag "$(cat package.json | jq -r '.version')" -m "[release] delaunay-$(cat package.json | jq -r '.version')"
+          git push origin "$(cat package.json | jq -r '.version')"
+          echo "VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
+        # Note :: an env var cannot be accessed from a step that defines or updates it
+
+      - name: Release 📦
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION }}
+
+      - name: Add -SNAPSHOT 📷
+        working-directory: ./app
+        run: |
+          npm version patch --git-tag-version false
+          npm version $(cat package.json | jq -r '.version')-SNAPSHOT
+
+      - name: Commit -SNAPSHOT 💾
+        uses: stefanzweifel/git-auto-commit-action@v4
+
+      - name: Prep Deployment ⛽
+        working-directory: ./app
+        run: cp .gitignore ../.gitignore
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: .
 
-# Courtesy of https://github.com/marketplace/actions/deploy-to-github-pages
+# Courtesy of:
+# https://github.com/marketplace/actions/setup-git-user
+# https://github.com/marketplace/actions/gh-release
+# https://github.com/marketplace/actions/git-auto-commit
+# https://github.com/marketplace/actions/deploy-to-github-pages
