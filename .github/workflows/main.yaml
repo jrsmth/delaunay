@@ -19,7 +19,7 @@ jobs:
           npm run build
           cp .gitignore ../.gitignore
 
-      - name: Tag and Release 🏷️
+      - name: Bump and Tag 🏷️
         working-directory: ./app
         run: |
           npm version patch
@@ -27,15 +27,20 @@ jobs:
           git config user.name "JRSmiffy"
           git tag "$(cat package.json | jq -r '.version')" -m "[release] delaunay-$(cat package.json | jq -r '.version')"
           git push origin "$(cat package.json | jq -r '.version')"
+          echo "VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
+
+      - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ cat package.json | jq -r '.version' }}
+          tag_name: ${{ env.VERSION }}
 
-      - name: Prepare -SNAPSHOT 📷
+      - name: Add -SNAPSHOT 📷
         working-directory: ./app
         run: |
           npm version patch --git-tag-version false
           npm version $(cat package.json | jq -r '.version')-SNAPSHOT
+
+      - name: Commit -SNAPSHOT 💾
         uses: stefanzweifel/git-auto-commit-action@v4
 
       - name: Deploy 🚀
