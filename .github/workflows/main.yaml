@@ -1,7 +1,7 @@
 name: build-tag-deploy
 on:
   push:
-    branches: [ main ]
+    branches: [ main, feature/demo/DEL-40 ]
 permissions:
   contents: write
 jobs:
@@ -18,12 +18,13 @@ jobs:
           npm ci
           npm run build
 
+      - name: Set-up User 🐵
+        uses: fregante/setup-git-user@v2
+
       - name: Bump and Tag 🏷️
         working-directory: ./app
         run: |
           npm version patch
-          git config user.email "jamesrichardsmith97@gmail.com"
-          git config user.name "JRSmiffy"
           git tag "$(cat package.json | jq -r '.version')" -m "[release] delaunay-$(cat package.json | jq -r '.version')"
           git push origin "$(cat package.json | jq -r '.version')"
           echo "VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
