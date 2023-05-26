@@ -1,7 +1,7 @@
 name: build-tag-deploy
 on:
   push:
-    branches: [ main, feature/demo/DEL-40 ]
+    branches: [ main ]
 permissions:
   contents: write
 jobs:
@@ -54,6 +54,7 @@ jobs:
           folder: .
 
 # Courtesy of:
+# https://github.com/marketplace/actions/setup-git-user
 # https://github.com/marketplace/actions/gh-release
 # https://github.com/marketplace/actions/git-auto-commit
 # https://github.com/marketplace/actions/deploy-to-github-pages
