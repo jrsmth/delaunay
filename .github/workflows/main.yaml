@@ -1,7 +1,7 @@
 name: build-tag-deploy
 on:
   push:
-    branches: [ main, feature/demo/DEL-40 ]
+    branches: [ main ]
 permissions:
   contents: write
 jobs:
@@ -27,8 +27,9 @@ jobs:
           git tag "$(cat package.json | jq -r '.version')" -m "[release] delaunay-$(cat package.json | jq -r '.version')"
           git push origin "$(cat package.json | jq -r '.version')"
           echo "VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
+        # Note :: an env var cannot be accessed from a step that defines or updates it
 
-      - name: Release
+      - name: Release 📦
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.VERSION }}
@@ -52,7 +53,6 @@ jobs:
           folder: .
 
 # Courtesy of:
-# https://github.com/marketplace/actions/deploy-to-github-pages
+# https://github.com/marketplace/actions/gh-release
 # https://github.com/marketplace/actions/git-auto-commit
-
-# TODO: rm css and js again! .gitignore copy in the wrong place (need twice?)
+# https://github.com/marketplace/actions/deploy-to-github-pages
