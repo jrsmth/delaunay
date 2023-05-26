@@ -112,3 +112,7 @@ dist
 
 # CSS Source Mapping (post-processing)
 *.css.map
+
+# Note :: This file is replaced as part of the 'Build and Deploy' gh action, by a gitignore without the following lines
+# Note :: This allows /app to be commited to the 'main' branch, w/o committing them to 'gh-pages'
+app/
