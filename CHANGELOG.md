@@ -59,7 +59,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.2]: https://github.com/JRSmiffy/delaunay/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/JRSmiffy/delaunay/releases/tag/1.0.1
 
-## Version History
+<br>
+
+# Version History
 - `1.2.x` - Second wave of bug fixes
 - `1.1.x` - First wave of bug fixes and workflow refactor
 - `1.0.x` - Initial release and workflow set-up
