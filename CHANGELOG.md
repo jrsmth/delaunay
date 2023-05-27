@@ -38,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Refactored the `README.md`
 
+<br>
+
 ## [1.0.3] - 22/05/2023
 
 ### Changed
