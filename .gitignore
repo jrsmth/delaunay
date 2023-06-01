@@ -113,7 +113,7 @@ dist
 # CSS Source Mapping (post-processing)
 *.css.map
 
-# Note :: This file is replaced as part of the 'Build and Deploy' gh action, by a gitignore without the following lines
-# Note :: This allows index.js and index.css to be commited to the 'gh-pages' branch, w/o committing them to 'main'
+# Note :: This file is replaced as part of the 'build-tag-deploy' gh action, by a .gitignore w/o the following lines
+# Note :: This allows these files to be commited to the 'gh-pages' branch, w/o committing them to 'main'
 index.js
 index.css
