@@ -218,12 +218,14 @@ function makeInteractive(circle: SVGCircleElement): void {
 
   circle.addEventListener(
     'mouseup', () => {
-      if (!drag && selectedElement) {
-        removeElement(selectedElement);
-        slider.input.value = points.length;
-        updatePointsSlider();
-        selectedElement = null;
-      }
+      selectedElement = null;
+    });
+
+  circle.addEventListener(
+    'dblclick', (event) => {
+      removeElement(event.target as HTMLElement);
+      slider.input.value = points.length;
+      updatePointsSlider();
     });
 }
 
