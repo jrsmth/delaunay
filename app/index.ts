@@ -287,6 +287,7 @@ function deselectElement(): void {
     svg.main.removeEventListener('mousemove', moveElement);
     svg.main.removeEventListener('mouseup', deselectElement);
 
+    currentY -= MENU_HEIGHT_PX;
     points.push(new Point(currentX, currentY));
 
     removeElement(selectedElement);
