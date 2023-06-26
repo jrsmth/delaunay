@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <br>
 
+## [1.1.3] - 26/06/2023
+
+### Added 
+- `dblclick` event listener to delete points, replacing single-click
+- A help tooltip at the top-right of the interactive view
+
+### Fixed
+- [DEL-20 / #2] Moved points were being released lower than intended
+
+### Changed
+- Moved `dark` and `light` CSS classes from within `button.flat` for increased re-usability
+
+<br>
+
 ## [1.1.2] - 27/05/2023
 
 ### Added
