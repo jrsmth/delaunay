@@ -209,12 +209,12 @@ function makeInteractive(circle) {
             selectElement(selectedElement);
     });
     circle.addEventListener('mouseup', () => {
-        if (!drag && selectedElement) {
-            removeElement(selectedElement);
-            constants_1.slider.input.value = points.length;
-            updatePointsSlider();
-            selectedElement = null;
-        }
+        selectedElement = null;
+    });
+    circle.addEventListener('dblclick', (event) => {
+        removeElement(event.target);
+        constants_1.slider.input.value = points.length;
+        updatePointsSlider();
     });
 }
 /** Remove An Element From The Screen */
@@ -262,6 +262,7 @@ function deselectElement() {
         paramHistory += '||' + currentId + '|' + absX + '|' + absY;
         constants_1.svg.main.removeEventListener('mousemove', moveElement);
         constants_1.svg.main.removeEventListener('mouseup', deselectElement);
+        currentY -= constants_1.MENU_HEIGHT_PX;
         points.push(new point_1.Point(currentX, currentY));
         removeElement(selectedElement);
     }

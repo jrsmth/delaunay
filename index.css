@@ -112,6 +112,22 @@ body.interactive {
   background-color: #fafbfc;
 }
 
+.dark {
+  color: #c5c7d3;
+  background: #282a36;
+}
+.dark:hover {
+  background: #44475a;
+}
+
+.light {
+  color: #44546f;
+  background: #f7f8f9;
+}
+.light:hover {
+  background: #f1f2f4;
+}
+
 button.flat {
   border: 0;
   cursor: pointer;
@@ -121,22 +137,39 @@ button.flat {
   letter-spacing: 2px;
   width: 10rem;
 }
-button.flat.dark {
-  color: #c5c7d3;
-  background: #282a36;
-}
-button.flat.dark:hover {
-  background: #44475a;
-}
-button.flat.light {
-  color: #44546f;
-  background: #f7f8f9;
-}
-button.flat.light:hover {
-  background: #f1f2f4;
-}
 button.flat#refresh {
   width: unset;
+}
+
+.tooltip {
+  border-radius: 100px;
+  padding: 0.5rem 1.25rem 0.5rem 1.25rem;
+  margin-left: auto;
+  z-index: 2;
+  font-size: 1.25rem;
+}
+
+.tooltip .tooltiptext {
+  display: flex;
+  margin-right: 2.5rem;
+  visibility: hidden;
+  text-align: center;
+  border-radius: 6px;
+  left: 82.5%;
+  position: absolute;
+  z-index: 1;
+  font-size: initial;
+}
+.tooltip .tooltiptext ul {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+.tooltip .tooltiptext:hover {
+  background: #282a36 !important;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 
 /*# sourceMappingURL=index.css.map */
