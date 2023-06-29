@@ -218,12 +218,14 @@ function makeInteractive(circle: SVGCircleElement): void {
 
   circle.addEventListener(
     'mouseup', () => {
-      if (!drag && selectedElement) {
-        removeElement(selectedElement);
-        slider.input.value = points.length;
-        updatePointsSlider();
-        selectedElement = null;
-      }
+      selectedElement = null;
+    });
+
+  circle.addEventListener(
+    'dblclick', (event) => {
+      removeElement(event.target as HTMLElement);
+      slider.input.value = points.length;
+      updatePointsSlider();
     });
 }
 
@@ -287,6 +289,7 @@ function deselectElement(): void {
     svg.main.removeEventListener('mousemove', moveElement);
     svg.main.removeEventListener('mouseup', deselectElement);
 
+    currentY -= MENU_HEIGHT_PX;
     points.push(new Point(currentX, currentY));
 
     removeElement(selectedElement);
