@@ -164,11 +164,16 @@ button.flat {
 
 .tooltip {
   border-radius: 100px;
-  padding: 0.5rem 1.25rem 0.5rem 1.25rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
   margin-left: auto;
   z-index: 2;
   font-size: 1.25rem;
 
+}
+
+.tooltip-icon {
+  color: $dark-text;
+  font-size: 1.5em !important;
 }
 
 .tooltip .tooltiptext {
@@ -183,6 +188,7 @@ button.flat {
   position: absolute;
   z-index: 1;
   font-size: initial;
+  letter-spacing: 2px;
 
   ul {
     padding-left: 10px !important;
