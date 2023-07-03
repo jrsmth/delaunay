@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <br>
 
-## [1.1.3] - 26/06/2023
+## [1.2.0] - 26/06/2023
 
 ### Added 
 - `dblclick` event listener to delete points, replacing single-click
@@ -81,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <br>
 
+[1.2.0]: https://github.com/JRSmiffy/delaunay/compare/1.1.2...1.2.0
 [1.1.2]: https://github.com/JRSmiffy/delaunay/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/JRSmiffy/delaunay/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/JRSmiffy/delaunay/compare/1.0.4...1.1.0
@@ -90,7 +91,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.1]: https://github.com/JRSmiffy/delaunay/releases/tag/1.0.1
 
 # Version History
-- `1.2.x` - Second wave of bug fixes
+- `1.2.x` - Second wave of bug fixes and interactive tooltip
 - `1.1.x` - First wave of bug fixes and workflow refactor
 - `1.0.x` - Initial release and workflow set-up
 - `0.x.x` - Initial development
