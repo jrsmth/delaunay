@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <br>
 
+## [1.2.1] - 03/07/2023
+
+### Changed
+- [DEL-44] Styling for tooltip text now includes line-spacing 
+- [DEL-44] ? character used as tooltip icon now replaced with fa-question from FontAwesome
+
+<br>
+
 ## [1.2.0] - 26/06/2023
 
 ### Added 
