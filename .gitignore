@@ -110,6 +110,9 @@ dist
 # Transpiled JavaScript Files
 /app/*.js
 
+# Generated versions.ts
+versions.ts
+
 # CSS Source Mapping (post-processing)
 *.css.map
 

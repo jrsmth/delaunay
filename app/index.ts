@@ -1,6 +1,7 @@
 import { Delaunay } from '@jrsmiffy/delaunator/lib/delaunay';
 import { Point } from '@jrsmiffy/delaunator/lib/shapes/point';
 import { Triangle } from '@jrsmiffy/delaunator/lib/shapes/triangle';
+import {DEMO_VERSION, LIB_VERSION} from './versions';
 import { GREEN, ORANGE, PURPLE, body, controls, slider, svg, INIT_NUM_POINTS, MENU_HEIGHT_PX } from './constants';
 import $ from "jquery";
 
@@ -75,6 +76,9 @@ function initControls(): void {
     init();
   });
 
+  controls.help.querySelector('#version-numbers').innerHTML =
+      `<li>Demo version: ${DEMO_VERSION}</li>
+       <li>Library version: ${LIB_VERSION}</li>`
 }
 
 /** Generate Set Of Points */

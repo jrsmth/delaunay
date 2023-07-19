@@ -10,6 +10,7 @@ export const controls: any = {
   refresh: document.getElementById('refresh') as HTMLButtonElement,
   interactive: document.getElementById('interactive') as HTMLButtonElement,
   artistic: document.getElementById('artistic') as HTMLButtonElement,
+  help: document.getElementById('interactive-help') as HTMLDivElement
 }
 
 export const slider: any = {

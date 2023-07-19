@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
+    "create-version-consts": "bash get-versions.sh",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && browserify ./index.js -o ../index.js && sass ./index.scss ../index.css",
+    "build": "npm run create-version-consts && tsc && browserify ./index.js -o ../index.js && sass ./index.scss ../index.css",
     "gh-build": "npm run build --base-href /"
   },
   "keywords": [],
