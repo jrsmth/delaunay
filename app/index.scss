@@ -195,6 +195,12 @@ button.flat {
     padding-right: 10px !important;
   }
 
+  #version-numbers {
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    text-align: left;
+  }
+
   &:hover {
     background: $dark-secondary !important;
   }
