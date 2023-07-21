@@ -170,6 +170,11 @@ button.flat#refresh {
   padding-left: 10px !important;
   padding-right: 10px !important;
 }
+.tooltip .tooltiptext #version-numbers {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  text-align: left;
+}
 .tooltip .tooltiptext:hover {
   background: #282a36 !important;
 }

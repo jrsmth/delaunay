@@ -12,6 +12,7 @@ exports.controls = {
     refresh: document.getElementById('refresh'),
     interactive: document.getElementById('interactive'),
     artistic: document.getElementById('artistic'),
+    help: document.getElementById('interactive-help')
 };
 exports.slider = {
     input: document.getElementById('slider-input'),
@@ -35,6 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const delaunay_1 = require("@jrsmiffy/delaunator/lib/delaunay");
 const point_1 = require("@jrsmiffy/delaunator/lib/shapes/point");
+const versions_1 = require("./versions");
 const constants_1 = require("./constants");
 const jquery_1 = __importDefault(require("jquery"));
 // Demo fields
@@ -95,6 +97,9 @@ function initControls() {
         (0, jquery_1.default)('.control-artistic').removeClass('hide');
         init();
     });
+    constants_1.controls.help.querySelector('#version-numbers').innerHTML =
+        `<li>Demo version: ${versions_1.DEMO_VERSION}</li>
+       <li>Library version: ${versions_1.LIB_VERSION}</li>`;
 }
 /** Generate Set Of Points */
 function generatePoints() {
@@ -350,7 +355,7 @@ function convertToHex(red, green, blue) {
     return `#${hex(red)}${hex(green)}${hex(blue)}`;
 }
 
-},{"./constants":1,"@jrsmiffy/delaunator/lib/delaunay":3,"@jrsmiffy/delaunator/lib/shapes/point":6,"jquery":8}],3:[function(require,module,exports){
+},{"./constants":1,"./versions":9,"@jrsmiffy/delaunator/lib/delaunay":3,"@jrsmiffy/delaunator/lib/shapes/point":6,"jquery":8}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Delaunay = void 0;
@@ -11633,5 +11638,12 @@ if ( typeof noGlobal === "undefined" ) {
 
 return jQuery;
 } );
+
+},{}],9:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEMO_VERSION = exports.LIB_VERSION = void 0;
+exports.LIB_VERSION = '1.4.3';
+exports.DEMO_VERSION = '1.2.2-SNAPSHOT';
 
 },{}]},{},[2]);
