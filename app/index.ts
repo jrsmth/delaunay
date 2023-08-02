@@ -3,7 +3,7 @@ import { Point } from '@jrsmiffy/delaunator/lib/shapes/point';
 import { Triangle } from '@jrsmiffy/delaunator/lib/shapes/triangle';
 import {DEMO_VERSION, LIB_VERSION} from './versions';
 import { GREEN, ORANGE, PURPLE, body, controls, slider, svg, INIT_NUM_POINTS, MENU_HEIGHT_PX } from './constants';
-import $ from "jquery";
+import $ from 'jquery';
 
 // Demo fields
 let points: Point[] = [];
@@ -173,7 +173,9 @@ function renderTriangles(triangles: Triangle[]): void {
 function initInteractive(): void {
   slider.input.value = INIT_NUM_POINTS;
 
-  controls.refresh.setAttribute('class', 'flat dark');
+  controls.info.setAttribute('class', 'flat slim dark');
+  controls.helpTEMP.setAttribute('class', 'flat slim dark');
+  controls.refresh.setAttribute('class', 'flat slim dark');
   controls.interactive.setAttribute('class', 'flat light hide');
   controls.artistic.setAttribute('class', 'flat dark show');
 
@@ -311,7 +313,9 @@ function initArtistic(): void {
   colour1 = ORANGE;
   colour2 = PURPLE;
 
-  controls.refresh.setAttribute('class', 'flat light');
+  controls.info.setAttribute('class', 'flat slim light');
+  controls.helpTEMP.setAttribute('class', 'flat slim light');
+  controls.refresh.setAttribute('class', 'flat slim light');
   controls.interactive.setAttribute('class', 'flat light show');
   controls.artistic.setAttribute('class', 'flat dark hide');
 

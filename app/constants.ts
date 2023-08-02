@@ -7,6 +7,8 @@ export const MENU_HEIGHT_PX: number = 80;
 export const body: HTMLElement = document.getElementsByTagName('body')[0];
 
 export const controls: any = {
+  info: document.getElementById('info') as HTMLButtonElement,
+  helpTEMP: document.getElementById('help') as HTMLButtonElement,
   refresh: document.getElementById('refresh') as HTMLButtonElement,
   interactive: document.getElementById('interactive') as HTMLButtonElement,
   artistic: document.getElementById('artistic') as HTMLButtonElement,

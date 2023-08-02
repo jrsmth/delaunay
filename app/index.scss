@@ -40,7 +40,7 @@ body {
 #controls {
   display: flex;
   gap: 2rem;
-  padding: 1rem;
+  padding: 1rem 2rem;
 }
 
 .point {
@@ -157,9 +157,11 @@ button.flat {
   width: 10rem;
 
 
-  &#refresh {
-    width: unset;
+  &.slim {
+    width: 3rem;
+    height: 3rem;
   }
+
 }
 
 .tooltip {
