@@ -77,8 +77,10 @@ function initControls(): void {
   });
 
   controls.help.querySelector('#version-numbers').innerHTML =
-      `<li>Demo version: ${DEMO_VERSION}</li>
-       <li>Library version: ${LIB_VERSION}</li>`
+      `
+       <li>Demo&nbsp;&nbsp; : ${DEMO_VERSION}</li>
+       <li>Library : ${LIB_VERSION}</li>
+      `
 }
 
 /** Generate Set Of Points */
@@ -174,7 +176,6 @@ function initInteractive(): void {
   slider.input.value = INIT_NUM_POINTS;
 
   controls.info.setAttribute('class', 'flat slim dark');
-  controls.helpTEMP.setAttribute('class', 'flat slim dark');
   controls.refresh.setAttribute('class', 'flat slim dark');
   controls.interactive.setAttribute('class', 'flat light hide');
   controls.artistic.setAttribute('class', 'flat dark show');
@@ -314,7 +315,6 @@ function initArtistic(): void {
   colour2 = PURPLE;
 
   controls.info.setAttribute('class', 'flat slim light');
-  controls.helpTEMP.setAttribute('class', 'flat slim light');
   controls.refresh.setAttribute('class', 'flat slim light');
   controls.interactive.setAttribute('class', 'flat light show');
   controls.artistic.setAttribute('class', 'flat dark hide');
