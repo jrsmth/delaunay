@@ -9,10 +9,11 @@ exports.INIT_NUM_POINTS = 7;
 exports.MENU_HEIGHT_PX = 80;
 exports.body = document.getElementsByTagName('body')[0];
 exports.controls = {
+    help: document.getElementById('interactive-help'),
+    info: document.getElementById('info'),
     refresh: document.getElementById('refresh'),
     interactive: document.getElementById('interactive'),
     artistic: document.getElementById('artistic'),
-    help: document.getElementById('interactive-help')
 };
 exports.slider = {
     input: document.getElementById('slider-input'),
@@ -98,8 +99,10 @@ function initControls() {
         init();
     });
     constants_1.controls.help.querySelector('#version-numbers').innerHTML =
-        `<li>Demo version: ${versions_1.DEMO_VERSION}</li>
-       <li>Library version: ${versions_1.LIB_VERSION}</li>`;
+        `
+       <li>Demo&nbsp;&nbsp; : ${versions_1.DEMO_VERSION}</li>
+       <li>Library : ${versions_1.LIB_VERSION}</li>
+      `;
 }
 /** Generate Set Of Points */
 function generatePoints() {
@@ -177,7 +180,8 @@ function renderTriangles(triangles) {
 /** Initialise Interactive Functionality */
 function initInteractive() {
     constants_1.slider.input.value = constants_1.INIT_NUM_POINTS;
-    constants_1.controls.refresh.setAttribute('class', 'flat dark');
+    constants_1.controls.info.setAttribute('class', 'flat slim dark');
+    constants_1.controls.refresh.setAttribute('class', 'flat slim dark');
     constants_1.controls.interactive.setAttribute('class', 'flat light hide');
     constants_1.controls.artistic.setAttribute('class', 'flat dark show');
     updatePointsSlider();
@@ -281,7 +285,8 @@ function initArtistic() {
     numPoints = 36;
     colour1 = constants_1.ORANGE;
     colour2 = constants_1.PURPLE;
-    constants_1.controls.refresh.setAttribute('class', 'flat light');
+    constants_1.controls.info.setAttribute('class', 'flat slim light');
+    constants_1.controls.refresh.setAttribute('class', 'flat slim light');
     constants_1.controls.interactive.setAttribute('class', 'flat light show');
     constants_1.controls.artistic.setAttribute('class', 'flat dark hide');
     updateColouredComponents();
@@ -11644,6 +11649,6 @@ return jQuery;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DEMO_VERSION = exports.LIB_VERSION = void 0;
 exports.LIB_VERSION = '1.4.3';
-exports.DEMO_VERSION = '1.2.2-SNAPSHOT';
+exports.DEMO_VERSION = '1.2.3-SNAPSHOT';
 
 },{}]},{},[2]);
