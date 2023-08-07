@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <br>
 
+## [1.2.3] - 04/08/2023
+
+### Changed
+- [DEL-43-44] Refactored tooltip styling
+
+<br>
+
+## [1.2.2] - 20/07/2023
+
+### Added
+- [DEL-43] Added get-version.sh script to retrieve info from package.json's
+
+### Changed
+- [DEL-43] Updated styling and template for version display
+
+<br>
+
 ## [1.2.1] - 03/07/2023
 
 ### Changed
@@ -89,6 +106,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <br>
 
+[1.2.3]: https://github.com/JRSmiffy/delaunay/compare/1.2.2...1.2.3
+[1.2.2]: https://github.com/JRSmiffy/delaunay/compare/1.2.1...1.2.2
+[1.2.1]: https://github.com/JRSmiffy/delaunay/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/JRSmiffy/delaunay/compare/1.1.2...1.2.0
 [1.1.2]: https://github.com/JRSmiffy/delaunay/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/JRSmiffy/delaunay/compare/1.1.0...1.1.1
@@ -99,6 +119,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.1]: https://github.com/JRSmiffy/delaunay/releases/tag/1.0.1
 
 # Version History
+- `1.3.x` - Circumcircle toggle and minor fix/refactor
 - `1.2.x` - Second wave of bug fixes and interactive tooltip
 - `1.1.x` - First wave of bug fixes and workflow refactor
 - `1.0.x` - Initial release and workflow set-up
