@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <br>
 
+## [1.3.0] - 07/08/2023
+
+### Added
+- [DEL-31] Added toggle mechanism for displaying a triangle's circum-circle when clicking inside its body
+
+<br>
+
 ## [1.2.3] - 04/08/2023
 
 ### Changed

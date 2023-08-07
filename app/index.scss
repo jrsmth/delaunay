@@ -55,6 +55,16 @@ body {
   }
 }
 
+.triangle {
+  transition: 300ms;
+
+  &:hover {
+    cursor: pointer;
+    fill: $dark-tertiary;
+    transition: 300ms;
+  }
+}
+
 #colour-selection {
   display: flex;
   gap: .5rem;

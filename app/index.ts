@@ -4,6 +4,7 @@ import { Triangle } from '@jrsmiffy/delaunator/lib/shapes/triangle';
 import {DEMO_VERSION, LIB_VERSION} from './versions';
 import { GREEN, ORANGE, PURPLE, body, controls, slider, svg, INIT_NUM_POINTS, MENU_HEIGHT_PX } from './constants';
 import $ from 'jquery';
+import {Circle} from "@jrsmiffy/delaunator/lib/shapes/circle";
 
 // Demo fields
 let points: Point[] = [];
@@ -89,6 +90,7 @@ function generatePoints(): Point[] {
   const svgHeight: number = window.innerHeight - MENU_HEIGHT_PX;
 
   svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
+  svg.circumCircles.innerHTML = '';
 
   return Delaunay.generatePoints(svgWidth, svgHeight, numPoints);
 }
@@ -132,9 +134,23 @@ function renderTriangles(triangles: Triangle[]): void {
     // Sort only required to fade in triangles from left to right
   }
 
+  let i = 0;
   for (let triangle of triangles) {
     let tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
     tri.setAttribute('class', 'triangle');
+    tri.setAttribute('circum-circle-id', i.toString())
+
+    tri.addEventListener('click', (event) => {
+      let triangleSVG = event.target as HTMLElement;
+      let circumCircId = parseInt(triangleSVG.getAttribute('circum-circle-id')!);
+
+      let targetCirc = svg.circumCircles.children[circumCircId];
+      if ('none' == targetCirc.style.display) {
+        targetCirc.style.display = ''
+      } else {
+        targetCirc.style.display = 'none';
+      }
+    })
 
     let pointA = svg.main.createSVGPoint();
     pointA.x = triangle.pointA.x;
@@ -151,6 +167,9 @@ function renderTriangles(triangles: Triangle[]): void {
     pointC.y = triangle.pointC.y;
     tri.points.appendItem(pointC);
 
+    createCircumCircleSVG(triangle, i);
+
+    i++;
     if (!interactive) {
       let colour: number[] = generateColour(triangle);
       tri.setAttribute('fill', `rgb(${colour[0]}, ${colour[1]}, ${colour[2]})`);
@@ -166,6 +185,29 @@ function renderTriangles(triangles: Triangle[]): void {
 
     svg.triangles.appendChild(tri);
   }
+}
+
+function createCircumCircleSVG(triangle: Triangle, index: number) {
+
+  let pointA = triangle.pointA;
+  let pointB = triangle.pointB;
+  let pointC = triangle.pointC;
+
+  let circumCircle = new Circle();
+  let center = circumCircle.calculateCenter(pointA, pointB, pointC);
+  let radius = circumCircle.calculateRadius(triangle, center);
+
+  let circumSVG: SVGCircleElement = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
+  circumSVG.setAttribute('cx', center.x.toString())
+  circumSVG.setAttribute('cy', center.y.toString())
+  circumSVG.setAttribute('r', radius.toString())
+  circumSVG.setAttribute('fill', 'transparent');
+  circumSVG.setAttribute('stroke', 'white')
+  circumSVG.setAttribute('id', `circum-circle-${index}`);
+  circumSVG.style.display = 'none'
+
+  svg.circumCircles.appendChild(circumSVG);
 }
 
 // *****************************
@@ -245,6 +287,7 @@ function removeElement(element: HTMLElement): void {
 
   svg.points.innerHTML = '';
   svg.triangles.innerHTML = '';
+  svg.circumCircles.innerHTML = '';
 
   triangulate(points);
 }
