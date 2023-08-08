@@ -13,4 +13,6 @@ Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
 
 ## Notes
 - 📦  `npm run build --prefix ./app`
+  - For Windows users, use Git Bash (or WSL) for building
+  - `jq` is not included with Git Bash, so you can try `curl -L -o /usr/bin/jq.exe https://github.com/stedolan/jq/releases/latest/download/jq-win64.exe` to add it
 - 🚀  `main branch is served by GitHub Pages`

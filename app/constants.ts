@@ -25,6 +25,7 @@ export const svg: any = {
   background: document.getElementById('artistic-background'),
   points: document.getElementById('points'),
   triangles: document.getElementById('triangles'),
+  circumCircles: document.getElementById('circum-circles'),
   stop1: document.getElementById('stop1'),
   stop2: document.getElementById('stop2')
 }
