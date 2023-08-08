@@ -146,7 +146,7 @@ function renderTriangles(triangles: Triangle[]): void {
 
       let targetCirc = svg.circumCircles.children[circumCircId];
       if ('none' == targetCirc.style.display) {
-        targetCirc.style.display = ''
+        targetCirc.style.display = '';
       } else {
         targetCirc.style.display = 'none';
       }
@@ -187,25 +187,25 @@ function renderTriangles(triangles: Triangle[]): void {
   }
 }
 
-function createCircumCircleSVG(triangle: Triangle, index: number) {
+function createCircumCircleSVG(triangle: Triangle, index: number): void {
 
-  let pointA = triangle.pointA;
-  let pointB = triangle.pointB;
-  let pointC = triangle.pointC;
+  const pointA = triangle.pointA;
+  const pointB = triangle.pointB;
+  const pointC = triangle.pointC;
 
-  let circumCircle = new Circle();
-  let center = circumCircle.calculateCenter(pointA, pointB, pointC);
-  let radius = circumCircle.calculateRadius(triangle, center);
+  const circumCircle = new Circle();
+  const center = circumCircle.calculateCenter(pointA, pointB, pointC);
+  const radius = circumCircle.calculateRadius(triangle, center);
 
-  let circumSVG: SVGCircleElement = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  const circumSVG: SVGCircleElement = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 
-  circumSVG.setAttribute('cx', center.x.toString())
-  circumSVG.setAttribute('cy', center.y.toString())
-  circumSVG.setAttribute('r', radius.toString())
+  circumSVG.setAttribute('cx', center.x.toString());
+  circumSVG.setAttribute('cy', center.y.toString());
+  circumSVG.setAttribute('r', radius.toString());
   circumSVG.setAttribute('fill', 'transparent');
-  circumSVG.setAttribute('stroke', 'white')
+  circumSVG.setAttribute('stroke', 'white');
   circumSVG.setAttribute('id', `circum-circle-${index}`);
-  circumSVG.style.display = 'none'
+  circumSVG.style.display = 'none';
 
   svg.circumCircles.appendChild(circumSVG);
 }
@@ -237,7 +237,7 @@ function initInteractive(): void {
 }
 
 /** Update Number Of Points Slider Value */
-function updatePointsSlider() {
+function updatePointsSlider(): void {
   slider.thumb.innerHTML = slider.input.value;
 
   const position = (parseInt(slider.input.value) / parseInt(slider.input.max));
@@ -333,7 +333,7 @@ function moveElement(event: any): void {
 /** Deselect The Current Element Being Interacted With */
 function deselectElement(): void {
   if (selectedElement) {
-    selectedElement.setAttribute('pointer-events', 'all')
+    selectedElement.setAttribute('pointer-events', 'all');
     paramHistory += '||' + currentId + '|' + absX + '|' + absY;
 
     svg.main.removeEventListener('mousemove', moveElement);
@@ -369,7 +369,7 @@ function initArtistic(): void {
 function generateColour(triangle: Triangle): number[] {
   let xCoords = [triangle.pointA.x, triangle.pointB.x, triangle.pointC.x].sort();
 
-  let stopColour = (xCoords[0] / window.innerWidth) // 0 < x < 1
+  let stopColour = (xCoords[0] / window.innerWidth); // 0 < x < 1
   let colour: number[] = [];
 
   for (let i = 0; i < 3; i++) {
