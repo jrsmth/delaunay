@@ -25,6 +25,7 @@ exports.svg = {
     background: document.getElementById('artistic-background'),
     points: document.getElementById('points'),
     triangles: document.getElementById('triangles'),
+    circumCircles: document.getElementById('circum-circles'),
     stop1: document.getElementById('stop1'),
     stop2: document.getElementById('stop2')
 };
@@ -40,6 +41,7 @@ const point_1 = require("@jrsmiffy/delaunator/lib/shapes/point");
 const versions_1 = require("./versions");
 const constants_1 = require("./constants");
 const jquery_1 = __importDefault(require("jquery"));
+const circle_1 = require("@jrsmiffy/delaunator/lib/shapes/circle");
 // Demo fields
 let points = [];
 let numPoints = constants_1.INIT_NUM_POINTS;
@@ -109,6 +111,7 @@ function generatePoints() {
     const svgWidth = window.innerWidth;
     const svgHeight = window.innerHeight - constants_1.MENU_HEIGHT_PX;
     constants_1.svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
+    constants_1.svg.circumCircles.innerHTML = '';
     return delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, numPoints);
 }
 /** Compute Triangulation & Render */
@@ -146,9 +149,22 @@ function renderTriangles(triangles) {
         triangles = triangles.sort((a, b) => a.pointA.x - b.pointA.x);
         // Sort only required to fade in triangles from left to right
     }
+    let i = 0;
     for (let triangle of triangles) {
         let tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
         tri.setAttribute('class', 'triangle');
+        tri.setAttribute('circum-circle-id', i.toString());
+        tri.addEventListener('click', (event) => {
+            let triangleSVG = event.target;
+            let circumCircId = parseInt(triangleSVG.getAttribute('circum-circle-id'));
+            let targetCirc = constants_1.svg.circumCircles.children[circumCircId];
+            if ('none' == targetCirc.style.display) {
+                targetCirc.style.display = '';
+            }
+            else {
+                targetCirc.style.display = 'none';
+            }
+        });
         let pointA = constants_1.svg.main.createSVGPoint();
         pointA.x = triangle.pointA.x;
         pointA.y = triangle.pointA.y;
@@ -161,6 +177,8 @@ function renderTriangles(triangles) {
         pointC.x = triangle.pointC.x;
         pointC.y = triangle.pointC.y;
         tri.points.appendItem(pointC);
+        createCircumCircleSVG(triangle, i);
+        i++;
         if (!interactive) {
             let colour = generateColour(triangle);
             tri.setAttribute('fill', `rgb(${colour[0]}, ${colour[1]}, ${colour[2]})`);
@@ -173,6 +191,23 @@ function renderTriangles(triangles) {
         }
         constants_1.svg.triangles.appendChild(tri);
     }
+}
+function createCircumCircleSVG(triangle, index) {
+    const pointA = triangle.pointA;
+    const pointB = triangle.pointB;
+    const pointC = triangle.pointC;
+    const circumCircle = new circle_1.Circle();
+    const center = circumCircle.calculateCenter(pointA, pointB, pointC);
+    const radius = circumCircle.calculateRadius(triangle, center);
+    const circumSVG = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circumSVG.setAttribute('cx', center.x.toString());
+    circumSVG.setAttribute('cy', center.y.toString());
+    circumSVG.setAttribute('r', radius.toString());
+    circumSVG.setAttribute('fill', 'transparent');
+    circumSVG.setAttribute('stroke', 'white');
+    circumSVG.setAttribute('id', `circum-circle-${index}`);
+    circumSVG.style.display = 'none';
+    constants_1.svg.circumCircles.appendChild(circumSVG);
 }
 // *****************************
 // *** Interactive Functions ***
@@ -233,6 +268,7 @@ function removeElement(element) {
         points = points.filter(pt => pt.x !== parseInt(uniqueX));
     constants_1.svg.points.innerHTML = '';
     constants_1.svg.triangles.innerHTML = '';
+    constants_1.svg.circumCircles.innerHTML = '';
     triangulate(points);
 }
 /** Select An Element To Interact With */
@@ -360,7 +396,7 @@ function convertToHex(red, green, blue) {
     return `#${hex(red)}${hex(green)}${hex(blue)}`;
 }
 
-},{"./constants":1,"./versions":9,"@jrsmiffy/delaunator/lib/delaunay":3,"@jrsmiffy/delaunator/lib/shapes/point":6,"jquery":8}],3:[function(require,module,exports){
+},{"./constants":1,"./versions":9,"@jrsmiffy/delaunator/lib/delaunay":3,"@jrsmiffy/delaunator/lib/shapes/circle":4,"@jrsmiffy/delaunator/lib/shapes/point":6,"jquery":8}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Delaunay = void 0;
@@ -11649,6 +11685,6 @@ return jQuery;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DEMO_VERSION = exports.LIB_VERSION = void 0;
 exports.LIB_VERSION = '1.4.3';
-exports.DEMO_VERSION = '1.2.3-SNAPSHOT';
+exports.DEMO_VERSION = '1.2.4-SNAPSHOT';
 
 },{}]},{},[2]);

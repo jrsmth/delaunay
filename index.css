@@ -39,6 +39,15 @@ body.interactive {
   fill: #ffb86c;
 }
 
+.triangle {
+  transition: 300ms;
+}
+.triangle:hover {
+  cursor: pointer;
+  fill: #44475a;
+  transition: 300ms;
+}
+
 #colour-selection {
   display: flex;
   gap: 0.5rem;
