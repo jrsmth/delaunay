@@ -6,7 +6,7 @@
   "scripts": {
     "create-version-consts": "bash get-versions.sh",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run create-version-consts && tsc && browserify ./index.js -o ../index.js && sass ./index.scss ../index.css",
+    "build": "tsc && browserify ./index.js -o ../index.js && sass ./index.scss ../index.css",
     "gh-build": "npm run build --base-href /"
   },
   "keywords": [],
