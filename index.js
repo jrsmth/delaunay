@@ -1,7 +1,15 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.svg = exports.slider = exports.controls = exports.body = exports.MENU_HEIGHT_PX = exports.INIT_NUM_POINTS = exports.PURPLE = exports.ORANGE = exports.GREEN = void 0;
+exports.svg = exports.slider = exports.controls = exports.body = exports.MENU_HEIGHT_PX = exports.INIT_NUM_POINTS = exports.PURPLE = exports.ORANGE = exports.GREEN = exports.DEMO_VERSION = exports.LIB_VERSION = void 0;
+const package_json_1 = __importDefault(require("./package.json"));
+exports.LIB_VERSION = package_json_1.default
+    .dependencies["@jrsmiffy/delaunator"]
+    .replace('^', '');
+exports.DEMO_VERSION = package_json_1.default.version;
 exports.GREEN = [80, 250, 123];
 exports.ORANGE = [227, 138, 88];
 exports.PURPLE = [208, 118, 196];
@@ -30,7 +38,7 @@ exports.svg = {
     stop2: document.getElementById('stop2')
 };
 
-},{}],2:[function(require,module,exports){
+},{"./package.json":9}],2:[function(require,module,exports){
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -38,7 +46,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const delaunay_1 = require("@jrsmiffy/delaunator/lib/delaunay");
 const point_1 = require("@jrsmiffy/delaunator/lib/shapes/point");
-const versions_1 = require("./versions");
 const constants_1 = require("./constants");
 const jquery_1 = __importDefault(require("jquery"));
 const circle_1 = require("@jrsmiffy/delaunator/lib/shapes/circle");
@@ -102,8 +109,8 @@ function initControls() {
     });
     constants_1.controls.help.querySelector('#version-numbers').innerHTML =
         `
-       <li>Demo&nbsp;&nbsp; : ${versions_1.DEMO_VERSION}</li>
-       <li>Library : ${versions_1.LIB_VERSION}</li>
+       <li>Demo&nbsp;&nbsp; : ${constants_1.DEMO_VERSION}</li>
+       <li>Library : ${constants_1.LIB_VERSION}</li>
       `;
 }
 /** Generate Set Of Points */
@@ -396,7 +403,7 @@ function convertToHex(red, green, blue) {
     return `#${hex(red)}${hex(green)}${hex(blue)}`;
 }
 
-},{"./constants":1,"./versions":9,"@jrsmiffy/delaunator/lib/delaunay":3,"@jrsmiffy/delaunator/lib/shapes/circle":4,"@jrsmiffy/delaunator/lib/shapes/point":6,"jquery":8}],3:[function(require,module,exports){
+},{"./constants":1,"@jrsmiffy/delaunator/lib/delaunay":3,"@jrsmiffy/delaunator/lib/shapes/circle":4,"@jrsmiffy/delaunator/lib/shapes/point":6,"jquery":8}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Delaunay = void 0;
@@ -11681,10 +11688,30 @@ return jQuery;
 } );
 
 },{}],9:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DEMO_VERSION = exports.LIB_VERSION = void 0;
-exports.LIB_VERSION = '1.4.3';
-exports.DEMO_VERSION = '1.3.0-SNAPSHOT';
+module.exports={
+  "name": "app",
+  "version": "1.3.1-SNAPSHOT",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "create-version-consts": "bash get-versions.sh",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && browserify ./index.js -o ../index.js && sass ./index.scss ../index.css",
+    "gh-build": "npm run build --base-href /"
+  },
+  "keywords": [],
+  "author": "JRSmiffy",
+  "license": "ISC",
+  "dependencies": {
+    "@jrsmiffy/delaunator": "^1.4.3",
+    "browserify": "^17.0.0",
+    "jquery": "^3.6.3",
+    "sass": "^1.62.1",
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.16"
+  }
+}
 
 },{}]},{},[2]);
