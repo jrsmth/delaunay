@@ -1,3 +1,13 @@
+
+import packageJSON from './package.json'
+
+export const LIB_VERSION = packageJSON
+    .dependencies
+    ["@jrsmiffy/delaunator"]
+    .replace('^', '');
+
+export const DEMO_VERSION = packageJSON.version
+
 export const GREEN: [number, number, number] = [80, 250, 123];
 export const ORANGE: [number, number, number] = [227, 138, 88];
 export const PURPLE: [number, number, number] = [208, 118, 196];
