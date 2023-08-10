@@ -11685,6 +11685,6 @@ return jQuery;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DEMO_VERSION = exports.LIB_VERSION = void 0;
 exports.LIB_VERSION = '1.4.3';
-exports.DEMO_VERSION = '1.2.4-SNAPSHOT';
+exports.DEMO_VERSION = '1.3.0-SNAPSHOT';
 
 },{}]},{},[2]);
