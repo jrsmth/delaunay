@@ -1,11 +1,7 @@
 
 import packageJSON from './package.json'
 
-export const LIB_VERSION = packageJSON
-    .dependencies
-    ["@jrsmiffy/delaunator"]
-    .replace('^', '');
-
+export const LIB_VERSION = packageJSON.dependencies["@jrsmiffy/delaunator"].replace('^', '');
 export const DEMO_VERSION = packageJSON.version
 
 export const GREEN: [number, number, number] = [80, 250, 123];
@@ -35,7 +31,7 @@ export const svg: any = {
   background: document.getElementById('artistic-background'),
   points: document.getElementById('points'),
   triangles: document.getElementById('triangles'),
-  circumCircles: document.getElementById('circum-circles'),
+  circumcircles: document.getElementById('circumcircles'),
   stop1: document.getElementById('stop1'),
   stop2: document.getElementById('stop2')
 }

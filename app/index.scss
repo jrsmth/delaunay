@@ -9,11 +9,13 @@ $light-secondary: #f7f8f9;
 $light-tertiary: #f1f2f4;
 $light-text: #44546f;
 
+$dracula-blue: #8be9fd;
 $dracula-orange: #ffb86c;
 
 * {
   box-sizing: border-box;
   overflow-y: hidden;
+  user-select: none;
 }
 
 body {
@@ -60,9 +62,13 @@ body {
 
   &:hover {
     cursor: pointer;
-    fill: $dark-tertiary;
-    transition: 300ms;
+    fill: rgba(80, 250, 123, 0.1);
   }
+}
+
+.circumcircle {
+  fill: transparent;
+  stroke: $dracula-blue;
 }
 
 #colour-selection {
@@ -122,7 +128,6 @@ body {
   font-size: 1rem;
   color: $light-tertiary;
   z-index: 2;
-  user-select: none;
 }
 
 #slider-line {

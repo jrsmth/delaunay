@@ -1,9 +1,11 @@
+import { GREEN, ORANGE, PURPLE } from './constants';
+import { body, controls, slider, svg, } from './constants';
+import { INIT_NUM_POINTS, MENU_HEIGHT_PX, DEMO_VERSION, LIB_VERSION } from './constants';
 import { Delaunay } from '@jrsmiffy/delaunator/lib/delaunay';
 import { Point } from '@jrsmiffy/delaunator/lib/shapes/point';
 import { Triangle } from '@jrsmiffy/delaunator/lib/shapes/triangle';
-import { GREEN, ORANGE, PURPLE, body, controls, slider, svg, INIT_NUM_POINTS, MENU_HEIGHT_PX, DEMO_VERSION, LIB_VERSION } from './constants';
+import { Circle } from "@jrsmiffy/delaunator/lib/shapes/circle";
 import $ from 'jquery';
-import {Circle} from "@jrsmiffy/delaunator/lib/shapes/circle";
 
 // Demo fields
 let points: Point[] = [];
@@ -89,7 +91,7 @@ function generatePoints(): Point[] {
   const svgHeight: number = window.innerHeight - MENU_HEIGHT_PX;
 
   svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
-  svg.circumCircles.innerHTML = '';
+  svg.circumcircles.innerHTML = '';
 
   return Delaunay.generatePoints(svgWidth, svgHeight, numPoints);
 }
@@ -115,7 +117,7 @@ function renderPoints(points: Point[]): void {
     circle.setAttribute('cx', `${point.x}`);
     circle.setAttribute('cy', `${point.y}`);
     circle.setAttribute('r', '10');
-    circle.setAttribute('fill', `#ffb86c`);
+    circle.setAttribute('fill', `rgb(${ORANGE[0]}, ${ORANGE[1]}, ${ORANGE[2]})`);
     circle.setAttribute('class', 'point');
     circle.setAttribute('id', `pt-${i}`);
 
@@ -137,13 +139,13 @@ function renderTriangles(triangles: Triangle[]): void {
   for (let triangle of triangles) {
     let tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
     tri.setAttribute('class', 'triangle');
-    tri.setAttribute('circum-circle-id', i.toString())
+    tri.setAttribute('circumcircle-id', i.toString())
 
     tri.addEventListener('click', (event) => {
       let triangleSVG = event.target as HTMLElement;
-      let circumCircId = parseInt(triangleSVG.getAttribute('circum-circle-id')!);
+      let circumCircId = parseInt(triangleSVG.getAttribute('circumcircle-id')!);
 
-      let targetCirc = svg.circumCircles.children[circumCircId];
+      let targetCirc = svg.circumcircles.children[circumCircId];
       if ('none' == targetCirc.style.display) {
         targetCirc.style.display = '';
       } else {
@@ -166,7 +168,7 @@ function renderTriangles(triangles: Triangle[]): void {
     pointC.y = triangle.pointC.y;
     tri.points.appendItem(pointC);
 
-    createCircumCircleSVG(triangle, i);
+    createCircumcircle(triangle, i);
 
     i++;
     if (!interactive) {
@@ -186,27 +188,26 @@ function renderTriangles(triangles: Triangle[]): void {
   }
 }
 
-function createCircumCircleSVG(triangle: Triangle, index: number): void {
+function createCircumcircle(triangle: Triangle, index: number): void {
 
   const pointA = triangle.pointA;
   const pointB = triangle.pointB;
   const pointC = triangle.pointC;
 
-  const circumCircle = new Circle();
-  const center = circumCircle.calculateCenter(pointA, pointB, pointC);
-  const radius = circumCircle.calculateRadius(triangle, center);
+  const circumcircle = new Circle();
+  const center = circumcircle.calculateCenter(pointA, pointB, pointC);
+  const radius = circumcircle.calculateRadius(triangle, center);
 
   const circumSVG: SVGCircleElement = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 
   circumSVG.setAttribute('cx', center.x.toString());
   circumSVG.setAttribute('cy', center.y.toString());
   circumSVG.setAttribute('r', radius.toString());
-  circumSVG.setAttribute('fill', 'transparent');
-  circumSVG.setAttribute('stroke', 'white');
-  circumSVG.setAttribute('id', `circum-circle-${index}`);
+  circumSVG.setAttribute('id', `circumcircle-${index}`);
+  circumSVG.setAttribute('class', 'circumcircle');
   circumSVG.style.display = 'none';
 
-  svg.circumCircles.appendChild(circumSVG);
+  svg.circumcircles.appendChild(circumSVG);
 }
 
 // *****************************
@@ -286,7 +287,7 @@ function removeElement(element: HTMLElement): void {
 
   svg.points.innerHTML = '';
   svg.triangles.innerHTML = '';
-  svg.circumCircles.innerHTML = '';
+  svg.circumcircles.innerHTML = '';
 
   triangulate(points);
 }
@@ -395,8 +396,8 @@ function generateColour(triangle: Triangle): number[] {
 
 /** Fade-In Each Triangle */
 function fadeIn(): void {
-  let gapBetweenEach = 10;
-  let speedOfFade = 400;
+  const gapBetweenEach = 10;
+  const speedOfFade = 400;
 
   $('.triangle').each(function(i: number, path: HTMLElement){
     $(path).delay(gapBetweenEach * i ** 0.75).fadeIn(speedOfFade, () => {});
@@ -405,11 +406,11 @@ function fadeIn(): void {
 
 /** Update Colour Scheme */
 function updateColours(event: any): void {
-  let hexValue = event.target.value.split('#')[1];
+  const hexValue = event.target.value.split('#')[1];
 
-  let red = parseInt(hexValue.substring(0,2), 16);
-  let green = parseInt(hexValue.substring(2,4), 16);
-  let blue = parseInt(hexValue.substring(4,6), 16);
+  const red = parseInt(hexValue.substring(0,2), 16);
+  const green = parseInt(hexValue.substring(2,4), 16);
+  const blue = parseInt(hexValue.substring(4,6), 16);
 
   if (event.target.id === 'colour1') colour1 = [red, green, blue];
   if (event.target.id === 'colour2') colour2 = [red, green, blue];
@@ -420,13 +421,13 @@ function updateColours(event: any): void {
 
 /** Update The Colour-Dependent Components */
 function updateColouredComponents(): void {
-  let colourOne = document.getElementById('colour1') as HTMLInputElement;
+  const colourOne = document.getElementById('colour1') as HTMLInputElement;
   if (colourOne) {
     colourOne.addEventListener('change', updateColours);
     colourOne.value = convertToHex(colour1[0], colour1[1], colour1[2]);
   }
 
-  let colourTwo = document.getElementById('colour2') as HTMLInputElement;
+  const colourTwo = document.getElementById('colour2') as HTMLInputElement;
   if (colourTwo) {
     colourTwo.addEventListener('change', updateColours);
     colourTwo.value = convertToHex(colour2[0], colour2[1], colour2[2]);
@@ -438,7 +439,7 @@ function updateColouredComponents(): void {
 
 /** Convert RGB Value To Hex */
 function convertToHex(red: number, green: number, blue: number): string {
-  let hex = function (rgb: number) {
+  const hex = function (rgb: number) {
     return rgb ? rgb.toString(16) : "00";
   };
 
