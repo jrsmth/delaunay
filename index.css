@@ -40,10 +40,10 @@ body.interactive {
   fill: #ffb86c;
 }
 
-.triangle {
+body.interactive .triangle {
   transition: 300ms;
 }
-.triangle:hover {
+body.interactive .triangle:hover {
   cursor: pointer;
   fill: rgba(80, 250, 123, 0.1);
 }

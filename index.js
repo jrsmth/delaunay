@@ -184,7 +184,8 @@ function renderTriangles(triangles) {
         pointC.x = triangle.pointC.x;
         pointC.y = triangle.pointC.y;
         tri.points.appendItem(pointC);
-        createCircumcircle(triangle, i);
+        if (interactive)
+            createCircumcircle(triangle, i);
         i++;
         if (!interactive) {
             let colour = generateColour(triangle);
@@ -11689,7 +11690,7 @@ return jQuery;
 },{}],9:[function(require,module,exports){
 module.exports={
   "name": "app",
-  "version": "1.3.2-SNAPSHOT",
+  "version": "1.3.3-SNAPSHOT",
   "description": "",
   "main": "index.ts",
   "scripts": {
