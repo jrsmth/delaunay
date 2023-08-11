@@ -6,9 +6,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.svg = exports.slider = exports.controls = exports.body = exports.MENU_HEIGHT_PX = exports.INIT_NUM_POINTS = exports.PURPLE = exports.ORANGE = exports.GREEN = exports.DEMO_VERSION = exports.LIB_VERSION = void 0;
 const package_json_1 = __importDefault(require("./package.json"));
-exports.LIB_VERSION = package_json_1.default
-    .dependencies["@jrsmiffy/delaunator"]
-    .replace('^', '');
+exports.LIB_VERSION = package_json_1.default.dependencies["@jrsmiffy/delaunator"].replace('^', '');
 exports.DEMO_VERSION = package_json_1.default.version;
 exports.GREEN = [80, 250, 123];
 exports.ORANGE = [227, 138, 88];
@@ -33,7 +31,7 @@ exports.svg = {
     background: document.getElementById('artistic-background'),
     points: document.getElementById('points'),
     triangles: document.getElementById('triangles'),
-    circumCircles: document.getElementById('circum-circles'),
+    circumcircles: document.getElementById('circumcircles'),
     stop1: document.getElementById('stop1'),
     stop2: document.getElementById('stop2')
 };
@@ -44,14 +42,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const constants_1 = require("./constants");
+const constants_2 = require("./constants");
+const constants_3 = require("./constants");
 const delaunay_1 = require("@jrsmiffy/delaunator/lib/delaunay");
 const point_1 = require("@jrsmiffy/delaunator/lib/shapes/point");
-const constants_1 = require("./constants");
-const jquery_1 = __importDefault(require("jquery"));
 const circle_1 = require("@jrsmiffy/delaunator/lib/shapes/circle");
+const jquery_1 = __importDefault(require("jquery"));
 // Demo fields
 let points = [];
-let numPoints = constants_1.INIT_NUM_POINTS;
+let numPoints = constants_3.INIT_NUM_POINTS;
 let interactive = true;
 // Interactive fields
 let selectedElement;
@@ -72,8 +72,8 @@ let colour2;
 init();
 /** Initialise Demo */
 function init() {
-    constants_1.svg.points.innerHTML = '';
-    constants_1.svg.triangles.innerHTML = '';
+    constants_2.svg.points.innerHTML = '';
+    constants_2.svg.triangles.innerHTML = '';
     initControls();
     if (interactive)
         initInteractive();
@@ -84,41 +84,41 @@ function init() {
 }
 /** Initialise Refresh & Set Mode Controls */
 function initControls() {
-    constants_1.controls.refresh.addEventListener('click', () => {
-        numPoints = constants_1.INIT_NUM_POINTS;
+    constants_2.controls.refresh.addEventListener('click', () => {
+        numPoints = constants_3.INIT_NUM_POINTS;
         init();
     });
-    constants_1.controls.interactive.addEventListener('click', () => {
+    constants_2.controls.interactive.addEventListener('click', () => {
         interactive = true;
-        numPoints = constants_1.INIT_NUM_POINTS;
-        constants_1.body.setAttribute('class', 'interactive');
-        constants_1.svg.main.setAttribute('class', 'interactive');
-        constants_1.svg.background.setAttribute('class', 'hide');
+        numPoints = constants_3.INIT_NUM_POINTS;
+        constants_2.body.setAttribute('class', 'interactive');
+        constants_2.svg.main.setAttribute('class', 'interactive');
+        constants_2.svg.background.setAttribute('class', 'hide');
         (0, jquery_1.default)('.control-interactive').removeClass('hide');
         (0, jquery_1.default)('.control-artistic').addClass('hide');
         init();
     });
-    constants_1.controls.artistic.addEventListener('click', () => {
+    constants_2.controls.artistic.addEventListener('click', () => {
         interactive = false;
-        constants_1.body.setAttribute('class', 'artistic');
-        constants_1.svg.main.setAttribute('class', 'artistic');
-        constants_1.svg.background.setAttribute('class', 'show');
+        constants_2.body.setAttribute('class', 'artistic');
+        constants_2.svg.main.setAttribute('class', 'artistic');
+        constants_2.svg.background.setAttribute('class', 'show');
         (0, jquery_1.default)('.control-interactive').addClass('hide');
         (0, jquery_1.default)('.control-artistic').removeClass('hide');
         init();
     });
-    constants_1.controls.help.querySelector('#version-numbers').innerHTML =
+    constants_2.controls.help.querySelector('#version-numbers').innerHTML =
         `
-       <li>Demo&nbsp;&nbsp; : ${constants_1.DEMO_VERSION}</li>
-       <li>Library : ${constants_1.LIB_VERSION}</li>
+       <li>Demo&nbsp;&nbsp; : ${constants_3.DEMO_VERSION}</li>
+       <li>Library : ${constants_3.LIB_VERSION}</li>
       `;
 }
 /** Generate Set Of Points */
 function generatePoints() {
     const svgWidth = window.innerWidth;
-    const svgHeight = window.innerHeight - constants_1.MENU_HEIGHT_PX;
-    constants_1.svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
-    constants_1.svg.circumCircles.innerHTML = '';
+    const svgHeight = window.innerHeight - constants_3.MENU_HEIGHT_PX;
+    constants_2.svg.main.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
+    constants_2.svg.circumcircles.innerHTML = '';
     return delaunay_1.Delaunay.generatePoints(svgWidth, svgHeight, numPoints);
 }
 /** Compute Triangulation & Render */
@@ -141,12 +141,12 @@ function renderPoints(points) {
         circle.setAttribute('cx', `${point.x}`);
         circle.setAttribute('cy', `${point.y}`);
         circle.setAttribute('r', '10');
-        circle.setAttribute('fill', `#ffb86c`);
+        circle.setAttribute('fill', `rgb(${constants_1.ORANGE[0]}, ${constants_1.ORANGE[1]}, ${constants_1.ORANGE[2]})`);
         circle.setAttribute('class', 'point');
         circle.setAttribute('id', `pt-${i}`);
         if (interactive)
             makeInteractive(circle);
-        constants_1.svg.points.appendChild(circle);
+        constants_2.svg.points.appendChild(circle);
         i++;
     }
 }
@@ -160,11 +160,11 @@ function renderTriangles(triangles) {
     for (let triangle of triangles) {
         let tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
         tri.setAttribute('class', 'triangle');
-        tri.setAttribute('circum-circle-id', i.toString());
+        tri.setAttribute('circumcircle-id', i.toString());
         tri.addEventListener('click', (event) => {
             let triangleSVG = event.target;
-            let circumCircId = parseInt(triangleSVG.getAttribute('circum-circle-id'));
-            let targetCirc = constants_1.svg.circumCircles.children[circumCircId];
+            let circumCircId = parseInt(triangleSVG.getAttribute('circumcircle-id'));
+            let targetCirc = constants_2.svg.circumcircles.children[circumCircId];
             if ('none' == targetCirc.style.display) {
                 targetCirc.style.display = '';
             }
@@ -172,19 +172,19 @@ function renderTriangles(triangles) {
                 targetCirc.style.display = 'none';
             }
         });
-        let pointA = constants_1.svg.main.createSVGPoint();
+        let pointA = constants_2.svg.main.createSVGPoint();
         pointA.x = triangle.pointA.x;
         pointA.y = triangle.pointA.y;
         tri.points.appendItem(pointA);
-        let pointB = constants_1.svg.main.createSVGPoint();
+        let pointB = constants_2.svg.main.createSVGPoint();
         pointB.x = triangle.pointB.x;
         pointB.y = triangle.pointB.y;
         tri.points.appendItem(pointB);
-        let pointC = constants_1.svg.main.createSVGPoint();
+        let pointC = constants_2.svg.main.createSVGPoint();
         pointC.x = triangle.pointC.x;
         pointC.y = triangle.pointC.y;
         tri.points.appendItem(pointC);
-        createCircumCircleSVG(triangle, i);
+        createCircumcircle(triangle, i);
         i++;
         if (!interactive) {
             let colour = generateColour(triangle);
@@ -196,54 +196,53 @@ function renderTriangles(triangles) {
             tri.setAttribute('fill', 'transparent');
             tri.setAttribute('stroke', `rgb(${constants_1.GREEN[0]}, ${constants_1.GREEN[1]}, ${constants_1.GREEN[2]})`);
         }
-        constants_1.svg.triangles.appendChild(tri);
+        constants_2.svg.triangles.appendChild(tri);
     }
 }
-function createCircumCircleSVG(triangle, index) {
+function createCircumcircle(triangle, index) {
     const pointA = triangle.pointA;
     const pointB = triangle.pointB;
     const pointC = triangle.pointC;
-    const circumCircle = new circle_1.Circle();
-    const center = circumCircle.calculateCenter(pointA, pointB, pointC);
-    const radius = circumCircle.calculateRadius(triangle, center);
+    const circumcircle = new circle_1.Circle();
+    const center = circumcircle.calculateCenter(pointA, pointB, pointC);
+    const radius = circumcircle.calculateRadius(triangle, center);
     const circumSVG = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     circumSVG.setAttribute('cx', center.x.toString());
     circumSVG.setAttribute('cy', center.y.toString());
     circumSVG.setAttribute('r', radius.toString());
-    circumSVG.setAttribute('fill', 'transparent');
-    circumSVG.setAttribute('stroke', 'white');
-    circumSVG.setAttribute('id', `circum-circle-${index}`);
+    circumSVG.setAttribute('id', `circumcircle-${index}`);
+    circumSVG.setAttribute('class', 'circumcircle');
     circumSVG.style.display = 'none';
-    constants_1.svg.circumCircles.appendChild(circumSVG);
+    constants_2.svg.circumcircles.appendChild(circumSVG);
 }
 // *****************************
 // *** Interactive Functions ***
 // *****************************
 /** Initialise Interactive Functionality */
 function initInteractive() {
-    constants_1.slider.input.value = constants_1.INIT_NUM_POINTS;
-    constants_1.controls.info.setAttribute('class', 'flat slim dark');
-    constants_1.controls.refresh.setAttribute('class', 'flat slim dark');
-    constants_1.controls.interactive.setAttribute('class', 'flat light hide');
-    constants_1.controls.artistic.setAttribute('class', 'flat dark show');
+    constants_2.slider.input.value = constants_3.INIT_NUM_POINTS;
+    constants_2.controls.info.setAttribute('class', 'flat slim dark');
+    constants_2.controls.refresh.setAttribute('class', 'flat slim dark');
+    constants_2.controls.interactive.setAttribute('class', 'flat light hide');
+    constants_2.controls.artistic.setAttribute('class', 'flat dark show');
     updatePointsSlider();
     window.addEventListener("resize", updatePointsSlider);
-    constants_1.slider.input.addEventListener('input', updatePointsSlider);
-    constants_1.slider.input.addEventListener('mouseup', () => {
-        numPoints = constants_1.slider.input.value;
-        constants_1.svg.points.innerHTML = '';
-        constants_1.svg.triangles.innerHTML = '';
+    constants_2.slider.input.addEventListener('input', updatePointsSlider);
+    constants_2.slider.input.addEventListener('mouseup', () => {
+        numPoints = constants_2.slider.input.value;
+        constants_2.svg.points.innerHTML = '';
+        constants_2.svg.triangles.innerHTML = '';
         points = generatePoints();
         triangulate(points);
     });
 }
 /** Update Number Of Points Slider Value */
 function updatePointsSlider() {
-    constants_1.slider.thumb.innerHTML = constants_1.slider.input.value;
-    const position = (parseInt(constants_1.slider.input.value) / parseInt(constants_1.slider.input.max));
-    const space = constants_1.slider.input.offsetWidth - constants_1.slider.thumb.offsetWidth;
-    constants_1.slider.thumb.style.left = (position * space) + 'px';
-    constants_1.slider.line.style.width = constants_1.slider.input.value + '%';
+    constants_2.slider.thumb.innerHTML = constants_2.slider.input.value;
+    const position = (parseInt(constants_2.slider.input.value) / parseInt(constants_2.slider.input.max));
+    const space = constants_2.slider.input.offsetWidth - constants_2.slider.thumb.offsetWidth;
+    constants_2.slider.thumb.style.left = (position * space) + 'px';
+    constants_2.slider.line.style.width = constants_2.slider.input.value + '%';
 }
 /** Make A Circle Interactive */
 function makeInteractive(circle) {
@@ -264,7 +263,7 @@ function makeInteractive(circle) {
     });
     circle.addEventListener('dblclick', (event) => {
         removeElement(event.target);
-        constants_1.slider.input.value = points.length;
+        constants_2.slider.input.value = points.length;
         updatePointsSlider();
     });
 }
@@ -273,9 +272,9 @@ function removeElement(element) {
     const uniqueX = element.getAttribute('cx');
     if (uniqueX)
         points = points.filter(pt => pt.x !== parseInt(uniqueX));
-    constants_1.svg.points.innerHTML = '';
-    constants_1.svg.triangles.innerHTML = '';
-    constants_1.svg.circumCircles.innerHTML = '';
+    constants_2.svg.points.innerHTML = '';
+    constants_2.svg.triangles.innerHTML = '';
+    constants_2.svg.circumcircles.innerHTML = '';
     triangulate(points);
 }
 /** Select An Element To Interact With */
@@ -288,8 +287,8 @@ function selectElement(element) {
         currentMatrix[i] = parseFloat(currentMatrix[i]);
     }
     element.setAttribute('pointer-events', 'none');
-    constants_1.svg.main.addEventListener('mousemove', moveElement);
-    constants_1.svg.main.addEventListener('mouseup', deselectElement);
+    constants_2.svg.main.addEventListener('mousemove', moveElement);
+    constants_2.svg.main.addEventListener('mouseup', deselectElement);
     // removing .point class improves interaction smoothness
     element.setAttribute('class', '');
 }
@@ -312,9 +311,9 @@ function deselectElement() {
     if (selectedElement) {
         selectedElement.setAttribute('pointer-events', 'all');
         paramHistory += '||' + currentId + '|' + absX + '|' + absY;
-        constants_1.svg.main.removeEventListener('mousemove', moveElement);
-        constants_1.svg.main.removeEventListener('mouseup', deselectElement);
-        currentY -= constants_1.MENU_HEIGHT_PX;
+        constants_2.svg.main.removeEventListener('mousemove', moveElement);
+        constants_2.svg.main.removeEventListener('mouseup', deselectElement);
+        currentY -= constants_3.MENU_HEIGHT_PX;
         points.push(new point_1.Point(currentX, currentY));
         removeElement(selectedElement);
     }
@@ -328,10 +327,10 @@ function initArtistic() {
     numPoints = 36;
     colour1 = constants_1.ORANGE;
     colour2 = constants_1.PURPLE;
-    constants_1.controls.info.setAttribute('class', 'flat slim light');
-    constants_1.controls.refresh.setAttribute('class', 'flat slim light');
-    constants_1.controls.interactive.setAttribute('class', 'flat light show');
-    constants_1.controls.artistic.setAttribute('class', 'flat dark hide');
+    constants_2.controls.info.setAttribute('class', 'flat slim light');
+    constants_2.controls.refresh.setAttribute('class', 'flat slim light');
+    constants_2.controls.interactive.setAttribute('class', 'flat light show');
+    constants_2.controls.artistic.setAttribute('class', 'flat dark hide');
     updateColouredComponents();
 }
 /** Generate Colour For Triangle Based on Location */
@@ -361,18 +360,18 @@ function generateColour(triangle) {
 }
 /** Fade-In Each Triangle */
 function fadeIn() {
-    let gapBetweenEach = 10;
-    let speedOfFade = 400;
+    const gapBetweenEach = 10;
+    const speedOfFade = 400;
     (0, jquery_1.default)('.triangle').each(function (i, path) {
         (0, jquery_1.default)(path).delay(gapBetweenEach * i ** 0.75).fadeIn(speedOfFade, () => { });
     });
 }
 /** Update Colour Scheme */
 function updateColours(event) {
-    let hexValue = event.target.value.split('#')[1];
-    let red = parseInt(hexValue.substring(0, 2), 16);
-    let green = parseInt(hexValue.substring(2, 4), 16);
-    let blue = parseInt(hexValue.substring(4, 6), 16);
+    const hexValue = event.target.value.split('#')[1];
+    const red = parseInt(hexValue.substring(0, 2), 16);
+    const green = parseInt(hexValue.substring(2, 4), 16);
+    const blue = parseInt(hexValue.substring(4, 6), 16);
     if (event.target.id === 'colour1')
         colour1 = [red, green, blue];
     if (event.target.id === 'colour2')
@@ -382,22 +381,22 @@ function updateColours(event) {
 }
 /** Update The Colour-Dependent Components */
 function updateColouredComponents() {
-    let colourOne = document.getElementById('colour1');
+    const colourOne = document.getElementById('colour1');
     if (colourOne) {
         colourOne.addEventListener('change', updateColours);
         colourOne.value = convertToHex(colour1[0], colour1[1], colour1[2]);
     }
-    let colourTwo = document.getElementById('colour2');
+    const colourTwo = document.getElementById('colour2');
     if (colourTwo) {
         colourTwo.addEventListener('change', updateColours);
         colourTwo.value = convertToHex(colour2[0], colour2[1], colour2[2]);
     }
-    constants_1.svg.stop1.setAttribute('stop-color', `rgb(${colour1[0]}, ${colour1[1]}, ${colour1[2]})`);
-    constants_1.svg.stop2.setAttribute('stop-color', `rgb(${colour2[0]}, ${colour2[1]}, ${colour2[2]})`);
+    constants_2.svg.stop1.setAttribute('stop-color', `rgb(${colour1[0]}, ${colour1[1]}, ${colour1[2]})`);
+    constants_2.svg.stop2.setAttribute('stop-color', `rgb(${colour2[0]}, ${colour2[1]}, ${colour2[2]})`);
 }
 /** Convert RGB Value To Hex */
 function convertToHex(red, green, blue) {
-    let hex = function (rgb) {
+    const hex = function (rgb) {
         return rgb ? rgb.toString(16) : "00";
     };
     return `#${hex(red)}${hex(green)}${hex(blue)}`;
@@ -11690,7 +11689,7 @@ return jQuery;
 },{}],9:[function(require,module,exports){
 module.exports={
   "name": "app",
-  "version": "1.3.1-SNAPSHOT",
+  "version": "1.3.2-SNAPSHOT",
   "description": "",
   "main": "index.ts",
   "scripts": {
