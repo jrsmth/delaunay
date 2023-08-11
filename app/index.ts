@@ -247,7 +247,7 @@ function updatePointsSlider(): void {
   slider.line.style.width = slider.input.value + '%';
 }
 
-/** Make A Circle Interactive */ // Question :: Rename?
+/** Make A Circle Interactive */
 function makeInteractive(circle: SVGCircleElement): void {
   circle.setAttribute('transform', 'matrix(1 0 0 1 0 0)');
 
