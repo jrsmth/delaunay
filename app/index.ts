@@ -168,7 +168,8 @@ function renderTriangles(triangles: Triangle[]): void {
     pointC.y = triangle.pointC.y;
     tri.points.appendItem(pointC);
 
-    createCircumcircle(triangle, i);
+    if (interactive)
+        createCircumcircle(triangle, i);
 
     i++;
     if (!interactive) {

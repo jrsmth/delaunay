@@ -57,12 +57,14 @@ body {
   }
 }
 
-.triangle {
-  transition: 300ms;
+body.interactive {
+  .triangle {
+    transition: 300ms;
 
-  &:hover {
-    cursor: pointer;
-    fill: rgba(80, 250, 123, 0.1);
+    &:hover {
+      cursor: pointer;
+      fill: rgba(80, 250, 123, 0.1);
+    }
   }
 }
 

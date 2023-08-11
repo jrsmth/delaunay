@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <br>
 
+## [1.3.3] - 11/08/2023
+
+### Changed
+- [DEL-47] Styling for hovering over triangles, so that colour changing and clicking to show circumcircles only applies to interactive mode
+
+<br>
+
 ## [1.3.2] - 11/08/2023
 
 ### Changed
@@ -132,7 +139,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <br>
 
-[1.3.1]: https://github.com/JRSmiffy/delaunay/compare/1.3.1...1.3.2
+[1.3.3]: https://github.com/JRSmiffy/delaunay/compare/1.3.2...1.3.3
+[1.3.2]: https://github.com/JRSmiffy/delaunay/compare/1.3.1...1.3.2
 [1.3.1]: https://github.com/JRSmiffy/delaunay/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/JRSmiffy/delaunay/compare/1.2.3...1.3.0
 [1.2.3]: https://github.com/JRSmiffy/delaunay/compare/1.2.2...1.2.3
