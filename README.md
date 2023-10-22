@@ -1,9 +1,9 @@
-[![Build and Deploy](https://github.com/JRSmiffy/delaunay/actions/workflows/main.yaml/badge.svg)](https://github.com/JRSmiffy/delaunay/actions/workflows/main.yaml)
+[![Build and Deploy](https://github.com/jrsmth/delaunay/actions/workflows/main.yaml/badge.svg)](https://github.com/jrsmth/delaunay/actions/workflows/main.yaml)
 
 # Delaunay
-Delaunay Triangulation [Demo](https://jrsmiffy.github.io/delaunay/)
+Delaunay Triangulation [Demo](https://jrsmth.github.io/delaunay/)
 
-[@jrsmiffy/delaunator](https://github.com/JRSmiffy/delaunator)
+[@jrsmiffy/delaunator](https://github.com/jrsmth/delaunator)
 
 <img width="1440" alt="Delaunay Demo Example" src="https://user-images.githubusercontent.com/34093915/221356676-ccfd0c15-4504-47e2-bd9b-d9bda5d175c6.png">
 

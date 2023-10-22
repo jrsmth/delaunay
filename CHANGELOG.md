@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <br>
 
+## [1.3.4] - 22/10/2023
+
+### Changed
+- Renamed instances of `JRSmiffy` to `jrsmth`
+
+<br>
+
 ## [1.3.3] - 11/08/2023
 
 ### Changed
@@ -139,21 +146,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <br>
 
-[1.3.3]: https://github.com/JRSmiffy/delaunay/compare/1.3.2...1.3.3
-[1.3.2]: https://github.com/JRSmiffy/delaunay/compare/1.3.1...1.3.2
-[1.3.1]: https://github.com/JRSmiffy/delaunay/compare/1.3.0...1.3.1
-[1.3.0]: https://github.com/JRSmiffy/delaunay/compare/1.2.3...1.3.0
-[1.2.3]: https://github.com/JRSmiffy/delaunay/compare/1.2.2...1.2.3
-[1.2.2]: https://github.com/JRSmiffy/delaunay/compare/1.2.1...1.2.2
-[1.2.1]: https://github.com/JRSmiffy/delaunay/compare/1.2.0...1.2.1
-[1.2.0]: https://github.com/JRSmiffy/delaunay/compare/1.1.2...1.2.0
-[1.1.2]: https://github.com/JRSmiffy/delaunay/compare/1.1.1...1.1.2
-[1.1.1]: https://github.com/JRSmiffy/delaunay/compare/1.1.0...1.1.1
-[1.1.0]: https://github.com/JRSmiffy/delaunay/compare/1.0.4...1.1.0
-[1.0.4]: https://github.com/JRSmiffy/delaunay/compare/1.0.3...1.0.4
-[1.0.3]: https://github.com/JRSmiffy/delaunay/compare/1.0.2...1.0.3
-[1.0.2]: https://github.com/JRSmiffy/delaunay/compare/1.0.1...1.0.2
-[1.0.1]: https://github.com/JRSmiffy/delaunay/releases/tag/1.0.1
+[1.3.4]: https://github.com/jrsmth/delaunay/compare/1.3.3...1.3.4
+[1.3.3]: https://github.com/jrsmth/delaunay/compare/1.3.2...1.3.3
+[1.3.2]: https://github.com/jrsmth/delaunay/compare/1.3.1...1.3.2
+[1.3.1]: https://github.com/jrsmth/delaunay/compare/1.3.0...1.3.1
+[1.3.0]: https://github.com/jrsmth/delaunay/compare/1.2.3...1.3.0
+[1.2.3]: https://github.com/jrsmth/delaunay/compare/1.2.2...1.2.3
+[1.2.2]: https://github.com/jrsmth/delaunay/compare/1.2.1...1.2.2
+[1.2.1]: https://github.com/jrsmth/delaunay/compare/1.2.0...1.2.1
+[1.2.0]: https://github.com/jrsmth/delaunay/compare/1.1.2...1.2.0
+[1.1.2]: https://github.com/jrsmth/delaunay/compare/1.1.1...1.1.2
+[1.1.1]: https://github.com/jrsmth/delaunay/compare/1.1.0...1.1.1
+[1.1.0]: https://github.com/jrsmth/delaunay/compare/1.0.4...1.1.0
+[1.0.4]: https://github.com/jrsmth/delaunay/compare/1.0.3...1.0.4
+[1.0.3]: https://github.com/jrsmth/delaunay/compare/1.0.2...1.0.3
+[1.0.2]: https://github.com/jrsmth/delaunay/compare/1.0.1...1.0.2
+[1.0.1]: https://github.com/jrsmth/delaunay/releases/tag/1.0.1
 
 # Version History
 - `1.3.x` - Circumcircle toggle and minor fix/refactor

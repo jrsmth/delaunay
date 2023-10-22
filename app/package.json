@@ -10,7 +10,7 @@
     "gh-build": "npm run build --base-href /"
   },
   "keywords": [],
-  "author": "JRSmiffy",
+  "author": "J. R. Smith",
   "license": "ISC",
   "dependencies": {
     "@jrsmiffy/delaunator": "^1.4.3",
