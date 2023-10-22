@@ -11690,7 +11690,7 @@ return jQuery;
 },{}],9:[function(require,module,exports){
 module.exports={
   "name": "app",
-  "version": "1.3.3-SNAPSHOT",
+  "version": "1.3.4-SNAPSHOT",
   "description": "",
   "main": "index.ts",
   "scripts": {
@@ -11700,7 +11700,7 @@ module.exports={
     "gh-build": "npm run build --base-href /"
   },
   "keywords": [],
-  "author": "JRSmiffy",
+  "author": "J. R. Smith",
   "license": "ISC",
   "dependencies": {
     "@jrsmiffy/delaunator": "^1.4.3",
